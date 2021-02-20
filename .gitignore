@@ -1,0 +1,8 @@
+.vscode/
+
+build/
+coverage/
+
+node_modules/
+cypress/report/
+cypress/screenshots/
