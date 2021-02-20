@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<InputWithPills/> render with default/required props 1`] = `
+<div
+  className="input-with-pills"
+>
+  <Pill
+    data-cy="-pill-0"
+    key="0"
+    label="{{label}}"
+  />
+  <HTMLInput
+    className="input-with-pills__input"
+    data-cy=""
+  />
+</div>
+`;
+
+exports[`<InputWithPills/> render with optional props [::data-cy] as "{{data-cy}}" 1`] = `
+<div
+  className="input-with-pills"
+>
+  <Pill
+    data-cy="{{data-cy}}-pill-0"
+    key="0"
+    label="{{label}}"
+  />
+  <HTMLInput
+    className="input-with-pills__input"
+    data-cy="{{data-cy}}"
+  />
+</div>
+`;
+
+exports[`<InputWithPills/> render with optional props [::onClick] as "() => {}" 1`] = `
+<div
+  className="input-with-pills"
+  onClick={[Function]}
+>
+  <Pill
+    data-cy="-pill-0"
+    data-id={0}
+    key="0"
+    label="{{label}}"
+  />
+  <HTMLInput
+    className="input-with-pills__input"
+    data-cy=""
+  />
+</div>
+`;

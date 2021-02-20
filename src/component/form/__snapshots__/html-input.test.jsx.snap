@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HTMLInput/> render with default/required props 1`] = `<input />`;
