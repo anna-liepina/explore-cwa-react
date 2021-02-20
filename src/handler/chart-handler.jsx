@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Query from '../handler/query';
+// import Query from '../handler/query';
 // import withModal from '../handler/with-modal';
 // import TileHandler from '../handler/tile-handler';
 // import TreeHandler from '../handler/tree-handler';

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Query/> render with optional props ::data-cy as "{{data-cy}}" 1`] = `
+<div
+  className="query--loading"
+  data-cy="{{data-cy}}is-loading"
+>
+  <div />
+  <div />
+</div>
+`;
+
+exports[`<Query/> render with required/default props 1`] = `
+<div
+  className="query--loading"
+  data-cy="is-loading"
+>
+  <div />
+  <div />
+</div>
+`;

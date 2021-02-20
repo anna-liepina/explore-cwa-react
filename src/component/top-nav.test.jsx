@@ -18,8 +18,8 @@ describe('<TopNav/>', () => {
         it('with default/required props', () => {
             const { container } = render(<TopNav {...props} />);
 
-            expect(container.querySelector('[data-cy="topnav-main"]')).toBeInTheDocument();
-            expect(container.querySelector('[data-cy="topnav-github"]')).toBeInTheDocument();
+            expect(container.querySelector('[data-cy="topnav__logo"]')).toBeInTheDocument();
+            expect(container.querySelector('[data-cy="topnav__github"]')).toBeInTheDocument();
         });
     });
 });

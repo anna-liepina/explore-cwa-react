@@ -89,8 +89,8 @@ const TopNav = ({ 'data-cy': cy, className, ...props }) =>
                 {(props, state) => <TreeHandler data={state.data} onFilter={onFilter} onExpand={onExpand} />}
             </Query>
         </SectionHandler>
-        <Link to="//github.com/" className="topnav__link--github" target="_blank">
-            <img data-cy={`${cy}topnav-github`} className="topnav__logo--github" alt="GitHub logo" src="/assets/img/github-logo.png" />
+        <Link to="//github.com/anna-liepina/explore-cwa-react" className="topnav__link--github" target="_blank">
+            <img data-cy={`${cy}topnav__github`} className="topnav__logo--github" alt="GitHub logo" src="/assets/img/github-logo.png" />
         </Link>
     </nav>;
 

@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<InteractiveSearch/> render with default/required props 1`] = `
+<div
+  className="interactive-search "
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <InputWithPills
+    data-cy=""
+    onChange={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    value={Array []}
+  />
+</div>
+`;
+
+exports[`<InteractiveSearch/> render with optional props [::className] as "{{className}}" 1`] = `
+<div
+  className="interactive-search {{className}}"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <InputWithPills
+    data-cy=""
+    onChange={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    value={Array []}
+  />
+</div>
+`;
+
+exports[`<InteractiveSearch/> render with optional props [::data-cy] as "{{data-cy}}" 1`] = `
+<div
+  className="interactive-search "
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <InputWithPills
+    data-cy="{{data-cy}}"
+    onChange={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    value={Array []}
+  />
+</div>
+`;
+
+exports[`<InteractiveSearch/> render with optional props [::maxValues] as "1" 1`] = `
+<div
+  className="interactive-search "
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <InputWithPills
+    data-cy=""
+    onChange={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    value={Array []}
+  />
+</div>
+`;
+
+exports[`<InteractiveSearch/> render with optional props [::onError] as "() => {}" 1`] = `
+<div
+  className="interactive-search "
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <InputWithPills
+    data-cy=""
+    onChange={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    value={Array []}
+  />
+</div>
+`;
+
+exports[`<InteractiveSearch/> render with optional props [::onSuccess] as "() => {}" 1`] = `
+<div
+  className="interactive-search "
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <InputWithPills
+    data-cy=""
+    onChange={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    value={Array []}
+  />
+</div>
+`;
+
+exports[`<InteractiveSearch/> render with optional props [::options] as "[object Object]" 1`] = `
+<div
+  className="interactive-search "
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <InputWithPills
+    data-cy=""
+    onChange={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    value={Array []}
+  />
+</div>
+`;
+
+exports[`<InteractiveSearch/> render with optional props [::placeholder] as "{{placeholder}}" 1`] = `
+<div
+  className="interactive-search "
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <InputWithPills
+    data-cy=""
+    onChange={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    placeholder="{{placeholder}}"
+    value={Array []}
+  />
+</div>
+`;
+
+exports[`<InteractiveSearch/> render with optional props [::value] as "[object Object]" 1`] = `
+<div
+  className="interactive-search "
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <InputWithPills
+    data-cy=""
+    onChange={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    value={
+      Array [
+        Object {
+          "label": "{{label}}",
+          "value": 1,
+        },
+      ]
+    }
+  />
+</div>
+`;
