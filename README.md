@@ -1,12 +1,12 @@
-[ci.tests-master-badge]: https://circleci.com/gh/anna-lipina/explore-cwa-react/tree/master.svg?style=svg
-[ci.tests-master]: https://circleci.com/gh/anna-lipina/explore-cwa-react/tree/master
-[ci.coverage-master-badge]: https://codecov.io/gh/anna-lipina/explore-cwa-react/branch/master/graph/badge.svg
-[ci.coverage-master]: https://codecov.io/gh/anna-lipina/explore-cwa-react/branch/master
+[ci.tests-master-badge]: https://circleci.com/gh/anna-liepina/explore-cwa-react/tree/master.svg?style=svg
+[ci.tests-master]: https://circleci.com/gh/anna-liepina/explore-cwa-react/tree/master
+[ci.coverage-master-badge]: https://codecov.io/gh/anna-liepina/explore-cwa-react/branch/master/graph/badge.svg
+[ci.coverage-master]: https://codecov.io/gh/anna-liepina/explore-cwa-react/branch/master
 
-[ci.tests-heroku-badge]: https://circleci.com/gh/anna-lipina/explore-cwa-react/tree/heroku.svg?style=svg
-[ci.tests-heroku]: https://circleci.com/gh/anna-lipina/explore-cwa-react/tree/heroku
-[ci.coverage-heroku-badge]: https://codecov.io/gh/anna-lipina/explore-cwa-react/branch/heroku/graph/badge.svg
-[ci.coverage-heroku]: https://codecov.io/gh/anna-lipina/explore-cwa-react/branch/heroku
+[ci.tests-heroku-badge]: https://circleci.com/gh/anna-liepina/explore-cwa-react/tree/heroku.svg?style=svg
+[ci.tests-heroku]: https://circleci.com/gh/anna-liepina/explore-cwa-react/tree/heroku
+[ci.coverage-heroku-badge]: https://codecov.io/gh/anna-liepina/explore-cwa-react/branch/heroku/graph/badge.svg
+[ci.coverage-heroku]: https://codecov.io/gh/anna-liepina/explore-cwa-react/branch/heroku
 
 |               | master                                                        | heroku
 |---            |---                                                            | ---
