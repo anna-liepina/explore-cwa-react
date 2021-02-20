@@ -1,0 +1,28 @@
+.topnav {
+    display: flex;
+    flex: 1 0 100%;
+
+    &__logo--main {
+        height: 4rem;
+        box-sizing: border-box;
+        margin-left: auto;
+    }
+
+    &__item {
+        margin-left: auto;
+        padding: .5rem;
+        height: 3rem;
+        width: 3rem;
+    }
+
+    &__logo--github {
+        height: 4rem;
+        width: 4rem;
+        padding: .5rem;
+        box-sizing: border-box;
+    }
+
+    // &__link--github {
+    //     margin-left: auto;
+    // }
+}

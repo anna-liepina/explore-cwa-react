@@ -1,0 +1,30 @@
+.tile {
+    background: grey;
+    display: inline-block;
+    height: 3rem;
+    flex: 0 0 5rem;
+    font-size: 0;
+    text-decoration: none;
+
+    &[disabled] {
+        opacity: .33;
+    }
+}
+
+.tile.tile__add-control {
+    background: transparent;
+    border: none;
+    color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+
+    &:hover {
+        color: #000;
+    }
+
+    &:before {
+        content: "+";
+    }
+}

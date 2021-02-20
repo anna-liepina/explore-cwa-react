@@ -1,0 +1,9 @@
+.interactive-search {
+    position: relative;
+
+    & > .suggestions {
+        position: absolute;
+        width: 100%;
+        background: white;
+    }
+}

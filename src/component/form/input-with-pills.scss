@@ -1,0 +1,9 @@
+.input-with-pills {
+    display: flex;
+    flex-wrap: wrap;
+    
+    &__input {
+        flex: 1 0 100%;
+        margin: .25rem 0 0 0;
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "baseUrl": "http://localhost:8080/",
+    "env": {},
+    "reporter": "mochawesome",
+    "reporterOptions": {
+      "reportDir": "report",
+      "overwrite": false,
+      "html": false,
+      "json": true
+    },
+    "integrationFolder": "specs",
+    "pluginsFile":"plugins",
+    "supportFile":"support",
+    "videosFolder":"videos",
+    "screenshotsFolder":"screenshots",
+    "video": false
+}

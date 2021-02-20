@@ -1,0 +1,17 @@
+.button {
+    background: transparent;
+    border: none;
+    color: #00000050;
+
+    font-size: 1.25rem;
+    font-weight: lighter;
+    font-style: italic;
+
+    padding: 1rem 1.5rem;
+
+    text-transform: lowercase;
+
+    &:hover {
+        color: #000;
+    }
+}

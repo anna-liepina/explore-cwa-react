@@ -1,0 +1,9 @@
+.tile-handler {
+    flex-grow: 1;
+    padding: .5rem;
+
+    &__container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}

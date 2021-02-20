@@ -1,0 +1,25 @@
+.pill {
+    background: #f1f8ff;
+    padding: .25rem .75rem;
+    margin: .25rem;
+    border-radius: 1rem;
+    font-size: .75rem;
+    display: inline-flex;
+    color: #24292e;
+
+    &__control {
+        background: transparent;
+        font-size: .75rem;
+        padding: 0;
+        padding-left: .25rem;
+        margin: 0;
+        margin-left: .25rem;
+        border: 0;
+        border-left: 1px solid #b4d9ff;
+        opacity: .5;
+
+        &:hover, &:focus {
+            opacity: 1;
+        }
+    }
+}

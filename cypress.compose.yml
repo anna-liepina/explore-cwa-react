@@ -1,0 +1,47 @@
+version: '3'
+services:
+  cwa:
+    container_name: cy-cwa
+    build:
+      context: .
+      dockerfile: cypress.cwa.Dockerfile
+      args:
+        - REACT_APP_GRAPHQL=//sa:28081
+    image: explorer-cwa-cypress
+    ports:
+      - 28080:28080
+    environment:
+      - PORT=28080
+    entrypoint:
+      - serve
+    command: -n
+
+  sa:
+    container_name: cy-sa
+    build:
+      context: .
+      dockerfile: cypress.sa.Dockerfile
+    image: explorer-sa-cypress
+    ports:
+      - 28081:28081
+    environment:
+      - PORT=28081
+    command: node -r dotenv/config build/app.js
+
+  cypress:
+    container_name: cypress
+    build:
+      context: .
+      dockerfile: cypress.Dockerfile
+    image: cypress
+    depends_on:
+      - cwa
+      - sa
+    environment:
+      - CYPRESS_baseUrl=http://cwa:28080
+      - CYPRESS_graphql=http://sa:28081
+    entrypoint:
+      - npm
+    command: run test
+    volumes:
+      - ./cypress:/www

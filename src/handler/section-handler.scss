@@ -1,0 +1,11 @@
+.section {
+    position: absolute;
+    z-index: 2;
+    background: #dadada;
+    top: 4rem;
+    right: 1rem;
+
+    &-button {
+        background: #dadada;
+    }
+}

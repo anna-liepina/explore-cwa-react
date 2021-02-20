@@ -1,0 +1,24 @@
+/**
+ * main file to give single output
+ */
+@import './common';
+@import './media';
+@import './variables';
+
+@import './component/form/accordion';
+@import './component/form/input-with-pills';
+@import './component/form/interactive-search';
+@import './component/form/pill';
+@import './component/form/suggestions';
+
+// @import './component/button';
+// @import './component/modal';
+// @import './component/tile';
+@import './component/top-nav';
+@import './component/tree-node';
+
+@import './handler/form-handler';
+@import './handler/query';
+// @import './handler/tile-handler';
+@import './handler/section-handler';
+@import './handler/tree-handler';

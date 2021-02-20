@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`form payload resolver should aggregate resolved fields' values with same ::attr into array 1`] = `
+Object {
+  "test": Array [
+    1,
+    2,
+  ],
+}
+`;
+
+exports[`form payload resolver should pass ::value 'as is' into payload 1`] = `
+Object {
+  "test": 1,
+}
+`;
+
+exports[`form payload resolver should pass result of ::valueTransformer in to payload 1`] = `
+Object {
+  "test": 2,
+}
+`;

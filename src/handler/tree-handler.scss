@@ -1,0 +1,22 @@
+.tree {
+    &_input {
+        background: #dadada;
+        width: 35rem;
+        font-size: 1.5rem;
+        color: #000;
+        border: none;
+        border-bottom: 1px dashed #000;
+        background: transparent;
+        line-height: 1.5rem;
+        text-transform: uppercase;
+    }
+
+    &_content {
+        max-height: 40rem;
+        overflow: auto;
+    }
+}
+
+.tree.tree--explore-mode {
+    flex: 1;
+}

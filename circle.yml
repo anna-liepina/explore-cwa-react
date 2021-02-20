@@ -1,0 +1,86 @@
+version: 2
+
+jobs:
+  jest:
+    docker:
+      - image: circleci/node:lts-jessie
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - jest-{{ checksum "package.json" }}
+      - run: npm i --verbose
+      - run: sudo npm i -g codecov
+      - save_cache:
+          key: jest-{{ checksum "package.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - run:
+          name: execute 'jest' tests with coverage
+          command: npm test -- --coverage
+      - run:
+          name: upload coverage to codecov.io
+          command: codecov
+      - store_artifacts:
+          path: coverage
+  cypress:
+    docker:
+      - image: cypress/base:12.6.0
+        environment:
+          DB_DIALECT: sqlite
+    steps:
+      - checkout
+      - run:
+          name: pull graphql backend as GIT submodule
+          command: |
+            git submodule init
+            git submodule update --remote
+      - restore_cache:
+          keys:
+            - cy-{{ checksum "package.json" }}-{{ checksum "node-explorer/package.json" }}-{{ checksum "cypress/package.json" }}
+      - run:
+          name: fetch 'CWA' dependencies
+          command: npm i --verbose
+      - run:
+          name: fetch 'SA' dependencies
+          command: cd node-explorer && npm i --verbose
+      - run:
+          name: install 'serve' module
+          command: npm i -g serve
+      - run:
+          name: fetch 'cypress' dependencies
+          command: cd cypress && npm i --verbose
+      - save_cache:
+          key: cy-{{ checksum "package.json" }}-{{ checksum "node-explorer/package.json" }}-{{ checksum "cypress/package.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - run:
+          name: assemble 'CWA' static assets
+          command: npm run build
+      - run:
+          name: assemble 'SA' static assets && seed test database
+          command: |
+            cd node-explorer
+            npm run build
+            npm run sql db:migrate
+            npm run sql db:seed:all
+      - run:
+          name: bootup CWA & SA and execute cypress tests
+          command: |
+            PORT=8080 npx serve -n &
+            cd node-explorer && PORT=8081 node ./build/app.js &
+            cd cypress && npm test
+      - store_artifacts:
+          path: cypress/screenshots
+      - store_artifacts:
+          path: cypress/report
+
+
+workflows:
+  version: 2
+  full-coverage:
+    jobs:
+      - jest
+      - cypress
