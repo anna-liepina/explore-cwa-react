@@ -17,7 +17,7 @@
 
 # 'Data Explore' front-end
 
-back-end can be found [here](https://github.com/anna-lipina/explore-sa-node)
+back-end can be found [here](https://github.com/anna-lipina/explore-sa-node), and [DEMO](https://heroku.de6pcsctvd8vp.amplifyapp.com/)
 
 ### software requirements
 
