@@ -74,7 +74,7 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 
 ### gitflow
 
-* *heroku* -> current __production__, contains *heroku specific changes*, trigger deploy on heroku on *every push*
+* *heroku* -> current __production__, contains *production specific changes*, trigger deploy on heroku on *every push*
 * *master* -> most upto date __production ready__, all pull requests in to this branch got mandatory checks 'ci/circleci: jest' and 'ci/circleci: cypress'
 * *feature branches* -> get merged into master branch, when they ready and mandatory checks passed
 * *CI execute tests in isolated enviroment*
