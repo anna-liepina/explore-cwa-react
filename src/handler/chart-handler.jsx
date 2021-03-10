@@ -1,48 +1,35 @@
 import React, { PureComponent } from 'react';
-// import Query from '../handler/query';
-// import withModal from '../handler/with-modal';
-// import TileHandler from '../handler/tile-handler';
-// import TreeHandler from '../handler/tree-handler';
-// import searchStatus from './trees/explore.status';
-// import dashboardProps from './dashboard/dashboard.status';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
 import axios from 'axios';
-// import { hasSequence } from 'byte-sequence-calculator';
-// import FormHandler from '../../handler/form-handler';
-// import TreeHandler from '../../handler/tree-handler';
-// import Query from '../../handler/query';
-// import createStatus from '../forms/create.status';
-// import updateStatus from '../forms/update.status';
-// import searchStatus from '../trees/explore.status';
-import Search from '../component/form/interactive-search';
-import Text from '../component/form/html-input';
-import { validationEngine } from '../validation/engine';
-import { graphql } from '../parameters';
-import FormHandler from './form-handler';
 
-// const TileHandlerWithModal = withModal(TileHandler);
+import FormHandler from './form-handler';
+import Search from '../component/form/interactive-search';
+import { validationEngine } from '../validation/engine';
+import { composeRule, isLengthBetween } from '../validation/rules';
+
+
 const onSubmit = (props, state, onSuccess, onError) => {
-    debugger;
-    const [iPattern, iPostcodes] = state.config[0].items;
-    const postcodes = iPostcodes && iPostcodes.value.map(({ value: v }) => v).join('", "');
-    const pattern = iPattern.value
+    const [iPostcodes] = state.config[0].items;
+
+    if (!iPostcodes.value || 0 === iPostcodes.value.length) {
+        return;
+    }
+
+    const postcodes = iPostcodes.value.map(({ value: v }) => v).join('", "');
 
     return axios
         .post(
-            graphql,
+            process.env.REACT_APP_GRAPHQL,
             {
                 query: `
 {
     timelineSearch(
         ${postcodes ? `postcodes: ["${postcodes}"]` : ''}
-        ${pattern ? `pattern: "${pattern}"` : ''}
         perPage: 4000
     ) {
         date
         avg
-        count
         postcode
     }
 }
@@ -50,7 +37,6 @@ const onSubmit = (props, state, onSuccess, onError) => {
             }
         )
         .then(({ data: { data } }) => {
-
             const obj = {};
 
             for (const v of data.timelineSearch) {
@@ -123,65 +109,66 @@ const options = {
     },
 }
 
-const config = {
-    title: 'search',
-    validate: validationEngine,
-    isValid: true,
-    config: [
-        {
-            items: [
-                {
-                    c: Text,
-                    attr: 'pattern',
-                    label: 'pattern',
-                    placeholder: 'pattern',
-                    validators: [
-                        // composeRule(isRequired, 'pattern is mandatory'),
-                    ],
-                },
-                {
-                    c: Search,
-                    attr: 'parent',
-                    label: 'parent',
-                    placeholder: 'parent status',
-                    validators: [
-                    ],
-                    // maxValues: 1,
-                    valueTransformer: (v) => !v ? null : v[0].value,
-                    onFilter: (props, state, onSuccess, onError) => {
-                        const { pattern } = state;
+const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
+    const pattern = state.pattern.toUpperCase();
 
-                        axios
-                            .post(
-                                graphql,
-                                {
-                                    query: `
+    if (!cache || 0 === cache.length) {
+        return axios
+            .post(
+                process.env.REACT_APP_GRAPHQL,
+                {
+                    query: `
 {
     areaSearch(perPage: 5000) {
         area
         city
     }
 }`
-                                }
-                            )
-                            .then(({ data: { data } }) => {
+                }
+            )
+            .then(({ data: { data } }) => {
 
-                                const v = data.areaSearch.map(({ area, city }) => ({
-                                    value: area,
-                                    label: `${city} : ${area}`,
-                                }));
+                cache = data.areaSearch.map(({ area, city }) => ({
+                    value: area,
+                    label: `${city} : ${area}`,
+                }));
 
-                                onSuccess(v);
-                            })
-                            .catch(onError);
-                    }
+                const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern))
+
+                onSuccess(v);
+            })
+            .catch((e) => { debugger; onError(e); });
+    }
+
+    const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern))
+
+    onSuccess(v);
+}
+
+const config = {
+    title: 'search prices by postcodes',
+    validate: validationEngine,
+    config: [
+        {
+            items: [
+                {
+                    c: Search,
+                    attr: 'postcodes',
+                    label: 'select postcode area',
+                    placeholder: 'type here to search',
+                    validators: [
+                        composeRule(isLengthBetween, 'empty', [1])
+                    ],
+                    value: [],
+                    valueTransformer: (v) => !v ? null : v[0].value,
+                    onFilter: composeOnFilter(),
                 },
             ],
         },
     ],
-    // onSubmit: composeMutation('addStatus'),
     submitCTRL: {
-        label: 'submit',
+        label: 'search',
+        className: 'chart-handler_button--submit',
     },
 }
 
@@ -225,12 +212,11 @@ export default class ChartHandler extends PureComponent {
     render() {
         const { data } = this.state;
 
-        return <>
+        return <section className="chart-handler">
             <FormHandler
                 {...config}
                 onSubmit={this.onSubmit}
             />
-
             <HighchartsReact
                 highcharts={Highcharts}
                 options={{
@@ -238,19 +224,6 @@ export default class ChartHandler extends PureComponent {
                     series: data,
                 }}
             />
-        </>
+        </section>;
     }
 }
-// export default [
-//     {
-//         path: ['/'],
-//         // exact: true,
-//         component: (props) =>
-//             <Query
-//                 onMount={onMount}
-//                 children={
-//                     (_, state) =>
-//                 }
-//             />,
-//     },
-// ];
