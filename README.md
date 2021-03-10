@@ -1,12 +1,12 @@
-[ci.tests-master-badge]: https://circleci.com/gh/anna-lipina/explore-cwa-react/tree/master.svg?style=svg
-[ci.tests-master]: https://circleci.com/gh/anna-lipina/explore-cwa-react/tree/master
-[ci.coverage-master-badge]: https://codecov.io/gh/anna-lipina/explore-cwa-react/branch/master/graph/badge.svg
-[ci.coverage-master]: https://codecov.io/gh/anna-lipina/explore-cwa-react/branch/master
+[ci.tests-master-badge]: https://circleci.com/gh/anna-liepina/explore-cwa-react/tree/master.svg?style=svg
+[ci.tests-master]: https://circleci.com/gh/anna-liepina/explore-cwa-react/tree/master
+[ci.coverage-master-badge]: https://codecov.io/gh/anna-liepina/explore-cwa-react/branch/master/graph/badge.svg
+[ci.coverage-master]: https://codecov.io/gh/anna-liepina/explore-cwa-react/branch/master
 
-[ci.tests-heroku-badge]: https://circleci.com/gh/anna-lipina/explore-cwa-react/tree/heroku.svg?style=svg
-[ci.tests-heroku]: https://circleci.com/gh/anna-lipina/explore-cwa-react/tree/heroku
-[ci.coverage-heroku-badge]: https://codecov.io/gh/anna-lipina/explore-cwa-react/branch/heroku/graph/badge.svg
-[ci.coverage-heroku]: https://codecov.io/gh/anna-lipina/explore-cwa-react/branch/heroku
+[ci.tests-heroku-badge]: https://circleci.com/gh/anna-liepina/explore-cwa-react/tree/heroku.svg?style=svg
+[ci.tests-heroku]: https://circleci.com/gh/anna-liepina/explore-cwa-react/tree/heroku
+[ci.coverage-heroku-badge]: https://codecov.io/gh/anna-liepina/explore-cwa-react/branch/heroku/graph/badge.svg
+[ci.coverage-heroku]: https://codecov.io/gh/anna-liepina/explore-cwa-react/branch/heroku
 
 |               | master                                                        | heroku
 |---            |---                                                            | ---
@@ -17,7 +17,7 @@
 
 # 'Data Explore' front-end
 
-back-end can be found [here](https://github.com/anna-lipina/explore-sa-node)
+back-end can be found [here](https://github.com/anna-lipina/explore-sa-node), and [DEMO](https://heroku.de6pcsctvd8vp.amplifyapp.com/)
 
 ### software requirements
 
@@ -74,7 +74,7 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 
 ### gitflow
 
-* *heroku* -> current __production__, contains *heroku specific changes*, trigger deploy on heroku on *every push*
+* *heroku* -> current __production__, contains *production specific changes*, trigger deploy on heroku on *every push*
 * *master* -> most upto date __production ready__, all pull requests in to this branch got mandatory checks 'ci/circleci: jest' and 'ci/circleci: cypress'
 * *feature branches* -> get merged into master branch, when they ready and mandatory checks passed
 * *CI execute tests in isolated enviroment*
