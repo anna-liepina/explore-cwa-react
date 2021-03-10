@@ -1,8 +1,10 @@
 .suggestions {
     border: 1px solid #eaecef;
     border-top: none;
-    overflow: scroll;
-    max-height: 20rem;
+    overflow: auto;
+    max-height: 10rem;
+    z-index: 1;
+    box-sizing: border-box;
 }
 
 .suggestion {
