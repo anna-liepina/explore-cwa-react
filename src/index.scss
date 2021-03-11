@@ -17,8 +17,10 @@
 @import './component/top-nav';
 @import './component/tree-node';
 
+@import './handler/chart-handler';
+
 @import './handler/form-handler';
 @import './handler/query';
-// @import './handler/tile-handler';
+
 @import './handler/section-handler';
 @import './handler/tree-handler';
