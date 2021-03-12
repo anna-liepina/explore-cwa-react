@@ -1,84 +1,39 @@
 import React, { PureComponent } from 'react';
-import * as Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import FormHandler from './form-handler';
-import HTMLInput from '../component/form/html-input';
 import Search from '../component/form/interactive-search';
 import { validationEngine } from '../validation/engine';
-import { composeRule, isLengthBetween } from '../validation/rules';
+import { composeConditionalRule, composeRule, isLengthBetween, isMatchRegex, isRequired } from '../validation/rules';
+import HTMLInput from '../component/form/html-input';
 
 const onSubmit = (props, state, onSuccess, onError) => {
-    const [iPostcodes] = state.config[0].items;
+    const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
 
-    if (!iPostcodes.value || 0 === iPostcodes.value.length) {
-        return;
-    }
-
-    const postcodes = iPostcodes.value.map(({ value: v }) => v).join('", "');
-
+    // const postcodes = postcodes.map(({ value: v }) => v).join('", "');
     return axios
         .post(
             process.env.REACT_APP_GRAPHQL,
             {
                 query: `
 {
-    timelineSearch(
-        ${postcodes ? `postcodes: ["${postcodes}"]` : ''}
-        perPage: 4000
-    ) {
+    transactionSearch(
+        ${from ? `from: "${from}"` : ''}
+        ${to ? `to: "${to}"` : ''}
+        page: 1
+        perPage: 100)
+    {
+        id
+        price
         date
-        avg
-        postcode
     }
 }
 `
             }
         )
         .then(({ data: { data } }) => {
-            const obj = {};
-
-            for (const v of data.timelineSearch) {
-                if (!obj[v.postcode]) {
-                    obj[v.postcode] = [];
-                }
-
-                const [year, month, day] = v.date.split('-');
-
-                obj[v.postcode].push([
-                    Date.UTC(year, month, day),
-                    v.avg,
-                    v.date,
-                ])
-            }
-
-            const coefficient = 1.5;
-            const series = [];
-            for (const name in obj) {
-                series.push({
-                    name,
-                    data: obj[name].filter(([, pCurr], i, arr) => {
-                        if (arr.length < 2) {
-                            return true;
-                        }
-
-                        if (arr.length - 1 === i) {
-                            return pCurr < arr[i - 1][1] * coefficient;
-                        }
-
-                        const [, pNext] = arr[i + 1];
-
-                        if (pCurr > pNext) {
-                            return pCurr < pNext * coefficient;
-                        }
-
-                        return pCurr * coefficient > pNext;
-                    }),
-                })
-            }
-
-            onSuccess(series);
+            onSuccess(data.transactionSearch);
         })
         .catch(onError);
 };
@@ -101,7 +56,6 @@ const onSubmit = (props, state, onSuccess, onError) => {
 //                 }
 //             )
 //             .then(({ data: { data } }) => {
-
 //                 cache = data.areaSearch.map(({ area, city }) => ({
 //                     value: area,
 //                     label: `${city} : ${area}`,
@@ -111,19 +65,20 @@ const onSubmit = (props, state, onSuccess, onError) => {
 
 //                 onSuccess(v);
 //             })
-//             .catch(onError);
+//             .catch((e) => { debugger; onError(e); });
 //     }
 
 //     const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern))
 
 //     onSuccess(v);
-// }
+// };
 
 // const config = {
 //     title: 'search criteria',
 //     validate: validationEngine,
 //     config: [
 //         {
+//             className: 'accordion--flex',
 //             items: [
 //                 {
 //                     c: Search,
@@ -139,6 +94,24 @@ const onSubmit = (props, state, onSuccess, onError) => {
 //                     attr: 'from',
 //                     label: 'from',
 //                     type: 'date',
+//                     validators: [
+//                         composeConditionalRule(
+//                             (v, config) => {
+//                                 const { value: to } = config[0].items[2];
+
+//                                 if (!to) {
+//                                     return true;
+//                                 }
+
+//                                 if (new Date(v).valueOf() > new Date(to).valueOf()) {
+//                                     return '"from" cannot be greater than "to"';
+//                                 }
+
+//                                 return true;
+//                             },
+//                             () => true
+//                         )
+//                     ]
 //                 },
 //                 {
 //                     c: HTMLInput,
@@ -155,7 +128,7 @@ const onSubmit = (props, state, onSuccess, onError) => {
 //     },
 // };
 
-export default class ChartHandler extends PureComponent {
+export default class TableHandler extends PureComponent {
     constructor() {
         super();
 
@@ -184,44 +157,44 @@ export default class ChartHandler extends PureComponent {
     }
 
     render() {
+        const { columns } = this.props;
         const { data } = this.state;
 
-        return <section className="chart-handler">
+        return <>
             <FormHandler
                 {...this.props.form}
                 onSubmit={this.onSearch}
             />
-            {
-                data &&
-                <HighchartsReact
-                    highcharts={Highcharts}
-                    options={{
-                        title: {
-                            text: 'price statistics',
-                        },
-                        chart: {
-                            type: 'spline',
-                        },
-                        xAxis: {
-                            type: 'datetime',
-                            dateTimeLabelFormats: {
-                                month: '%b \'%y',
-                                year: '%Y',
-                            },
-                            title: {
-                                text: 'Date',
-                            }
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'price GBP',
-                            },
-                            min: 0,
-                        },
-                        series: data,
-                    }}
-                />
-            }
-        </section>;
+            <table className="table">
+                <thead className="table-row table-row-header">
+                    {columns.map(({ label }, i) => <th key={i} className="table-row-cell">{label}</th>)}
+                </thead>
+                {
+                    data
+                    && <tbody className="table-content">
+                        {
+                            data.map(
+                                (row, i) =>
+                                    <tr key={i} className="table-row">
+                                        {columns.map(({ key }, j) => <td key={j} className="table-row-cell">{row[key]}</td>)}
+                                    </tr>
+                            )
+                        }
+                    </tbody>
+                }
+            </table>
+        </>;
+    }
+
+    static propTypes = {
+        'data-cy': PropTypes.string,
+        className: PropTypes.string,
+    }
+
+    static defaultProps = {
+        'data-cy': '',
+        className: '',
+        data: [],
+        columns: [],
     }
 }

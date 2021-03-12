@@ -1,0 +1,26 @@
+.table,
+.table-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.table {
+    &-row-header {
+        background: #d9d9d9;
+        text-transform: uppercase;
+    }
+
+    &-row {
+        display: flex;
+
+        &:nth-child(even) {
+            background: #d9d9d9;
+        }
+
+        &-cell {
+            text-align: center;
+            flex: 1;
+            padding: .25rem
+        }
+    }
+}
