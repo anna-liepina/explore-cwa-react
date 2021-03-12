@@ -51,25 +51,4 @@
         padding: 0;
         margin: .5rem 0 0 0;
     }
-
-    /** status related colours */
-    &--green {
-        .suggestion__label {
-            background-color: $RAGGreen;
-        }
-    }
-
-    &--amber {
-        .suggestion__label {
-            background-color: $RAGAmber;
-            color: #fff;
-        }
-    }
-
-    &--red {
-        .suggestion__label {
-            background-color: $RAGRed;
-            color: #fff;
-        }
-    }
 }
