@@ -11,16 +11,15 @@
 @import './component/form/pill';
 @import './component/form/suggestions';
 
-// @import './component/button';
-// @import './component/modal';
-// @import './component/tile';
+@import './component/button';
+@import './component/modal';
 @import './component/top-nav';
 @import './component/tree-node';
 
 @import './handler/chart-handler';
-
 @import './handler/form-handler';
 @import './handler/query';
-
 @import './handler/section-handler';
+@import './handler/tab-handler';
+@import './handler/table-handler';
 @import './handler/tree-handler';

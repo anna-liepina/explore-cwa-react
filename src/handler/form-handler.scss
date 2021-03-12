@@ -4,7 +4,7 @@
     }
 
     &-input {
-        padding: 0 0 2.5rem 0;
+        padding: 0 0 1rem 0;
 
         &_label {
             font-size: 1.5rem;
@@ -19,6 +19,7 @@
             border: none;
             border-bottom: 1px dashed #fff;
             background: transparent;
+            box-sizing: border-box;
         }
 
         &_error {
