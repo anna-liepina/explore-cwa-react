@@ -1,0 +1,21 @@
+.tab-handler {
+    list-style-type: none;
+    display: flex;
+
+    border-bottom: 1px solid;
+}
+
+.tab,
+.tab--selected {
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.tab--selected {
+    border: 1px solid;
+
+    background: #e4e4e4;
+    border-bottom: none;
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+}

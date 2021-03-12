@@ -27,7 +27,7 @@ export default class SectionHandler extends PureComponent {
         const { 'data-cy': cy, className, children, button: Button } = this.props;
 
         return <>
-            <Button data-cy={`${cy}-button`} onClick={this.onExpand} className={`${isExpanded ? 'section-button' : ''}`} />
+            <Button data-cy={`${cy}-button`} onClick={this.onExpand} className={`${isExpanded ? 'section-button' : ''} ${className}`} />
             {
                 isExpanded && <section data-cy={`${cy}-section`} className="section">
                     {children}
