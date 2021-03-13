@@ -1,13 +1,15 @@
+import axios from 'axios';
 import React from 'react';
+import HTMLInput from '../component/form/html-input';
+import Search from '../component/form/interactive-search';
 import ChartHandler from '../handler/chart-handler';
+import MapHandler from '../handler/map-handler';
 import TabHandler from '../handler/tab-handler';
 import TableHandler from '../handler/table-handler';
-
-import axios from 'axios';
-import Search from '../component/form/interactive-search';
 import { validationEngine } from '../validation/engine';
-import { composeConditionalRule, composeRule, isLengthBetween, isMatchRegex, isRequired } from '../validation/rules';
-import HTMLInput from '../component/form/html-input';
+import { composeConditionalRule } from '../validation/rules';
+
+
 
 const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
     const pattern = state.pattern.toUpperCase();
@@ -32,11 +34,11 @@ const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
                     label: `${city} : ${area}`,
                 }));
 
-                const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern))
+                const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern));
 
                 onSuccess(v);
             })
-            .catch((e) => { debugger; onError(e); });
+            .catch(onError);
     }
 
     const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern))
@@ -45,7 +47,6 @@ const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
 };
 
 const composeConfig = () => ({
-    title: 'search criteria',
     validate: validationEngine,
     config: [
         {
@@ -54,7 +55,7 @@ const composeConfig = () => ({
                 {
                     c: Search,
                     attr: 'postcodes',
-                    label: 'select postcode area',
+                    label: 'postcode area',
                     placeholder: 'type here to search',
                     value: [],
                     valueTransformer: (v) => !v ? null : v[0].value,
@@ -68,14 +69,14 @@ const composeConfig = () => ({
                     validators: [
                         composeConditionalRule(
                             (v, config) => {
-                                const { value: to } = config[0].items[2];
+                                const [, { label: labelFrom }, { label: labelTo, value: to }] = config[0].items;
 
                                 if (!to) {
                                     return true;
                                 }
 
                                 if (new Date(v).valueOf() > new Date(to).valueOf()) {
-                                    return '"from" cannot be greater than "to"';
+                                    return `"${labelFrom}" cannot be greater than "${labelTo}"`;
                                 }
 
                                 return true;
@@ -100,6 +101,29 @@ const composeConfig = () => ({
 });
 
 const tabs = [
+
+    {
+        label: 'map',
+        c: MapHandler,
+        props: {
+            form: composeConfig(),
+            form: (() => {
+                const c = composeConfig();
+
+                c.config[0].items[1] = {
+                    c: HTMLInput,
+                    attr: 'range',
+                    label: 'range',
+                    type: 'range',
+                };
+
+                c.config[0].items.pop();
+                c.isValid = true;
+
+                return c;
+            })(),
+        },
+    },
     {
         label: 'chart',
         c: ChartHandler,
@@ -133,5 +157,5 @@ const tabs = [
 export default {
     path: ['/'],
     exact: true,
-    component: (props) => <TabHandler {...props} tabs={tabs} />,
+    component: (props) => React.createElement(TabHandler, { ...props, tabs }),
 };

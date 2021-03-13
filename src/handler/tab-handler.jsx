@@ -52,7 +52,6 @@ export default class TabHandler extends PureComponent {
         </>;
     }
 
-
     static propTypes = {
         'data-cy': PropTypes.string,
         className: PropTypes.string,
