@@ -1,14 +1,15 @@
-import React from 'react';
-import TabHandler from '../handler/tab-handler';
-import ChartHandler from '../handler/chart-handler';
-import TableHandler from '../handler/table-handler';
-
-import Search from '../component/form/interactive-search';
-import { validationEngine } from '../validation/engine';
-import { composeConditionalRule, composeRule, isLengthBetween, isMatchRegex, isRequired } from '../validation/rules';
-import HTMLInput from '../component/form/html-input';
-
 import axios from 'axios';
+import React from 'react';
+import HTMLInput from '../component/form/html-input';
+import Search from '../component/form/interactive-search';
+import ChartHandler from '../handler/chart-handler';
+import MapHandler from '../handler/map-handler';
+import TabHandler from '../handler/tab-handler';
+import TableHandler from '../handler/table-handler';
+import { validationEngine } from '../validation/engine';
+import { composeConditionalRule } from '../validation/rules';
+
+
 
 const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
     const pattern = state.pattern.toUpperCase();
@@ -100,6 +101,29 @@ const composeConfig = () => ({
 });
 
 const tabs = [
+
+    {
+        label: 'map',
+        c: MapHandler,
+        props: {
+            form: composeConfig(),
+            form: (() => {
+                const c = composeConfig();
+
+                c.config[0].items[1] = {
+                    c: HTMLInput,
+                    attr: 'range',
+                    label: 'range',
+                    type: 'range',
+                };
+
+                c.config[0].items.pop();
+                c.isValid = true;
+
+                return c;
+            })(),
+        },
+    },
     {
         label: 'chart',
         c: ChartHandler,
