@@ -68,14 +68,14 @@ const composeConfig = () => ({
                     validators: [
                         composeConditionalRule(
                             (v, config) => {
-                                const { value: to } = config[0].items[2];
+                                const [, { label: labelFrom }, { label: labelTo, value: to }] = config[0].items;
 
                                 if (!to) {
                                     return true;
                                 }
 
                                 if (new Date(v).valueOf() > new Date(to).valueOf()) {
-                                    return '"from" cannot be greater than "to"';
+                                    return `"${labelFrom}" cannot be greater than "${labelTo}"`;
                                 }
 
                                 return true;
