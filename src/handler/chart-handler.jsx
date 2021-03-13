@@ -1,22 +1,17 @@
 import React, { PureComponent } from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import axios from 'axios';
 
 import FormHandler from './form-handler';
-import HTMLInput from '../component/form/html-input';
-import Search from '../component/form/interactive-search';
-import { validationEngine } from '../validation/engine';
-import { composeRule, isLengthBetween } from '../validation/rules';
+
+import axios from 'axios';
 
 const onSubmit = (props, state, onSuccess, onError) => {
-    const [iPostcodes] = state.config[0].items;
+    const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
 
-    if (!iPostcodes.value || 0 === iPostcodes.value.length) {
+    if (!postcodes || 0 === postcodes.length) {
         return;
     }
-
-    const postcodes = iPostcodes.value.map(({ value: v }) => v).join('", "');
 
     return axios
         .post(
@@ -25,8 +20,10 @@ const onSubmit = (props, state, onSuccess, onError) => {
                 query: `
 {
     timelineSearch(
-        ${postcodes ? `postcodes: ["${postcodes}"]` : ''}
-        perPage: 4000
+        postcodes: ["${postcodes.map(({ value: v }) => v).join('", "')}"]
+        ${from ? `from: "${from}"` : ''}
+        ${to ? `to: "${to}"` : ''}
+        perPage: 5000
     ) {
         date
         avg
@@ -82,78 +79,6 @@ const onSubmit = (props, state, onSuccess, onError) => {
         })
         .catch(onError);
 };
-
-// const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
-//     const pattern = state.pattern.toUpperCase();
-
-//     if (!cache || 0 === cache.length) {
-//         return axios
-//             .post(
-//                 process.env.REACT_APP_GRAPHQL,
-//                 {
-//                     query: `
-// {
-//     areaSearch(perPage: 5000) {
-//         area
-//         city
-//     }
-// }`
-//                 }
-//             )
-//             .then(({ data: { data } }) => {
-
-//                 cache = data.areaSearch.map(({ area, city }) => ({
-//                     value: area,
-//                     label: `${city} : ${area}`,
-//                 }));
-
-//                 const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern))
-
-//                 onSuccess(v);
-//             })
-//             .catch(onError);
-//     }
-
-//     const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern))
-
-//     onSuccess(v);
-// }
-
-// const config = {
-//     title: 'search criteria',
-//     validate: validationEngine,
-//     config: [
-//         {
-//             items: [
-//                 {
-//                     c: Search,
-//                     attr: 'postcodes',
-//                     label: 'select postcode area',
-//                     placeholder: 'type here to search',
-//                     value: [],
-//                     valueTransformer: (v) => !v ? null : v[0].value,
-//                     onFilter: composeOnFilter(),
-//                 },
-//                 {
-//                     c: HTMLInput,
-//                     attr: 'from',
-//                     label: 'from',
-//                     type: 'date',
-//                 },
-//                 {
-//                     c: HTMLInput,
-//                     attr: 'to',
-//                     label: 'to',
-//                     type: 'date',
-//                 },
-//             ],
-//         },
-//     ],
-//     submitCTRL: {
-//         label: 'search',
-//         className: 'chart-handler_button--submit',
-//     },
-// };
 
 export default class ChartHandler extends PureComponent {
     constructor() {

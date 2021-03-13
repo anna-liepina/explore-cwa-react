@@ -1,13 +1,14 @@
 import React from 'react';
-import ChartHandler from '../handler/chart-handler';
 import TabHandler from '../handler/tab-handler';
+import ChartHandler from '../handler/chart-handler';
 import TableHandler from '../handler/table-handler';
 
-import axios from 'axios';
 import Search from '../component/form/interactive-search';
 import { validationEngine } from '../validation/engine';
 import { composeConditionalRule, composeRule, isLengthBetween, isMatchRegex, isRequired } from '../validation/rules';
 import HTMLInput from '../component/form/html-input';
+
+import axios from 'axios';
 
 const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
     const pattern = state.pattern.toUpperCase();
@@ -32,11 +33,11 @@ const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
                     label: `${city} : ${area}`,
                 }));
 
-                const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern))
+                const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern));
 
                 onSuccess(v);
             })
-            .catch((e) => { debugger; onError(e); });
+            .catch(onError);
     }
 
     const v = cache.filter(({ label }) => -1 !== label.indexOf(pattern))
@@ -45,7 +46,6 @@ const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
 };
 
 const composeConfig = () => ({
-    title: 'search criteria',
     validate: validationEngine,
     config: [
         {
@@ -54,7 +54,7 @@ const composeConfig = () => ({
                 {
                     c: Search,
                     attr: 'postcodes',
-                    label: 'select postcode area',
+                    label: 'postcode area',
                     placeholder: 'type here to search',
                     value: [],
                     valueTransformer: (v) => !v ? null : v[0].value,
