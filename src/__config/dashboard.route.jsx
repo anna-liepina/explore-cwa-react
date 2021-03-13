@@ -133,5 +133,5 @@ const tabs = [
 export default {
     path: ['/'],
     exact: true,
-    component: (props) => <TabHandler {...props} tabs={tabs} />,
+    component: (props) => React.createElement(TabHandler, { ...props, tabs }),
 };
