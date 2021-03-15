@@ -3,7 +3,6 @@ import { Map, Marker } from 'pigeon-maps';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import Drawer from '../drawer';
-// import Drawer from '../component/drawer';
 import FormHandler from './form-handler';
 import Query from './query';
 
