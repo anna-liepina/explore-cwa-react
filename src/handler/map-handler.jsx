@@ -9,11 +9,12 @@ import { Map, Marker, Overlay } from 'pigeon-maps';
 const onSubmit = (props, state, onSuccess, onError) => {
     // const [{ value: postcodes }, { value: range }] = state.config[0].items;
 
-    // if (!postcodes || 0 === postcodes.length) {
+    const range = 1;
     //     return;
     // }
     debugger;
 
+    const { latitude: lat, longitude: lng } = state.coords;
     return axios
         .post(
             process.env.REACT_APP_GRAPHQL,
@@ -22,11 +23,10 @@ const onSubmit = (props, state, onSuccess, onError) => {
 {
     propertySearchWithInRange(
         pos: {
-            lat: 51.542884693,
-            lng: 0.012193286
-        },
-        rangeUnit: ml
-        range: 10
+            lat: ${lat}
+            lng: ${lng}
+        }
+        range: ${range}
         perPage: 1000
     ) {
         distance
@@ -41,8 +41,8 @@ const onSubmit = (props, state, onSuccess, onError) => {
             }
         )
         .then(({ data: { data } }) => {
-
             const cache = {};
+
             for (const v of data.propertySearchWithInRange) {
                 const { postcode: { postcode } } = v;
                 if (undefined == cache[postcode]) {
@@ -87,11 +87,15 @@ export default class MapHandler extends PureComponent {
     }
 
     onSuccess(data) {
-        // this.setState({ data, errors: undefined, isLoading: false });
+        this.setState({ data, errors: undefined, isLoading: false });
     }
 
     onError(errors) {
-        // this.setState({ data: undefined, errors, isLoading: false });
+        this.setState({ data: undefined, errors, isLoading: false });
+    }
+
+    onSearch(e) {
+        this.setState({ isLoading: true }, () => { onSubmit(this.props, this.state, this.onSuccess, this.onError) });
     }
 
     onSearch(props, state) {
@@ -124,7 +128,14 @@ export default class MapHandler extends PureComponent {
                 !isLoading
                 && undefined !== latitude
                 && undefined !== longitude
-                && <Map defaultCenter={[latitude, longitude]} defaultZoom={15} width={window.innerWidth} height={560}>
+                && <Map
+                    defaultCenter={[latitude, longitude]}
+                    defaultZoom={15}
+                    width={window.innerWidth}
+                    height={560}
+                    attributionPrefix={false}
+                    attribution={<span />}
+                >
                     {
                         data &&
                         data.map(({ lat, lng }) =>
