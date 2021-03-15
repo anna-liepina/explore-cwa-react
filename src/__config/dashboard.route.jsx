@@ -115,6 +115,9 @@ const tabs = [
                     attr: 'range',
                     label: 'range',
                     type: 'range',
+                    min: '1',
+                    max: '5',
+                    value: 1,
                 };
 
                 c.config[0].items.pop();

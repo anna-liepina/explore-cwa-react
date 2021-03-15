@@ -1,0 +1,47 @@
+.drawer,
+.drawer--open {
+    height: 100%;
+    background: #fff;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    box-shadow: 1px 0px 7px rgba(0,0,0,0.5);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer {
+    width: 0;
+}
+
+.drawer--open {
+    width: 40%;
+}
+
+.drawer_button--close {
+    display: flex;
+    border: none;
+    background: transparent;
+    font-size: 2rem;
+}
+
+.drawer_content {
+    display: flex;
+    flex-basis: 100%;
+    overflow: auto;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.drawer_overlay {
+    background: #0003;
+    position: fixed;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+}
