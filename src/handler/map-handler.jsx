@@ -86,21 +86,6 @@ const onSearchDetails = (props, state, onSuccess, onError) => {
         })
         .catch(onError);
 };
-// {
-//     "paon": "10",
-//     "saon": "FLAT 7",
-//     "street": "MAITLAND ROAD",
-//     "transactions": [
-//         {
-//             "date": "2013-05-03",
-//             "price": 101250
-//         },
-//         {
-//             "date": "2020-06-12",
-//             "price": 157500
-//         }
-//     ]
-// }
 
 const DetailTables = ({ data }) => {
     return data.map(({ street, paon, saon, transactions }) =>
@@ -118,6 +103,7 @@ const DetailTables = ({ data }) => {
             </table>
         </>)
 }
+
 export default class MapHandler extends PureComponent {
     constructor({ isLoading, data, errors, coords, postcode, zoom }) {
         super();
