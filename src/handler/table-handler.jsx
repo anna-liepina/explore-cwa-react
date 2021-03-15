@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import FormHandler from './form-handler';
-import Search from '../component/form/interactive-search';
-import { validationEngine } from '../validation/engine';
-import { composeConditionalRule, composeRule, isLengthBetween, isMatchRegex, isRequired } from '../validation/rules';
-import HTMLInput from '../component/form/html-input';
 
 const onSubmit = (props, state, onSuccess, onError) => {
     const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
