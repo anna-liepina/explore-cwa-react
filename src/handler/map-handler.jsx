@@ -83,7 +83,9 @@ export default class MapHandler extends PureComponent {
     }
 
     componentDidMount() {
-        navigator.geolocation.getCurrentPosition(({ coords }) => this.setState({ coords }));
+        navigator.geolocation.getCurrentPosition(
+            ({ coords }) => this.setState({ coords }, this.onSearch)
+        );
     }
 
     onSuccess(data) {
