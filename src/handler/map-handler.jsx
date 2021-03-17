@@ -107,12 +107,12 @@ const onSearchDetails = (props, state, onSuccess, onError) => {
 };
 
 class DrawerTable extends PureComponent {
-    constructor({ pattern, data }) {
+    constructor({ data, pattern }) {
         super();
 
         this.state = {
-            pattern,
             data,
+            pattern,
         };
 
         this.onFilter = this.onFilter.bind(this);
@@ -127,12 +127,12 @@ class DrawerTable extends PureComponent {
     }
 
     render() {
-        const { title, currency } = this.props;
-        const { data } = this.state;
+        const { title, placeholder } = this.props;
+        const { data, pattern } = this.state;
 
         return <>
             <h2>{title}</h2>
-            <input onChange={this.onFilter} placeholder="type to filter" />
+            <input onChange={this.onFilter} placeholder={placeholder} value={pattern} />
             {
                 data.map(({ text, chunks, isVisible, transactions }, i) =>
                     (undefined === isVisible || isVisible)
@@ -158,6 +158,37 @@ class DrawerTable extends PureComponent {
                 )
             }
         </>;
+    }
+
+    static propTypes = {
+        'data-cy': PropTypes.string,
+        className: PropTypes.string,
+        placeholder: PropTypes.string,
+        pattern: PropTypes.string,
+        onFilter: PropTypes.func.isRequired,
+        data: PropTypes.arrayOf(
+            PropTypes.shape({
+                text: PropTypes.string.isRequired,
+                chunks: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        v: PropTypes.string.isRequired,
+                        isMatch: PropTypes.bool,
+                    })
+                ),
+                isVisible: PropTypes.bool,
+                transactions: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        date: PropTypes.string.isRequired,
+                        price: PropTypes.number.isRequired,
+                    })
+                )
+            })
+        ),
+    }
+
+    static defaultProps = {
+        'data-cy': '',
+        className: '',
     }
 }
 
@@ -243,7 +274,7 @@ export default class MapHandler extends PureComponent {
                         onMount={onSearchDetails}
                     >
                         {
-                            (props, state) => <DrawerTable title={postcode} data={state.data} onFilter={onFilter} currency="£" />
+                            (props, state) => <DrawerTable title={postcode} data={state.data} onFilter={onFilter} />
                         }
                     </Query>
                 </Drawer>

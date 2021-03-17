@@ -9,8 +9,6 @@ import TableHandler from '../handler/table-handler';
 import { validationEngine } from '../validation/engine';
 import { composeConditionalRule } from '../validation/rules';
 
-
-
 const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
     const pattern = state.pattern.toUpperCase();
 
