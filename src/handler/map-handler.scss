@@ -2,3 +2,19 @@
     display: flex;
     flex-flow: column;
 }
+
+.drawer {
+    &-header--match {
+        background: yellow;
+    }
+}
+
+.drawer-table {
+    &--row {
+        display: flex;
+    }
+
+    &--cell {
+        flex: 1;
+    }
+}
