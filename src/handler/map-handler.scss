@@ -2,3 +2,13 @@
     display: flex;
     flex-flow: column;
 }
+
+.drawer-table {
+    &--row {
+        display: flex;
+    }
+
+    &--cell {
+        flex: 1;
+    }
+}
