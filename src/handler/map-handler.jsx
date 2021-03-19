@@ -20,10 +20,9 @@ const onFilter = (data, pattern) => {
     }
 };
 
-const onSearch = (props, state, c, onSuccess, onError) => {
-    const { latitude, longitude } = c;
+const onSearch = async (props, state, c, onSuccess, onError) => {
     const [{ value: postcode }, { value: range }] = state.config[0].items;
-
+    const { latitude, longitude } = (0 !== postcode.length) ? postcode[0] : c;
 
     return axios
         .post(
@@ -281,7 +280,7 @@ export default class MapHandler extends PureComponent {
             }
             <FormHandler
                 {...this.props.form}
-                onSearch={this.onSearch}
+                onSubmit={this.onSearch}
             />
             {
                 isLoading
