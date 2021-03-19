@@ -3,12 +3,26 @@ import { Map, Marker } from 'pigeon-maps';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import Drawer from '../drawer';
+import { filter } from '../filtering/filter';
 import FormHandler from './form-handler';
 import Query from './query';
 
-const onSearch = (props, state, c, onSuccess, onError) => {
-    const { latitude, longitude } = c;
-    const [{ value: postcodes }, { value: range }] = state.config[0].items;
+const onFilter = (data, pattern) => {
+    pattern = (pattern || '').toLowerCase();
+
+    for (const v of data) {
+        v.isExpanded = filter(v, pattern);
+
+        if (!pattern) {
+            v.isExpanded = false;
+            v.isVisible = true;
+        }
+    }
+};
+
+const onSearch = async (props, state, c, onSuccess, onError) => {
+    const [{ value: postcode }, { value: range }] = state.config[0].items;
+    const { latitude, longitude } = (0 !== postcode.length) ? postcode[0] : c;
 
     return axios
         .post(
@@ -82,26 +96,99 @@ const onSearchDetails = (props, state, onSuccess, onError) => {
             }
         )
         .then(({ data: { data } }) => {
+            data.propertySearch.forEach((v) => {
+                v.text = `${v.street || ''} ${v.paon || ''} ${v.saon ? `, ${v.saon}` : ''}`
+            });
+
             onSuccess(data.propertySearch);
         })
         .catch(onError);
 };
 
-const DetailTables = ({ data }) => {
-    return data.map(({ street, paon, saon, transactions }) =>
-        <>
-            <h3>{street || ''} {paon || ''}{saon ? `, ${saon}` : ''}</h3>
-            <table>
-                {
-                    transactions.map(({ date, price }, i) =>
-                        <tr key={i}>
-                            <td>{date}</td>
-                            <td>{price}</td>
-                        </tr>
-                    )
-                }
-            </table>
-        </>)
+class DrawerTable extends PureComponent {
+    constructor({ data, pattern }) {
+        super();
+
+        this.state = {
+            data,
+            pattern,
+        };
+
+        this.onFilter = this.onFilter.bind(this);
+    }
+
+    onFilter({ target: { value: pattern } }) {
+        const { data } = this.state;
+
+        this.props.onFilter(data, pattern);
+
+        this.setState({ pattern, data: [...data] });
+    }
+
+    render() {
+        const { title, placeholder } = this.props;
+        const { data, pattern } = this.state;
+
+        return <>
+            <h2>{title}</h2>
+            <input onChange={this.onFilter} placeholder={placeholder} value={pattern} />
+            {
+                data.map(({ text, chunks, isVisible, transactions }, i) =>
+                    (undefined === isVisible || isVisible)
+                    && <React.Fragment key={i}>
+                        <h3 className="drawer-header">
+                            {
+                                chunks && 0 !== chunks.length
+                                    ? chunks.map(({ v, isMatch }, i) => <span key={i} className={isMatch ? 'drawer-header--match' : ''}>{v}</span>)
+                                    : text
+                            }
+                        </h3>
+                        <table className="drawer-table">
+                            {
+                                transactions.map(({ date, price }, i) =>
+                                    <tr key={i} className="drawer-table--row" >
+                                        <td className="drawer-table--cell">{date}</td>
+                                        <td sclassName="drawer-table--cell">{(price).toLocaleString()}</td>
+                                    </tr>
+                                )
+                            }
+                        </table>
+                    </React.Fragment>
+                )
+            }
+        </>;
+    }
+
+    static propTypes = {
+        'data-cy': PropTypes.string,
+        className: PropTypes.string,
+        placeholder: PropTypes.string,
+        pattern: PropTypes.string,
+        onFilter: PropTypes.func.isRequired,
+        data: PropTypes.arrayOf(
+            PropTypes.shape({
+                text: PropTypes.string.isRequired,
+                chunks: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        v: PropTypes.string.isRequired,
+                        isMatch: PropTypes.bool,
+                    })
+                ),
+                isVisible: PropTypes.bool,
+                transactions: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        date: PropTypes.string.isRequired,
+                        price: PropTypes.number.isRequired,
+                    })
+                )
+            })
+        ),
+    }
+
+    static defaultProps = {
+        'data-cy': '',
+        className: '',
+    }
 }
 
 export default class MapHandler extends PureComponent {
@@ -186,18 +273,14 @@ export default class MapHandler extends PureComponent {
                         onMount={onSearchDetails}
                     >
                         {
-                            (props, state) =>
-                                <>
-                                    <h2>{postcode}</h2>
-                                    <DetailTables data={state.data} />
-                                </>
+                            (props, state) => <DrawerTable title={postcode} data={state.data} onFilter={onFilter} />
                         }
                     </Query>
                 </Drawer>
             }
             <FormHandler
                 {...this.props.form}
-                onSearch={this.onSearch}
+                onSubmit={this.onSearch}
             />
             {
                 isLoading

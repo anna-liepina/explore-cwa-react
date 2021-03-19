@@ -15,7 +15,7 @@
 
 ##### THIS IS A SPARE TIME PROJECT, WORK IN PROGRESS!
 
-# 'Data Explore' front-end
+# 'Data Explore' client web application [CWA] 
 
 the project aims to parse UK government data on the property sales, and some geo data to link postcodes by latitude and longitude.
 This project is done to demonstrate my knowledge, which I learned recently as I try to get into the software development industry, I had a mentor to help me out
@@ -81,7 +81,7 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 
 ### gitflow
 
-* *heroku* -> current __production__, contains *production specific changes*, trigger deploy on heroku on *every push*
+* *heroku* -> current __production__, contains *production specific changes*, trigger deploy on AWS on *every push*
 * *master* -> most upto date __production ready__, all pull requests in to this branch got mandatory checks 'ci/circleci: jest' and 'ci/circleci: cypress'
 * *feature branches* -> get merged into master branch, when they ready and mandatory checks passed
 * *CI execute tests in isolated enviroment*

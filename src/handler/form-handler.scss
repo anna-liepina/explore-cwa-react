@@ -1,20 +1,20 @@
 .form {
     &_title {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 
     &-input {
         padding: 0 0 1rem 0;
 
         &_label {
-            font-size: 1.5rem;
+            font-size: 1rem;
 
             display: flex;
             flex-direction: column;
         }
 
         input {
-            font-size: 1.25rem;
+            font-size: 1rem;
             width: 100%;
             border: none;
             border-bottom: 1px dashed #fff;
@@ -24,7 +24,7 @@
 
         &_error {
             color: #a94442;
-            font-size: 1.25rem;
+            font-size: .75rem;
         }
 
         &_errors {

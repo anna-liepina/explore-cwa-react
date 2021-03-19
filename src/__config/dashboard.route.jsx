@@ -9,8 +9,6 @@ import TableHandler from '../handler/table-handler';
 import { validationEngine } from '../validation/engine';
 import { composeConditionalRule } from '../validation/rules';
 
-
-
 const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
     const pattern = state.pattern.toUpperCase();
 
@@ -106,9 +104,40 @@ const tabs = [
         label: 'map',
         c: MapHandler,
         props: {
-            form: composeConfig(),
             form: (() => {
                 const c = composeConfig();
+
+                c.config[0].items[0] = {
+                    ...c.config[0].items[0],
+                    onFilter: (props, state, onSuccess, onError) => {
+                        const pattern = state.pattern.toUpperCase();
+
+                        if (pattern.length < 2) {
+                            return;
+                        }
+
+                        return axios
+                            .post(
+                                process.env.REACT_APP_GRAPHQL,
+                                {
+                                    query: `
+{
+    postcodeSearch(pattern: "${pattern}") {
+        lat
+        postcode
+        lng
+    }
+}`
+                                }
+                            )
+                            .then(({ data: { data } }) => {
+                                const cache = data.postcodeSearch.map(({ postcode: v, lat, lng }) => ({ label: v, value: v, latitude: lat, longitude: lng }));
+
+                                onSuccess(cache);
+                            })
+                            .catch(onError);
+                    }
+                }
 
                 c.config[0].items[1] = {
                     c: HTMLInput,
