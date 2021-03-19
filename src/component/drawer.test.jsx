@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 import Drawer from './drawer';
 
-describes.skip('<Drawer/>', () => {
+describe.skip('<Drawer/>', () => {
     const props = {
         onClose: jest.fn(),
     };
