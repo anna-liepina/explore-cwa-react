@@ -55,7 +55,7 @@ const onSearch = async (props, state, c, onSuccess, onError) => {
             for (const v of data.propertySearchWithInRange) {
                 const { postcode: { postcode } } = v;
                 if (undefined == cache[postcode]) {
-                    cache[postcode] = []
+                    cache[postcode] = [];
                 }
 
                 cache[postcode].push(v);

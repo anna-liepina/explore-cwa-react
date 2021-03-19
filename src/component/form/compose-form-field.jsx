@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default (Component) => {
     const ComposedFormField = ({ 'data-cy': cy, className, label, errors, validators, ...props }) =>
-        <label className={`form-input ${className} form-input_label`}>
+        <label className={`form-input form-input_label ${className}`}>
             {label}
             <Component {...props} data-cy={cy} />
             {
