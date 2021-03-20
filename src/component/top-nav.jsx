@@ -83,7 +83,7 @@ const TopNav = ({ 'data-cy': cy, className, ...props }) =>
         </Link>
         <SectionHandler
             data-cy="topnav-postcode_tree"
-            button={(props) => <img {...props} className={`${props.className || ''} topnav__item`} src="/assets/img/united-kingdom.svg" />}
+            button={(props) => <img {...props} className={`${props.className || ''} topnav__item`} alt="UK postcode areas" src="/assets/img/united-kingdom.svg" />}
         >
             <Query onMount={onMount}>
                 {(props, state) => <TreeHandler data={state.data} onFilter={onFilter} onExpand={onExpand} />}
