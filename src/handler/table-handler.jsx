@@ -5,9 +5,10 @@ import axios from 'axios';
 import FormHandler from './form-handler';
 
 const onSubmit = (props, state, onSuccess, onError) => {
-    const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
+    const [, { value: from }, { value: to }] = state.config[0].items;
+    // const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
 
-    // const postcodes = postcodes.map(({ value: v }) => v).join('", "');
+    // postcodes.map(({ value: v }) => v).join('", "');
     return axios
         .post(
             process.env.REACT_APP_GRAPHQL,

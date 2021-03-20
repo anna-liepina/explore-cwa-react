@@ -1,11 +1,13 @@
-import axios from 'axios';
-import { Map, Marker } from 'pigeon-maps';
-import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import Drawer from '../drawer';
-import { filter } from '../filtering/filter';
-import FormHandler from './form-handler';
+import PropTypes from 'prop-types';
+
+import { Map, Marker } from 'pigeon-maps';
+import axios from 'axios';
+
 import Query from './query';
+import Drawer from '../drawer';
+import FormHandler from './form-handler';
+import { filter } from '../filtering/filter';
 
 const onFilter = (data, pattern) => {
     pattern = (pattern || '').toLowerCase();
@@ -54,7 +56,7 @@ const onSearch = async (props, state, c, onSuccess, onError) => {
 
             for (const v of data.propertySearchWithInRange) {
                 const { postcode: { postcode } } = v;
-                if (undefined == cache[postcode]) {
+                if (undefined === cache[postcode]) {
                     cache[postcode] = [];
                 }
 
