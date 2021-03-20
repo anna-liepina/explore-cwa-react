@@ -12,3 +12,34 @@
         flex: 1;
     }
 }
+
+.map-handler__range-input input {
+    &:hover {
+        opacity: 1;
+    }
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 1rem;
+        height: 1rem;
+        background: #000;
+        cursor: pointer;
+    }
+
+    &::-moz-range-thumb {
+        width: 1rem;
+        height: 1rem;
+        background: #000;
+        cursor: pointer;
+    }
+
+    -webkit-appearance: none;
+    height: 1rem;
+    background: #d3d3d3;
+    outline: none;
+    border: none;
+    opacity: 0.5;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}

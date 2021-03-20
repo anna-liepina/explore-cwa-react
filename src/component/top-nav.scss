@@ -2,27 +2,22 @@
     display: flex;
     flex: 1 0 100%;
 
-    &__logo--main {
-        height: 4rem;
+    height: 3rem;
+    box-sizing: border-box;
+
+    &__logo--main,
+    &__logo--github,
+    &__item {
         box-sizing: border-box;
-        margin-left: auto;
+        height: 3rem;
+    }
+
+    &__item,
+    &__logo--github {
+        padding: .25rem;
     }
 
     &__item {
         margin-left: auto;
-        padding: .5rem;
-        height: 3rem;
-        width: 3rem;
     }
-
-    &__logo--github {
-        height: 4rem;
-        width: 4rem;
-        padding: .5rem;
-        box-sizing: border-box;
-    }
-
-    // &__link--github {
-    //     margin-left: auto;
-    // }
 }
