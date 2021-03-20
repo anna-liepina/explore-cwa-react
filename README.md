@@ -15,7 +15,7 @@
 
 ##### THIS IS A SPARE TIME PROJECT, WORK IN PROGRESS!
 
-# 'Data Explore' client web application [CWA] 
+# 'Data Explorer' client web application [CWA] 
 
 the project aims to parse UK government data on the property sales, and some geo data to link postcodes by latitude and longitude.
 This project is done to demonstrate my knowledge, which I learned recently as I try to get into the software development industry, I had a mentor to help me out
