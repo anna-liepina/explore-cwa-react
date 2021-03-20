@@ -12,7 +12,14 @@
         flex: 1;
     }
 }
-
+.map-handler--disabled-location {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .5rem;
+    padding: .25rem;
+    background: #d9d9d9;
+}
 .map-handler__range-input input {
     &:hover {
         opacity: 1;
