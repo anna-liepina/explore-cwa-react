@@ -8,7 +8,7 @@ const Drawer = ({ 'data-cy': cy, isOpen, timeout = 300, className, onClose, chil
         () => {
             setTimeout(setOpen.bind(this, true), timeout)
         },
-        []
+        [timeout]
     )
 
     const handleOnClose = (e) => {
