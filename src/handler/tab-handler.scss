@@ -1,6 +1,7 @@
 .tab-handler {
     list-style-type: none;
     display: flex;
+    margin: 0;
 
     border-bottom: 1px solid;
 }
@@ -12,6 +13,7 @@
     border-bottom: none;
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
+    font-size: .75rem;
 
     text-transform: uppercase;
     padding: .5rem 1.5rem .5rem 1.5rem;;

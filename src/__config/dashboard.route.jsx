@@ -147,6 +147,7 @@ const tabs = [
                     min: '1',
                     max: '5',
                     value: 1,
+                    className: 'map-handler__range-input',
                 };
 
                 c.config[0].items.pop();
