@@ -18,13 +18,12 @@
             content: '\2013';
         }
     }
-
 }
 
 .accordion--flex {
     display: flex;
 
-    .form-input {
+    .form-input_label {
         flex: 1;
         box-sizing: border-box;
         padding: .5rem;

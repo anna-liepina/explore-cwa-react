@@ -2,7 +2,7 @@
 
 exports[`<FormField/> render with default/required props 1`] = `
 <label
-  className="form-input form-input_label "
+  className="form-input_label "
 >
   <Component
     data-cy=""
@@ -12,7 +12,7 @@ exports[`<FormField/> render with default/required props 1`] = `
 
 exports[`<FormField/> render with optional props [::errors] as "{{error}}" 1`] = `
 <label
-  className="form-input form-input_label "
+  className="form-input_label "
 >
   <Component
     data-cy=""
