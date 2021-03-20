@@ -24,6 +24,14 @@ const onFilter = (data, pattern) => {
 
 const onSearch = async (props, state, c, onSuccess, onError) => {
     const [{ value: postcode }, { value: range }] = state.config[0].items;
+
+    if (
+        (undefined === postcode || 0 === postcode.length)
+        && (undefined === c || undefined === c.latitude || undefined === c.longitude)
+    ) {
+        return;
+    }
+
     const { latitude, longitude } = (0 !== postcode.length) ? postcode[0] : c;
 
     return axios
@@ -253,7 +261,13 @@ export default class MapHandler extends PureComponent {
     }
 
     onMapMove({ center: [latitude, longitude], zoom }) {
-        if (latitude === this.state.coords.latitude && longitude === this.state.coords.longitude) {
+        const { coords } = this.state;
+
+        if (
+            coords
+            && latitude === coords.latitude
+            && longitude === coords.longitude
+        ) {
             return;
         }
 
@@ -266,10 +280,15 @@ export default class MapHandler extends PureComponent {
 
         let { latitude, longitude } = coords;
 
+        if (data && 0 !== data.length) {
+            latitude = data[0].lat;
+            longitude = data[0].lng;
+        }
+
         return <section className="map-handler">
             {
-                postcode &&
-                <Drawer onClose={this.onDetailsClose}>
+                postcode
+                && <Drawer onClose={this.onDetailsClose}>
                     <Query
                         postcode={postcode}
                         onMount={onSearchDetails}
@@ -284,6 +303,13 @@ export default class MapHandler extends PureComponent {
                 {...this.props.form}
                 onSubmit={this.onSearch}
             />
+            {
+                undefined === coords.latitude
+                && undefined === coords.longitude
+                && <div className="map-handler--disabled-location">
+                    location services are not supported, search by postcode only
+                </div>
+            }
             {
                 isLoading
                 && <div data-cy={`${cy}is-loading`} className="query--loading">

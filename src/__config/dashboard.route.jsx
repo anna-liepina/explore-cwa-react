@@ -109,6 +109,7 @@ const tabs = [
 
                 c.config[0].items[0] = {
                     ...c.config[0].items[0],
+                    maxValues: 1,
                     onFilter: (props, state, onSuccess, onError) => {
                         const pattern = state.pattern.toUpperCase();
 
