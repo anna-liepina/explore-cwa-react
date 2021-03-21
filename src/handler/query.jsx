@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class Query extends PureComponent {
     constructor() {
         super();
-        
+
         this.state = {
             isLoading: true,
             data: undefined,
@@ -37,7 +37,7 @@ export default class Query extends PureComponent {
         const { isLoading } = this.state;
 
         if (isLoading) {
-            return <div data-cy={`${cy}is-loading`} className="query--loading">
+            return <div data-cy={`${cy}--query`} className="query--loading">
                 <div/>
                 <div/>
             </div>;

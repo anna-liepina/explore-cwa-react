@@ -10,14 +10,14 @@ export default class DrawerHandler extends PureComponent {
             isExpanded,
         }
 
-        this.onExpand = this.onExpand.bind(this);
+        this.onToggle = this.onToggle.bind(this);
     }
 
-    onExpand() {
+    onToggle() {
         const { isExpanded } = this.state;
-        const { onExpand } = this.props;
+        const { onToggle } = this.props;
 
-        this.setState({ isExpanded: !isExpanded }, () => onExpand && onExpand(!isExpanded));
+        this.setState({ isExpanded: !isExpanded }, () => onToggle && onToggle(!isExpanded));
     }
 
     render() {
@@ -25,10 +25,10 @@ export default class DrawerHandler extends PureComponent {
         const { 'data-cy': cy, className, children, button: Button } = this.props;
 
         return <>
-            <Button data-cy={`${cy}-button`} onClick={this.onExpand} className={className} />
+            <Button data-cy={`${cy}-close-button`} onClick={this.onToggle} className={className} />
             {
                 isExpanded
-                && <Drawer data-cy={`${cy}-drawer`} title="postcode tree" onClose={this.onExpand}>
+                && <Drawer data-cy={`${cy}-drawer`} title="postcode tree" onClose={this.onToggle}>
                     {children}
                 </Drawer>
             }
@@ -39,7 +39,7 @@ export default class DrawerHandler extends PureComponent {
         'data-cy': PropTypes.string,
         className: PropTypes.string,
         isExpanded: PropTypes.bool,
-        onExpand: PropTypes.func,
+        onToggle: PropTypes.func,
     }
 
     static defaultProps = {
