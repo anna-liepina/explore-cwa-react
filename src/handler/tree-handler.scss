@@ -1,18 +1,18 @@
 .tree {
     &_input {
-        background: #dadada;
-        width: 35rem;
-        font-size: 1.5rem;
+        background: #fff;
+        font-size: 1rem;
         color: #000;
         border: none;
         border-bottom: 1px dashed #000;
-        background: transparent;
-        line-height: 1.5rem;
+        width: 100%;
         text-transform: uppercase;
+
+        position: sticky;
+        top: 0;
     }
 
     &_content {
-        max-height: 40rem;
         overflow: auto;
     }
 }

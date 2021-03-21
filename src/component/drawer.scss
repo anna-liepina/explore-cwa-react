@@ -16,6 +16,9 @@
     width: 0;
 }
 
+.drawer_head {
+}
+
 .drawer--open {
     width: 40%;
 }
@@ -25,6 +28,7 @@
     border: none;
     background: transparent;
     font-size: 2rem;
+    margin-left: .5rem;
 }
 
 .drawer_content {
@@ -33,7 +37,7 @@
     overflow: auto;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem;
 }
 
 .drawer_overlay {

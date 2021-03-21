@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Query from '../handler/query';
 import TreeHandler from '../handler/tree-handler';
-import SectionHandler from '../handler/section-handler';
+import DrawerHandler from '../handler/drawer-handler';
 import { graphql } from '../parameters';
 import { filter } from '../filtering/filter';
 import axios from 'axios';
@@ -81,14 +81,14 @@ const TopNav = ({ 'data-cy': cy, className, ...props }) =>
         <Link to="/" className="topnav__link">
             <img data-cy={`${cy}topnav__logo`} className="topnav__logo--main" alt="Logo" src="/assets/img/1.png" />
         </Link>
-        <SectionHandler
+        <DrawerHandler
             data-cy="topnav-postcode_tree"
             button={(props) => <img {...props} className={`${props.className || ''} topnav__item`} alt="UK postcode areas" src="/assets/img/united-kingdom.svg" />}
         >
             <Query onMount={onMount}>
                 {(props, state) => <TreeHandler data={state.data} onFilter={onFilter} onExpand={onExpand} />}
             </Query>
-        </SectionHandler>
+        </DrawerHandler>
         <Link to="//github.com/anna-liepina/explore-cwa-react" className="topnav__link--github" target="_blank">
             <img data-cy={`${cy}topnav__github`} className="topnav__logo--github" alt="GitHub logo" src="/assets/img/github-logo.png" />
         </Link>

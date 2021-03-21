@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import Drawer from '../drawer';
 
-export default class SectionHandler extends PureComponent {
+export default class DrawerHandler extends PureComponent {
     constructor({ isExpanded }) {
         super();
 
@@ -12,10 +13,7 @@ export default class SectionHandler extends PureComponent {
         this.onExpand = this.onExpand.bind(this);
     }
 
-    onExpand(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
+    onExpand() {
         const { isExpanded } = this.state;
         const { onExpand } = this.props;
 
@@ -27,11 +25,12 @@ export default class SectionHandler extends PureComponent {
         const { 'data-cy': cy, className, children, button: Button } = this.props;
 
         return <>
-            <Button data-cy={`${cy}-button`} onClick={this.onExpand} className={`${isExpanded ? 'section-button' : ''} ${className}`} />
+            <Button data-cy={`${cy}-button`} onClick={this.onExpand} className={className} />
             {
-                isExpanded && <section data-cy={`${cy}-section`} className="section">
+                isExpanded
+                && <Drawer data-cy={`${cy}-drawer`} title="postcode tree" onClose={this.onExpand}>
                     {children}
-                </section>
+                </Drawer>
             }
         </>;
     }

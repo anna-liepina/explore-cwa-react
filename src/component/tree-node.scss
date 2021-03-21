@@ -1,8 +1,10 @@
 .tree-node {
-    margin-left: 2rem;
+    margin-left: 1rem;
 
-    &, &--with-children, &--with-children-expanded {
-        font-size: 1.25rem;
+    &,
+    &--with-children,
+    &--with-children-expanded {
+        font-size: .75rem;
         font-weight: 100;
     }
 
@@ -11,16 +13,16 @@
     }
 
     &--with-children {
-        &, &-expanded {
-            margin-left: 1rem;
+        &,
+        &-expanded {
+            margin-left: .5rem;
         }
 
         &::before, &-expanded::before {
             width: 1rem;
             display: inline-block;
             text-align: center;
-            font-size: 1rem;
-            font-weight: 900;
+            font-size: .75rem;
         }
 
         &::before {
