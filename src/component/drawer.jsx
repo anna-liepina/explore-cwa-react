@@ -6,11 +6,11 @@ const Drawer = ({ 'data-cy': cy, isOpen, timeout = 300, className, onClose, chil
 
     useEffect(
         () => {
-            document.addEventListener("keydown", onKeyPress, false);
+            document.addEventListener('keydown', onKeyPress, false);
             setTimeout(setOpen.bind(this, true), timeout);
 
             return () => {
-                document.removeEventListener("keydown", onKeyPress, false);
+                document.removeEventListener('keydown', onKeyPress, false);
             }
         },
         [timeout]
