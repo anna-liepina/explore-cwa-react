@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import Drawer from '../drawer';
 
-export default class SectionHandler extends PureComponent {
+export default class DrawerHandler extends PureComponent {
     constructor({ isExpanded }) {
         super();
 
@@ -9,17 +10,14 @@ export default class SectionHandler extends PureComponent {
             isExpanded,
         }
 
-        this.onExpand = this.onExpand.bind(this);
+        this.onToggle = this.onToggle.bind(this);
     }
 
-    onExpand(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
+    onToggle() {
         const { isExpanded } = this.state;
-        const { onExpand } = this.props;
+        const { onToggle } = this.props;
 
-        this.setState({ isExpanded: !isExpanded }, () => onExpand && onExpand(!isExpanded));
+        this.setState({ isExpanded: !isExpanded }, () => onToggle && onToggle(!isExpanded));
     }
 
     render() {
@@ -27,11 +25,12 @@ export default class SectionHandler extends PureComponent {
         const { 'data-cy': cy, className, children, button: Button } = this.props;
 
         return <>
-            <Button data-cy={`${cy}-button`} onClick={this.onExpand} className={`${isExpanded ? 'section-button' : ''} ${className}`} />
+            <Button data-cy={`${cy}-close-button`} onClick={this.onToggle} className={className} />
             {
-                isExpanded && <section data-cy={`${cy}-section`} className="section">
+                isExpanded
+                && <Drawer data-cy={`${cy}-drawer`} title="postcode tree" onClose={this.onToggle}>
                     {children}
-                </section>
+                </Drawer>
             }
         </>;
     }
@@ -40,7 +39,7 @@ export default class SectionHandler extends PureComponent {
         'data-cy': PropTypes.string,
         className: PropTypes.string,
         isExpanded: PropTypes.bool,
-        onExpand: PropTypes.func,
+        onToggle: PropTypes.func,
     }
 
     static defaultProps = {
