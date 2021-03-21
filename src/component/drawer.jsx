@@ -6,10 +6,25 @@ const Drawer = ({ 'data-cy': cy, isOpen, timeout = 300, className, onClose, chil
 
     useEffect(
         () => {
-            setTimeout(setOpen.bind(this, true), timeout)
+            document.addEventListener('keydown', onKeyPress, false);
+            setTimeout(setOpen.bind(this, true), timeout);
+
+            return () => {
+                document.removeEventListener('keydown', onKeyPress, false);
+            }
         },
         [timeout]
     )
+
+    const onKeyPress = (event) => {
+        switch (event.key) {
+            default:
+                return;
+            case 'Escape':
+                handleOnClose();
+                break;
+        }
+    }
 
     const handleOnClose = (e) => {
         setOpen(false);
