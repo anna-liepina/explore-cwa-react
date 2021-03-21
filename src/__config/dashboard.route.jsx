@@ -104,6 +104,7 @@ const tabs = [
         label: 'map',
         c: MapHandler,
         props: {
+            'data-cy': 'mapview',
             form: (() => {
                 const c = composeConfig();
 
