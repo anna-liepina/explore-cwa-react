@@ -149,7 +149,7 @@ class DrawerTable extends PureComponent {
                         <h3 className="drawer-header">
                             {
                                 chunks && 0 !== chunks.length
-                                    ? chunks.map(({ v, isMatch }, i) => <span key={i} className={isMatch ? 'drawer-header--match' : ''}>{v}</span>)
+                                    ? chunks.map(({ v, isMatch }, i) => <span key={i} className={`drawer-header${isMatch ? '--match' : ''}`}>{v}</span>)
                                     : text
                             }
                         </h3>
@@ -158,7 +158,7 @@ class DrawerTable extends PureComponent {
                                 transactions.map(({ date, price }, i) =>
                                     <tr key={i} className="drawer-table--row" >
                                         <td className="drawer-table--cell">{date}</td>
-                                        <td sclassName="drawer-table--cell">{(price).toLocaleString()}</td>
+                                        <td className="drawer-table--cell">{(price).toLocaleString()}</td>
                                     </tr>
                                 )
                             }

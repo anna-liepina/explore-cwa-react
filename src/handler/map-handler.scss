@@ -12,6 +12,22 @@
         flex: 1;
     }
 }
+.drawer-header--match {
+    background: chocolate;
+}
+.drawer-table--input {
+    background: #fff;
+    font-size: 1rem;
+    color: #000;
+    border: none;
+    border-bottom: 1px dashed #000;
+    width: 100%;
+    text-transform: uppercase;
+
+    position: sticky;
+    top: 0;
+}
+
 .map-handler--disabled-location {
     display: flex;
     align-items: center;
@@ -20,6 +36,7 @@
     padding: .25rem;
     background: #d9d9d9;
 }
+
 .map-handler__range-input input {
     &:hover {
         opacity: 1;
