@@ -80,11 +80,10 @@ export default class TableHandler extends PureComponent {
                     data
                     && <tbody className="table-content">
                         {
-                            data.map(
-                                (row, i) =>
-                                    <tr key={i} className="table-row">
-                                        {columns.map(({ key }, j) => <td key={j} className="table-row-cell">{row[key]}</td>)}
-                                    </tr>
+                            data.map((row, i) =>
+                                <tr key={i} className="table-row">
+                                    {columns.map(({ key }, j) => <td key={j} className="table-row-cell">{row[key]}</td>)}
+                                </tr>
                             )
                         }
                     </tbody>
