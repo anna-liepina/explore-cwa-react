@@ -92,4 +92,4 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 |---                |---                |---        |---
 | PORT              | 8080              | number    | port on which application will be made available
 | REACT_APP_GRAPHQL | //localhost:8081  | string    | GraphQL backend URI
-| REACT_APP_TITLE   | EXAMPLE           | string    | website's title
+| REACT_APP_TITLE   | DATA EXPLORER     | string    | website's title
