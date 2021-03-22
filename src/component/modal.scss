@@ -1,0 +1,42 @@
+.modal {
+    margin: auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 2rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 33%;
+    flex-direction: column;
+
+    &_container {
+        top: 0;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        background: #00000060;
+    }
+
+    &_head {
+        margin-left: auto;
+    }
+
+    &_content {
+        display: flex;
+        flex-wrap: wrap;
+        flex-basis: 100%;
+    }
+
+    &_button--close {
+        background: transparent;
+        border: none;
+        padding: 0;
+
+        text-align: center;
+        font-size: 2rem;
+        line-height: 2rem;
+
+        cursor: pointer;
+    }
+}

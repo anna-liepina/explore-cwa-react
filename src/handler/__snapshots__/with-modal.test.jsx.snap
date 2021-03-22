@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<WithModal/> as HOC render with default/required props 1`] = `
+<Fragment>
+  <Component
+    data-cy="{{data-cy}}"
+    history={
+      Object {
+        "goBack": [MockFunction],
+      }
+    }
+  />
+</Fragment>
+`;
+
+exports[`<WithModal/> as HOC render with location.state.isModal as true 1`] = `
+<Fragment>
+  <Component
+    data-cy="{{data-cy}}"
+    history={
+      Object {
+        "goBack": [MockFunction],
+      }
+    }
+  />
+  <_default
+    onClose={[MockFunction]}
+  >
+    <Switch>
+      <Route
+        component={[Function]}
+        data-cy="{{data-cy}}"
+        history={
+          Object {
+            "goBack": [MockFunction],
+          }
+        }
+        key="0"
+        path={
+          Array [
+            "/explore/:id",
+          ]
+        }
+      />
+    </Switch>
+  </_default>
+</Fragment>
+`;
