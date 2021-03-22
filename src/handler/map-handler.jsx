@@ -23,17 +23,14 @@ const onFilter = (data, pattern) => {
 };
 
 const onSearch = async ({ config }, state, onSuccess, onError) => {
-    const [{ value: postcode }, { value: range }] = config[0].items;
+    const [, { value: range }] = config[0].items;
     const { point } = state;
 
-    if (
-        (undefined === postcode || 0 === postcode.length)
-        && (undefined === point)
-    ) {
+    if (undefined === point) {
         return;
     }
 
-    const { latitude, longitude } = (0 !== postcode.length) ? postcode[0] : point;
+    const { latitude, longitude } = point;
 
     return axios
         .post(
@@ -49,7 +46,6 @@ const onSearch = async ({ config }, state, onSuccess, onError) => {
         range: ${range}
         perPage: 2500
     ) {
-        distance
         postcode {
             postcode
             lat
@@ -87,6 +83,7 @@ const onSearch = async ({ config }, state, onSuccess, onError) => {
 
 const onSearchDetails = (props, state, onSuccess, onError) => {
     const { postcode } = props;
+
     return axios
         .post(
             process.env.REACT_APP_GRAPHQL,
@@ -115,6 +112,16 @@ const onSearchDetails = (props, state, onSuccess, onError) => {
         })
         .catch(onError);
 };
+
+const extractPoint = ({ config }) => {
+    const { value: points } = config[0].items[0];
+
+    if (undefined === points || 0 === points.length) {
+        return undefined;
+    }
+
+    return points[0];
+}
 
 class DrawerTable extends PureComponent {
     constructor({ data }) {
@@ -227,7 +234,6 @@ export default class MapHandler extends PureComponent {
             coords,
             postcode,
             zoom,
-            search: undefined,
         };
 
         this.onSuccess = this.onSuccess.bind(this);
@@ -236,7 +242,9 @@ export default class MapHandler extends PureComponent {
         this.onDrawerToggle = this.onDrawerToggle.bind(this);
 
         this.onSearch = this.onSearch.bind(this);
-        this.onMapMove = this.onMapMove.bind(this);
+
+        this.onMapSearch = this.onMapSearch.bind(this);
+        this.onFormSearch = this.onFormSearch.bind(this);
     }
 
     componentDidMount() {
@@ -258,11 +266,11 @@ export default class MapHandler extends PureComponent {
     }
 
     onSearch() {
-        this.setState({ isLoading: true }, () => { onSearch(this.props.form, this.state, this.onSuccess, this.onError); });
+        onSearch(this.props.form, this.state, this.onSuccess, this.onError)
     }
 
-    onMapMove({ center: [latitude, longitude], zoom }) {
-        const { point = {} } = this.state;
+    onMapSearch({ center: [latitude, longitude], zoom }) {
+        const { point } = this.state;
 
         if (
             point
@@ -272,13 +280,18 @@ export default class MapHandler extends PureComponent {
             return;
         }
 
-        this.setState({ point: { latitude, longitude }, zoom, isLoading: true }, this.onSearch);
+        this.setState({ point: { latitude, longitude }, isLoading: true, zoom }, this.onSearch);
+    }
+
+    onFormSearch() {
+        const point = extractPoint(this.props.form) || this.state.point;
+
+        this.setState({ point, isLoading: true }, this.onSearch);
     }
 
     render() {
         const { 'data-cy': cy } = this.props;
-        const { postcode, isLoading, coords, zoom, data, point = {}, } = this.state;
-
+        const { postcode, isLoading, coords, zoom, data, point = {} } = this.state;
         const { latitude, longitude } = point;
 
         return <section className="map-handler">
@@ -308,16 +321,18 @@ export default class MapHandler extends PureComponent {
             <FormHandler
                 {...this.props.form}
                 data-cy={cy}
-                onSubmit={this.onSearch}
+                onSubmit={this.onFormSearch}
             />
             {
                 undefined === coords
                 && <div data-cy={`${cy}--notification--no-geo`} className="map-handler--disabled-location">
-                    location services are not enabled, search by postcode only
+                    location services are not enabled, search by your current postcode is not possible
                 </div>
             }
             {
                 isLoading
+                && undefined !== latitude
+                && undefined !== longitude
                 && <div data-cy={`${cy}--loading`} className="query--loading">
                     <div />
                     <div />
@@ -332,7 +347,7 @@ export default class MapHandler extends PureComponent {
                     zoom={zoom}
                     width={window.innerWidth}
                     height={560}
-                    onBoundsChanged={this.onMapMove}
+                    onBoundsChanged={this.onMapSearch}
                     attribution={false}
                     attributionPrefix={false}
                 >
@@ -351,11 +366,13 @@ export default class MapHandler extends PureComponent {
         'data-cy': PropTypes.string,
         className: PropTypes.string,
         zoom: PropTypes.number,
+        isLoading: PropTypes.bool,
     }
 
     static defaultProps = {
         'data-cy': '',
         className: '',
         zoom: 15,
+        isLoading: true,
     }
 }
