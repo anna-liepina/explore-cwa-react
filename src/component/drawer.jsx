@@ -1,32 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const Drawer = ({ 'data-cy': cy, isOpen, timeout = 300, className, onClose, children }) => {
-    const [_isOpen, setOpen] = useState(isOpen);
+const Drawer = ({ 'data-cy': cy, className, isOpen: _isOpen, timeout = 250, onClose, children }) => {
+    const [isOpen, setOpen] = useState(_isOpen);
 
     useEffect(
         () => {
-            document.addEventListener('keydown', onKeyPress, false);
             setTimeout(setOpen.bind(this, true), timeout);
+
+            const onKeyPress = (event) => {
+                switch (event.key) {
+                    default:
+                        return;
+                    case 'Escape':
+                        setOpen(false);
+
+                        setTimeout(onClose, timeout);
+                        return;
+                }
+            }
+
+            document.addEventListener('keydown', onKeyPress, false);
 
             return () => {
                 document.removeEventListener('keydown', onKeyPress, false);
             }
         },
-        [timeout]
+        [timeout, onClose]
     )
 
-    const onKeyPress = (event) => {
-        switch (event.key) {
-            default:
-                return;
-            case 'Escape':
-                handleOnClose();
-                break;
-        }
-    }
-
-    const handleOnClose = (e) => {
+    const handleOnClose = () => {
         setOpen(false);
 
         setTimeout(onClose, timeout);
@@ -34,9 +37,9 @@ const Drawer = ({ 'data-cy': cy, isOpen, timeout = 300, className, onClose, chil
 
     return <div className="drawer_overlay">
         <nav
-            className={`drawer${_isOpen ? '--open' : ''} ${className}`}
+            className={`drawer${isOpen ? '--open' : ''} ${className}`}
             data-cy={`${cy}--drawer`}
-            style={{ transition: `width ${timeout / 1000}s` }}
+            style={{ transitionDuration: `${timeout / 1000}s` }}
         >
             <div className="drawer_head">
                 <button
