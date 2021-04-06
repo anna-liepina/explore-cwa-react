@@ -14,9 +14,8 @@
 
 .drawer {
     width: 0;
-}
-
-.drawer_head {
+    transition-property: width;
+    transition-timing-function: ease;
 }
 
 .drawer--open {
