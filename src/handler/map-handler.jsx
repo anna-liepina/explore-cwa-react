@@ -234,7 +234,10 @@ export default class MapHandler extends PureComponent {
             coords,
             postcode,
             zoom,
+            width: window.innerWidth,
         };
+
+        this.updateDimensions = this.updateDimensions.bind(this);
 
         this.onSuccess = this.onSuccess.bind(this);
         this.onError = this.onError.bind(this);
@@ -251,6 +254,16 @@ export default class MapHandler extends PureComponent {
         navigator.geolocation.getCurrentPosition(
             ({ coords }) => this.setState({ point: coords, coords, isLoading: true }, this.onSearch)
         );
+
+        window.addEventListener('resize', this.updateDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateDimensions);
+    }
+
+    updateDimensions() {
+        this.setState({ width: window.innerWidth });
     }
 
     onSuccess(data) {
@@ -291,7 +304,7 @@ export default class MapHandler extends PureComponent {
 
     render() {
         const { 'data-cy': cy } = this.props;
-        const { postcode, isLoading, coords, zoom, data, point = {} } = this.state;
+        const { postcode, isLoading, coords, zoom, data, point = {}, width } = this.state;
         const { latitude, longitude } = point;
 
         return <section className="map-handler">
@@ -345,7 +358,7 @@ export default class MapHandler extends PureComponent {
                 && <Map
                     center={[latitude, longitude]}
                     zoom={zoom}
-                    width={window.innerWidth}
+                    width={width}
                     height={560}
                     onBoundsChanged={this.onMapSearch}
                     attribution={false}
