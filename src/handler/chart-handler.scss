@@ -1,21 +1,13 @@
 .chart-handler {
     flex-flow: column;
-
-    // > :first-child {
-    //     flex: 1;
-    // }
-
-    // > :last-child {
-    //     flex: 3;
-    // }
 }
 
 .chart-handler_button--submit {
     background: transparent;
-    /* height: 2.5rem; */
-    padding: 1rem 2rem 1rem 2rem;
+    padding: .75rem 1.25rem;
     border-radius: 2rem;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 1rem;
+    cursor: pointer;
 }
