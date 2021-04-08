@@ -99,7 +99,6 @@ const composeConfig = () => ({
 });
 
 const tabs = [
-
     {
         label: 'map',
         c: MapHandler,
@@ -146,9 +145,10 @@ const tabs = [
                     attr: 'range',
                     label: 'range',
                     type: 'range',
-                    min: '1',
-                    max: '5',
-                    value: 1,
+                    step: .5,
+                    min: .5,
+                    max: 5,
+                    value: .5,
                     className: 'map-handler__range-input',
                 };
 
