@@ -14,9 +14,8 @@
 
 .drawer {
     width: 0;
-}
-
-.drawer_head {
+    transition-property: width;
+    transition-timing-function: ease;
 }
 
 .drawer--open {
@@ -24,6 +23,7 @@
 }
 
 .drawer_button--close {
+    cursor: pointer;
     display: flex;
     border: none;
     background: transparent;
