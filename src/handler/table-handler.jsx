@@ -73,8 +73,10 @@ export default class TableHandler extends PureComponent {
                 onSubmit={this.onSearch}
             />
             <table className="table">
-                <thead className="table-row table-row-header">
-                    {columns.map(({ label }, i) => <th key={i} className="table-row-cell">{label}</th>)}
+                <thead>
+                    <tr className="table-row table-row-header">
+                        {columns.map(({ label }, i) => <th key={i} className="table-row-cell">{label}</th>)}
+                    </tr>
                 </thead>
                 {
                     data
