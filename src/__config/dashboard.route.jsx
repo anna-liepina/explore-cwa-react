@@ -170,7 +170,42 @@ const tabs = [
         label: 'transactions',
         c: TableHandler,
         props: {
-            form: composeConfig(),
+            form: (() => {
+                const c = composeConfig();
+
+                c.config[0].items[0] = {
+                    ...c.config[0].items[0],
+                    maxValues: 1,
+                    onFilter: (props, state, onSuccess, onError) => {
+                        const pattern = state.pattern.toUpperCase();
+
+                        if (pattern.length < 2) {
+                            return;
+                        }
+
+                        return axios
+                            .post(
+                                process.env.REACT_APP_GRAPHQL,
+                                {
+                                    query: `
+{
+    postcodeSearch(pattern: "${pattern}") {
+        postcode
+    }
+}`
+                                }
+                            )
+                            .then(({ data: { data } }) => {
+                                onSuccess(data.postcodeSearch);
+                            })
+                            .catch(onError);
+                    }
+                }
+
+                c.isValid = true;
+
+                return c;
+            })(),
             columns: [
                 {
                     label: 'date',
