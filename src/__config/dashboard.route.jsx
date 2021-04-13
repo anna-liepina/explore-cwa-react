@@ -196,7 +196,9 @@ const tabs = [
                                 }
                             )
                             .then(({ data: { data } }) => {
-                                onSuccess(data.postcodeSearch);
+                                const v = data.postcodeSearch.map(({ postcode: v }) => ({ label: v, value: v }));
+
+                                onSuccess(v);
                             })
                             .catch(onError);
                     }
