@@ -124,8 +124,8 @@ const tabs = [
                                     query: `
 {
     postcodeSearch(pattern: "${pattern}") {
-        lat
         postcode
+        lat
         lng
     }
 }`
