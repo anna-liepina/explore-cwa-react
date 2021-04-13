@@ -4,11 +4,14 @@ import axios from 'axios';
 
 import FormHandler from './form-handler';
 
-const onSubmit = (props, state, onSuccess, onError) => {
-    const [, { value: from }, { value: to }] = state.config[0].items;
-    // const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
+const search = (props, state, onSuccess, onError) => {
+    const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
+    const { page = 1 } = state;
 
-    // postcodes.map(({ value: v }) => v).join('", "');
+    if (!postcodes || 0 === postcodes.length) {
+        return;
+    }
+
     return axios
         .post(
             process.env.REACT_APP_GRAPHQL,
@@ -16,39 +19,61 @@ const onSubmit = (props, state, onSuccess, onError) => {
                 query: `
 {
     transactionSearch(
+        postcode: "${postcodes[0].value}"
         ${from ? `from: "${from}"` : ''}
         ${to ? `to: "${to}"` : ''}
-        page: 1
-        perPage: 100)
+        page: ${page}
+        perPage: 50
+    )
     {
-        id
         price
         date
+        property {
+            postcode {
+                postcode
+            }
+            street
+            saon
+            paon 
+        }
     }
 }
 `
             }
         )
         .then(({ data: { data } }) => {
-            onSuccess(data.transactionSearch);
+            const arr = (state.data || []);
+
+            for (const row of data.transactionSearch) {
+                const { property: { postcode, street, paon, saon } } = row;
+
+                row.address = `${postcode.postcode || ''} ${street || ''}${paon ? `, ${paon}` : ''} ${saon || ''}`;
+            }
+
+            const result = arr.concat(data.transactionSearch);
+
+            onSuccess(result);
         })
         .catch(onError);
 };
 
 export default class TableHandler extends PureComponent {
-    constructor() {
+    constructor({ isLoading, data, page, perPage, errors }) {
         super();
 
         this.state = {
-            isLoading: true,
-            data: undefined,
-            errors: [],
+            isLoading,
+            data,
+            page,
+            perPage,
+            errors,
         }
 
         this.onSuccess = this.onSuccess.bind(this);
         this.onError = this.onError.bind(this);
 
         this.onSearch = this.onSearch.bind(this);
+        this.onScroll = this.onScroll.bind(this);
     }
 
     onSuccess(data) {
@@ -60,21 +85,43 @@ export default class TableHandler extends PureComponent {
     }
 
     onSearch(props, state) {
-        onSubmit(props, state, this.onSuccess, this.onError);
+        this.setState({ page: 1, isLoading: true }, () => search(undefined, state, this.onSuccess, this.onError));
+    }
+
+    onScroll({ target }) {
+        const isBottom = target.scrollHeight - target.scrollTop === target.clientHeight;
+
+        if (isBottom) {
+            const { page } = this.state;
+
+            this.setState(
+                { page: page + 1 },
+                () => {
+                    search(
+                        undefined,
+                        { ...this.props.form, page: page + 1, data: this.state.data },
+                        this.onSuccess,
+                        this.onError
+                    )
+                }
+            );
+        }
     }
 
     render() {
-        const { columns } = this.props;
-        const { data } = this.state;
+        const { 'data-cy': cy, columns } = this.props;
+        const { data, isLoading } = this.state;
 
         return <>
             <FormHandler
                 {...this.props.form}
                 onSubmit={this.onSearch}
             />
-            <table className="table">
-                <thead className="table-row table-row-header">
-                    {columns.map(({ label }, i) => <th key={i} className="table-row-cell">{label}</th>)}
+            <table className="table" onScroll={this.onScroll}>
+                <thead>
+                    <tr className="table-row table-row-header">
+                        {columns.map(({ label }, i) => <th key={i} className="table-row-cell">{label}</th>)}
+                    </tr>
                 </thead>
                 {
                     data
