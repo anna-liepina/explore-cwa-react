@@ -1,31 +1,48 @@
 import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import TabHandler from './chart-handler';
+import '@testing-library/jest-dom/extend-expect';
+import { render, fireEvent } from '@testing-library/react';
+import TabHandler from './tab-handler';
 
-configure({ adapter: new Adapter() });
-
-describe.skip('<TabHandler/>', () => {
+describe('<TabHandler/>', () => {
     const props = {
-
+        tabs: [
+            {
+                label: 'tab 0',
+                c: (props) => <span className='tab0' {...props} />,
+            },
+            {
+                label: 'tab 1',
+                c: (props) => <span className='tab1' {...props} />,
+                props: {
+                    'data-cy': '{{data-cy}}',
+                }
+            },
+        ],
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const c = shallow(<TabHandler {...props} />);
+            const { asFragment } = render(<TabHandler {...props} />);
 
-            expect(c).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
-        describe('with optional props', () => {
-            [
-                ['data-cy', '{{data-cy}}'],
-            ].forEach(([prop, v]) => {
-                it(`[::${prop}] as "${v}"`, () => {
-                    const c = shallow(<TabHandler {...props} {...{ [prop]: v }} />);
+        it('with default/required props with preset tabId', () => {
+            const { asFragment } = render(<TabHandler {...props} tabId={1} />);
 
-                    expect(c).toMatchSnapshot();
-                });
+            expect(asFragment()).toMatchSnapshot();
+        });
+    });
+
+    describe('external callbacks', () => {
+        describe('onChange', () => {
+            it('should be invoked from a click on a tab [data-cy="tab-$ID"]', () => {
+                const spy = jest.fn();
+                const { container } = render(<TabHandler {...props} onChange={spy} />);
+
+                fireEvent.click(container.querySelector('[data-cy="tab-1"]'));
+
+                expect(spy).toHaveBeenCalled();
             });
         });
     });
