@@ -13,13 +13,6 @@ describe('<DrawerHandler/>', () => {
         'data-cy': '{{data-cy}}',
     };
 
-    let portal = document.getElementById('drawer');
-    if (!portal) {
-        portal = document.createElement('div');
-        portal.setAttribute('id', 'drawer');
-        document.body.appendChild(portal);
-    }
-
     describe('render', () => {
         it('with default/required props', () => {
             const { asFragment } = render(<DrawerHandler {...props} />);
