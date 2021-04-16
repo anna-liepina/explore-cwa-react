@@ -12,7 +12,7 @@ describe.skip('<Drawer/>', () => {
         it('with default/required props', () => {
             const { container } = render(<Drawer {...props} />);
 
-            expect(container.querySelector('[data-cy="-Drawer-close"]')).toBeInTheDocument();
+            expect(container.querySelector('[data-cy="-drawer-close"]')).toBeInTheDocument();
         });
     });
 
@@ -20,7 +20,7 @@ describe.skip('<Drawer/>', () => {
         describe('onClose', () => {
             const { container } = render(<Drawer {...props} />);
 
-            fireEvent.click(container.querySelector('[data-cy="-Drawer-close"]'));
+            fireEvent.click(container.querySelector('[data-cy="--drawer-close"]'));
 
             expect(props.onClose).toBeCalled();
         });
