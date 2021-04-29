@@ -6,19 +6,24 @@
     "node": ">=10"
   },
   "dependencies": {
-    "cypress": "^6.5.0",
+    "cypress": "^6.9.1",
     "cypress-image-snapshot": "^4.0.1",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^8.1.0"
+  },
+  "devDependencies": {
+    "cypress-multi-reporters": "^1.5.0",
     "mocha": "^5.2.0",
-    "mochawesome": "^6.2.0",
+    "mochawesome": "^6.2.2",
     "mochawesome-merge": "^4.2.0",
     "mochawesome-report-generator": "^5.2.0"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "cypress open",
     "pretest": "node ./pretest.js",
-    "test": "cypress run",
-    "posttest": "mochawesome-merge --reportDir report > report/index.json && marge --reportDir report report/index.json"
+    "test": "cypress run || :",
+    "posttest": "npm run test:report:merge && npm run test:report:generate && npm run test:report:screenshots",
+    "test:report:merge": "mochawesome-merge report/json/*.json -o report/index.json",
+    "test:report:generate": "marge report/index.json -o report/html",
+    "test:report:screenshots": "cp -r screenshots report/html/screenshots"
   }
 }

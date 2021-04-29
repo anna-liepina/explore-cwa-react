@@ -1,17 +1,24 @@
 {
-    "baseUrl": "http://localhost:8080/",
-    "env": {},
-    "reporter": "mochawesome",
-    "reporterOptions": {
-      "reportDir": "report",
-      "overwrite": false,
-      "html": false,
-      "json": true
+    "baseUrl": "https://www.data-explorer.co.uk/",
+    "env": {
     },
+    "reporter": "cypress-multi-reporters",
+    "reporterOptions": {
+        "reporterEnabled": "mochawesome, cypress-image-snapshot/reporter",
+        "mochawesomeReporterOptions": {
+            "reportDir": "report/json",
+            "overwrite": false,
+            "html": false,
+            "json": true
+        }
+    },
+    "chromeWebSecurity": false,
     "integrationFolder": "specs",
     "pluginsFile":"plugins",
     "supportFile":"support",
     "videosFolder":"videos",
     "screenshotsFolder":"screenshots",
-    "video": false
+    "video": false,
+    "viewportWidth": 1600,
+    "viewportHeight": 1000
 }
