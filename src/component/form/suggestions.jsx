@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Suggestions = ({ 'data-cy': cy, className, onClick, options, hashmap }) =>
     <div className={`suggestions ${className}`} onClick={onClick} >
         {
-            options.map(({ className, hierarchy, label, description, value: v }, i) =>
+            options.map(({ className = '', hierarchy, label, description, value: v }, i) =>
                 !(hashmap && hashmap[v]) &&
                 <div key={i} data-cy={`${cy}-suggestion-${i}`} data-id={i} className={`suggestion ${className}`}>
                     {
@@ -12,9 +12,9 @@ const Suggestions = ({ 'data-cy': cy, className, onClick, options, hashmap }) =>
                         !!hierarchy.length &&
                         <div className="suggestion__hierarchy">
                             {
-                                hierarchy.map((label, i) =>
+                                hierarchy.map((label, j) =>
                                     <span
-                                        key={i}
+                                        key={j}
                                         data-id={i}
                                         className={`suggestion__hierarchy-label ${className}`}
                                     >
