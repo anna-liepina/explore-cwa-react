@@ -4,16 +4,27 @@
 }
 
 .drawer-table {
+    &--title {
+        margin: 0;
+    }
+
     &--row {
         display: flex;
     }
 
     &--cell {
         flex: 1;
+        font-size: .75rem;
+        border-bottom: 1px dashed #000;
     }
 }
-.drawer-header--match {
-    background: chocolate;
+.drawer-header {
+    margin-bottom: 0;
+    font-size: .75rem;
+
+    &--match {
+        background: chocolate;
+    }
 }
 .drawer-table--input {
     background: #fff;
@@ -26,6 +37,29 @@
 
     position: sticky;
     top: 0;
+}
+
+.map-handler--form {
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid #000;
+    border-top: none;
+    border-right: none;
+    opacity: 0.9;
+    right: 0;
+
+    width: 12rem;
+    padding: .5rem;
+    box-sizing: border-box;
+}
+
+.map-handler--form-button {
+    background: transparent;
+    padding: 0.25rem 0.25rem;
+    text-transform: lowercase;
+    font-weight: bold;
+    font-size: .75rem;
+    cursor: pointer;
 }
 
 .map-handler--disabled-location {

@@ -147,7 +147,7 @@ class DrawerTable extends PureComponent {
         const { data, } = this.state;
 
         return <>
-            <h2 data-cy={`${cy}--title`}>{title}</h2>
+            <h2 data-cy={`${cy}--title`} className="drawer-table--title">{title}</h2>
             <input
                 data-cy={`${cy}--input`}
                 className="drawer-table--input"
@@ -235,6 +235,7 @@ export default class MapHandler extends PureComponent {
             postcode,
             zoom,
             width: window.innerWidth,
+            height: window.innerHeight - 120,
         };
 
         this.updateDimensions = this.updateDimensions.bind(this);
@@ -304,7 +305,7 @@ export default class MapHandler extends PureComponent {
 
     render() {
         const { 'data-cy': cy } = this.props;
-        const { postcode, isLoading, coords, zoom, data, point = {}, width } = this.state;
+        const { postcode, isLoading, coords, zoom, data, point = {}, width, height } = this.state;
         const { latitude, longitude } = point;
 
         return <section className="map-handler">
@@ -331,6 +332,27 @@ export default class MapHandler extends PureComponent {
                     </Query>
                 </Drawer>
             }
+            {
+                !isLoading
+                && undefined !== latitude
+                && undefined !== longitude
+                && <Map
+                    center={[latitude, longitude]}
+                    zoom={zoom}
+                    width={width}
+                    height={height}
+                    onBoundsChanged={this.onMapSearch}
+                    attribution={false}
+                    attributionPrefix={false}
+                >
+                    {
+                        data &&
+                        data.map(({ lat, lng, postcode }, i) =>
+                            <Marker key={i} anchor={[lat, lng]} payload={postcode} onClick={this.onDrawerToggle} color="#000" />
+                        )
+                    }
+                </Map>
+            }
             <FormHandler
                 {...this.props.form}
                 data-cy={cy}
@@ -351,27 +373,7 @@ export default class MapHandler extends PureComponent {
                     <div />
                 </div>
             }
-            {
-                !isLoading
-                && undefined !== latitude
-                && undefined !== longitude
-                && <Map
-                    center={[latitude, longitude]}
-                    zoom={zoom}
-                    width={width}
-                    height={560}
-                    onBoundsChanged={this.onMapSearch}
-                    attribution={false}
-                    attributionPrefix={false}
-                >
-                    {
-                        data &&
-                        data.map(({ lat, lng, postcode }, i) =>
-                            <Marker key={i} anchor={[lat, lng]} payload={postcode} onClick={this.onDrawerToggle} color="#000" />
-                        )
-                    }
-                </Map>
-            }
+
         </section>;
     }
 
