@@ -8,7 +8,7 @@ export default class Query extends PureComponent {
         this.state = {
             isLoading: true,
             data: undefined,
-            errors: [],
+            errors: undefined,
         }
 
         this.onSuccess = this.onSuccess.bind(this);
@@ -20,14 +20,18 @@ export default class Query extends PureComponent {
     }
 
     onSuccess(data) {
-        this.setState({ data, errors: undefined, isLoading: false });
-
-        this.props.onSuccess && this.props.onSuccess(this.props, this.state);
+        this.setState(
+            { data, errors: undefined, isLoading: false },
+            () => {
+                this.props.onSuccess && this.props.onSuccess(this.props, this.state)
+            }
+        );
     }
 
     onError(errors) {
-        /** display like toasts on something like that */
-        this.setState({ data: undefined, errors, isLoading: false });
+        this.setState({ data: undefined, errors, isLoading: false }, () => {
+            this.props.onError && this.props.onError(this.props, this.state);
+        });
 
         this.props.onError && this.props.onError(this.props, this.state);
     }

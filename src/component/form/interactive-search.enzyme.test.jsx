@@ -80,7 +80,7 @@ describe('<InteractiveSearch/>', () => {
 
         describe('::onChange', () => {
             it('should be invoked from internal callback ::onChange with new value, from a <Suggestions/> click event', () => {
-                const spy = spyOn(props, 'onChange');
+                const spy = jest.spyOn(props, 'onChange');
 
                 shallow(<InteractiveSearch {...props} value={[{ value: 2, label: '2' }]} maxValues={2} />)
                     .setState({ isExpanded: true, options: [{ label: '1', value: 1 }] })
@@ -97,7 +97,7 @@ describe('<InteractiveSearch/>', () => {
             });
 
             it('should be invoked from internal callback ::onRemoveOption with new value, from a <InputWithPills/> click event', () => {
-                const spy = spyOn(props, 'onChange');
+                const spy = jest.spyOn(props, 'onChange');
 
                 shallow(<InteractiveSearch {...props} value={[{ value: 2, label: '2' }]} maxValues={2} />)
                     .find('InputWithPills')
@@ -117,7 +117,7 @@ describe('<InteractiveSearch/>', () => {
     describe('internal callbacks', () => {
         describe('::onMouseEnter', () => {
             it('should be invoked from a "onMouseEnter" event on <div/> wrapper, and set internal state field ::isExpanded to true', () => {
-                const spy = spyOn(InteractiveSearch.prototype, 'setState');
+                const spy = jest.spyOn(InteractiveSearch.prototype, 'setState');
 
                 shallow(<InteractiveSearch {...props} />)
                     .find('div[onMouseEnter]')
@@ -129,7 +129,7 @@ describe('<InteractiveSearch/>', () => {
 
         describe('::onMouseLeave', () => {
             it('should be invoked from a "onMouseLeave" event on <div/> wrapper, and set internal state field ::isExpanded to false', () => {
-                const spy = spyOn(InteractiveSearch.prototype, 'setState');
+                const spy = jest.spyOn(InteractiveSearch.prototype, 'setState');
 
                 shallow(<InteractiveSearch {...props} />)
                     .find('div[onMouseLeave]')
@@ -141,7 +141,7 @@ describe('<InteractiveSearch/>', () => {
 
         describe('::onKeyDown', () => {
             it('should be invoked from a <InputWithPills/> ::onChange event', () => {
-                const spy = spyOn(InteractiveSearch.prototype, 'onKeyDown');
+                const spy = jest.spyOn(InteractiveSearch.prototype, 'onKeyDown');
 
                 shallow(<InteractiveSearch {...props} />)
                     .find('InputWithPills')
@@ -151,7 +151,7 @@ describe('<InteractiveSearch/>', () => {
             });
 
             it(`should set internal state field ::pattern from payload's ::value field`, () => {
-                const spy = spyOn(InteractiveSearch.prototype, 'setState');
+                const spy = jest.spyOn(InteractiveSearch.prototype, 'setState');
                 const value = 'v';
 
                 shallow(<InteractiveSearch {...props} />)
@@ -197,7 +197,7 @@ describe('<InteractiveSearch/>', () => {
 
     describe('::onChange', () => {
         it('should be invoked from a <Suggestions/> ::onClick event', () => {
-            const spy = spyOn(InteractiveSearch.prototype, 'onChange');
+            const spy = jest.spyOn(InteractiveSearch.prototype, 'onChange');
 
             shallow(<InteractiveSearch {...props} />)
                 .setState({ isExpanded: true, options: [{ label: '1', value: 1 }] })
@@ -208,7 +208,7 @@ describe('<InteractiveSearch/>', () => {
         });
 
         it(`should NOT call external callback ::onChange if "data-id" attribute is NOT present in target`, () => {
-            const spy = spyOn(props, 'onChange');
+            const spy = jest.spyOn(props, 'onChange');
 
             shallow(<InteractiveSearch {...props} />)
                 .setState({ isExpanded: true, options: [{ label: '1', value: 1 }] })
@@ -225,7 +225,7 @@ describe('<InteractiveSearch/>', () => {
         });
 
         it(`should NOT call external callback ::onChange if ::value has already max or more options than allowed by ::maxValues prop`, () => {
-            const spy = spyOn(props, 'onChange');
+            const spy = jest.spyOn(props, 'onChange');
 
             shallow(<InteractiveSearch {...props} value={[{ value: 1, label: '1' }]} maxValues={1} />)
                 .setState({ isExpanded: true, options: [{ label: '1', value: 1 }] })
@@ -244,7 +244,7 @@ describe('<InteractiveSearch/>', () => {
 
     describe('::onRemoveOption', () => {
         it('should be invoked from a <InputWithPills/> ::onClick event', () => {
-            const spy = spyOn(InteractiveSearch.prototype, 'onRemoveOption');
+            const spy = jest.spyOn(InteractiveSearch.prototype, 'onRemoveOption');
 
             shallow(<InteractiveSearch {...props} />)
                 .find('InputWithPills')
@@ -254,7 +254,7 @@ describe('<InteractiveSearch/>', () => {
         });
 
         it(`should NOT call external callback ::onChange if "data-id" attribute is NOT present in target`, () => {
-            const spy = spyOn(props, 'onChange');
+            const spy = jest.spyOn(props, 'onChange');
 
             shallow(<InteractiveSearch {...props} />)
                 // .setState({ isExpanded: true })
