@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FormField/> render with default/required props 1`] = `
+<DocumentFragment>
+  <label
+    class="form-input_label "
+  >
+    <input
+      data-cy=""
+    />
+  </label>
+</DocumentFragment>
+`;
+
+exports[`<FormField/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <label
+    class="form-input_label optProps.className"
+  >
+    optProps.label
+    <input
+      data-cy="optProps.data-cy"
+    />
+    <ul
+      class="form-input_errors"
+    >
+      <li
+        class="form-input_error"
+        data-cy="optProps.data-cy-error-0"
+      >
+        optProps.errors[0]
+      </li>
+      <li
+        class="form-input_error"
+        data-cy="optProps.data-cy-error-1"
+      >
+        optProps.errors[1]
+      </li>
+    </ul>
+  </label>
+</DocumentFragment>
+`;

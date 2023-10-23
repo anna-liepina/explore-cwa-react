@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Drawer/> render with default/required props 1`] = `
+<DocumentFragment>
+  <div
+    class="drawer_overlay"
+  >
+    <nav
+      class="drawer "
+      data-cy="--drawer"
+      style="transition-duration: 0.25s;"
+    >
+      <div
+        class="drawer_head"
+      >
+        <button
+          class="drawer_button--close"
+          data-cy="--drawer--close"
+        >
+          ×
+        </button>
+      </div>
+      <div
+        class="drawer_content"
+      />
+    </nav>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<Drawer/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <div
+    class="drawer_overlay"
+  >
+    <nav
+      class="drawer optionalProps.className"
+      data-cy="optionalProps.data-cy--drawer"
+      style="transition-duration: 0.25s;"
+    >
+      <div
+        class="drawer_head"
+      >
+        <button
+          class="drawer_button--close"
+          data-cy="optionalProps.data-cy--drawer--close"
+        >
+          ×
+        </button>
+      </div>
+      <div
+        class="drawer_content"
+      />
+    </nav>
+  </div>
+</DocumentFragment>
+`;

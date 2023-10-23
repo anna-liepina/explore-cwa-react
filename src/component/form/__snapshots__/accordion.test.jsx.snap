@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Accordion/> render with default/required props 1`] = `
+<DocumentFragment>
+  <section
+    class="accordion "
+  />
+</DocumentFragment>
+`;
+
+exports[`<Accordion/> render with optional/required props - collapsed 1`] = `
+<DocumentFragment>
+  <section
+    class="accordion--collapsed optProps.className"
+  />
+</DocumentFragment>
+`;
+
+exports[`<Accordion/> render with optional/required props - expanded 1`] = `
+<DocumentFragment>
+  <section
+    class="accordion optProps.className"
+  >
+    <div
+      class="optionalProps.children"
+    />
+  </section>
+</DocumentFragment>
+`;

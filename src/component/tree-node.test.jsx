@@ -5,15 +5,25 @@ import TreeNode from './tree-node';
 
 describe('<TreeNode/>', () => {
     const props = {
-        text: '{{text}}',
-        'data-cy': '{{data-cy}}',
+        text: 'props.text',
+    };
+
+    const optionalProps = {
+        'data-cy': 'optProps.data-cy',
+        className: 'optProps.className',
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const { container } = render(<TreeNode {...props} />);
+            const { asFragment } = render(<TreeNode {...props} />);
 
-            expect(container.querySelector('[data-cy="{{data-cy}}"]')).toBeInTheDocument();
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it('with optional/required props', () => {
+            const { asFragment } = render(<TreeNode {...props} {...optionalProps} />);
+
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });
