@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TreeNode/> render with default/required props 1`] = `
+<DocumentFragment>
+  <div
+    class="tree-node "
+    data-cy=""
+    data-node="0"
+  >
+    <span>
+      props.text
+    </span>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<TreeNode/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <div
+    class="tree-node optProps.className"
+    data-cy="optProps.data-cy"
+    data-node="0"
+  >
+    <span>
+      props.text
+    </span>
+  </div>
+</DocumentFragment>
+`;

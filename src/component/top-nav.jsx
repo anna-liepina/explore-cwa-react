@@ -77,9 +77,9 @@ const onExpand = (data, path) => {
 };
 
 const TopNav = ({ 'data-cy': cy, className, ...props }) =>
-    <nav data-cy={`${cy}topnav`} className={`topnav ${className}`} {...props}>
+    <nav data-cy={`${cy}-topnav`} className={`topnav ${className}`} {...props}>
         <Link to="/" className="topnav__link">
-            <img data-cy={`${cy}topnav__logo`} className="topnav__logo--main" alt="Logo" src="/assets/img/1.png" />
+            <img data-cy={`${cy}-topnav-logo`} className="topnav__logo--main" alt="Logo" src="/assets/img/1.png" />
         </Link>
         <DrawerHandler
             data-cy="topnav-postcode_tree"
@@ -90,7 +90,7 @@ const TopNav = ({ 'data-cy': cy, className, ...props }) =>
             </Query>
         </DrawerHandler>
         <Link to="//github.com/anna-liepina/explore-cwa-react" className="topnav__link--github" target="_blank">
-            <img data-cy={`${cy}topnav__github`} className="topnav__logo--github" alt="GitHub logo" src="/assets/img/github-logo.png" />
+            <img data-cy={`${cy}-topnav-github`} className="topnav__logo--github" alt="GitHub logo" src="/assets/img/github-logo.png" />
         </Link>
     </nav>;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import Query from './query';
 
 describe('<Query/>', () => {

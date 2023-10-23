@@ -8,11 +8,22 @@ describe('<Drawer/>', () => {
         onClose: jest.fn(),
     };
 
+    const optionalProps = {
+        'data-cy': 'optionalProps.data-cy',
+        className: 'optionalProps.className',
+    };
+
     describe('render', () => {
         it('with default/required props', () => {
-            const { container } = render(<Drawer {...props} />);
+            const { asFragment } = render(<Drawer {...props} />);
 
-            expect(container.querySelector('[data-cy="--drawer--close"]')).toBeInTheDocument();
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it('with optional/required props', () => {
+            const { asFragment } = render(<Drawer {...props} {...optionalProps} />);
+
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default (Component) => {
-    const ComposedFormField = ({ 'data-cy': cy, className, label, errors, validators, ...props }) =>
+    const FormField = ({ 'data-cy': cy, className, label, errors, validators, ...props }) =>
         <label className={`form-input_label ${className}`}>
             {label}
             <Component {...props} data-cy={cy} />
@@ -25,16 +25,16 @@ export default (Component) => {
             }
         </label>;
 
-    ComposedFormField.propTypes = {
+    FormField.propTypes = {
         'data-cy': PropTypes.string,
         className: PropTypes.string,
         label: PropTypes.string,
         errors: PropTypes.arrayOf(PropTypes.string),
     };
-    ComposedFormField.defaultProps = {
+    FormField.defaultProps = {
         'data-cy': '',
         className: '',
     };
 
-    return ComposedFormField;
+    return FormField;
 }

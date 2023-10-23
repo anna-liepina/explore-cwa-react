@@ -1,32 +1,30 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import _TopNav from './top-nav';
+import compose from './compose-form-field';
 
-const TopNav = (props) =>
-    <MemoryRouter>
-        <_TopNav {...props} />
-    </MemoryRouter>;
+const FormField = compose((props) => <input {...props} />);
 
-describe('<TopNav/>', () => {
+describe('<FormField/>', () => {
     const props = {
     };
 
     const optionalProps = {
         'data-cy': 'optProps.data-cy',
         className: 'optProps.className',
+        label: 'optProps.label',
+        errors: ['optProps.errors[0]', 'optProps.errors[1]'],
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const { asFragment } = render(<TopNav {...props} />);
+            const { asFragment } = render(<FormField {...props} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
 
         it('with optional/required props', () => {
-            const { asFragment } = render(<TopNav {...props} {...optionalProps} />);
+            const { asFragment } = render(<FormField {...props} {...optionalProps} />);
 
             expect(asFragment()).toMatchSnapshot();
         });

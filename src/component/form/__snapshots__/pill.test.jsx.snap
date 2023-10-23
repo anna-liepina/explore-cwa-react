@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Pill/> render with default/required props 1`] = `
+<DocumentFragment>
+  <span
+    class="pill"
+    data-cy=""
+  >
+    props.label
+  </span>
+</DocumentFragment>
+`;
+
+exports[`<Pill/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <span
+    class="pill"
+    data-cy="optProps.data-cy"
+  >
+    props.label
+    <button
+      class="pill__control"
+      data-cy="optProps.data-cy-remove"
+      data-id="optProps.data-id"
+    >
+      ×
+    </button>
+  </span>
+</DocumentFragment>
+`;

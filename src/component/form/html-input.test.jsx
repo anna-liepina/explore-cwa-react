@@ -1,32 +1,28 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import _TopNav from './top-nav';
+import { PureHTMLInput as HTMLInput } from './html-input';
 
-const TopNav = (props) =>
-    <MemoryRouter>
-        <_TopNav {...props} />
-    </MemoryRouter>;
-
-describe('<TopNav/>', () => {
+describe('<HTMLInput/>', () => {
     const props = {
     };
 
     const optionalProps = {
         'data-cy': 'optProps.data-cy',
         className: 'optProps.className',
+        value: 'optProps.value',
+        onChange: jest.fn(),
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const { asFragment } = render(<TopNav {...props} />);
+            const { asFragment } = render(<HTMLInput {...props} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
 
         it('with optional/required props', () => {
-            const { asFragment } = render(<TopNav {...props} {...optionalProps} />);
+            const { asFragment } = render(<HTMLInput {...props} {...optionalProps} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
