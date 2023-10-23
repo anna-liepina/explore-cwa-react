@@ -3,14 +3,14 @@ version: 2
 jobs:
   jest:
     docker:
-      - image: circleci/node:lts-jessie
+      - image: cimg/node:lts
+
     steps:
       - checkout
       - restore_cache:
           keys:
             - jest-{{ checksum "package.json" }}
       - run: npm i --verbose
-      - run: sudo npm i -g codecov
       - save_cache:
           key: jest-{{ checksum "package.json" }}
           paths:
@@ -21,7 +21,7 @@ jobs:
           command: npm test -- --coverage
       - run:
           name: upload coverage to codecov.io
-          command: codecov
+          command: sudo npm i -g codecov && codecov
       - store_artifacts:
           path: coverage
 #   cypress:

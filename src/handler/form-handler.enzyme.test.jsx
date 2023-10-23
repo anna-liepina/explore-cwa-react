@@ -80,7 +80,7 @@ describe('<FormHandler/>', () => {
     describe('internal callbacks', () => {
         describe('::onSuccess', () => {
             it('should set state fields [::config, ::data] from payload', () => {
-                const spy = spyOn(FormHandler.prototype, 'setState');
+                const spy = jest.spyOn(FormHandler.prototype, 'setState');
 
                 shallow(<FormHandler {...props} />).instance().onSuccess({ data, config: props.config });
 
@@ -88,7 +88,7 @@ describe('<FormHandler/>', () => {
             });
 
             it(`should set state fields ::config from local state, if it hasn't been provide in payload`, () => {
-                const spy = spyOn(FormHandler.prototype, 'setState');
+                const spy = jest.spyOn(FormHandler.prototype, 'setState');
 
                 const c = shallow(<FormHandler {...props} />);
                 c.instance().onSuccess({ data });
@@ -108,7 +108,7 @@ describe('<FormHandler/>', () => {
 
         describe('::onError', () => {
             it('should set state fields [::config, ::data] from payload', () => {
-                const spy = spyOn(FormHandler.prototype, 'setState');
+                const spy = jest.spyOn(FormHandler.prototype, 'setState');
 
                 shallow(<FormHandler {...props} />).instance().onError({ data, config: props.config });
 
@@ -116,7 +116,7 @@ describe('<FormHandler/>', () => {
             });
 
             it(`should set state fields ::config from local state, if it hasn't been provide in payload`, () => {
-                const spy = spyOn(FormHandler.prototype, 'setState');
+                const spy = jest.spyOn(FormHandler.prototype, 'setState');
 
                 const c = shallow(<FormHandler {...props} />);
                 c.instance().onError({ data });
@@ -163,7 +163,7 @@ describe('<FormHandler/>', () => {
             });
 
             it('when external callback [::validate] undefined, state field [::isValid] should be set to true', () => {
-                const spy = spyOn(FormHandler.prototype, 'setState');
+                const spy = jest.spyOn(FormHandler.prototype, 'setState');
 
                 const c = shallow(<FormHandler {...props}  />);
 
@@ -173,7 +173,7 @@ describe('<FormHandler/>', () => {
             });
 
             it('when external callback [::validate] return false, state field [::isValid] should be set to false, and [::config] field should get new reference', () => {
-                const spy = spyOn(FormHandler.prototype, 'setState');
+                const spy = jest.spyOn(FormHandler.prototype, 'setState');
 
                 const c = shallow(<FormHandler {...props} validate={() => false} />);
 
@@ -238,7 +238,7 @@ describe('<FormHandler/>', () => {
             });
 
             it('should set state field [::isValid] to FALSE, if there is least one error', () => {
-                const spy = spyOn(FormHandler.prototype, 'setState');
+                const spy = jest.spyOn(FormHandler.prototype, 'setState');
                 const config = [
                     {
                         items: [
@@ -261,7 +261,7 @@ describe('<FormHandler/>', () => {
             });
 
             it('should set state field [::isValid] to TRUE, if there are NO errors', () => {
-                const spy = spyOn(FormHandler.prototype, 'setState');
+                const spy = jest.spyOn(FormHandler.prototype, 'setState');
                 const config = [
                     {
                         items: [

@@ -24,7 +24,7 @@ class InteractiveSearch extends PureComponent {
             options,
         };
 
-        this.deferredCallback = 0;
+        this.deferredCallback = undefined;
 
         this.onMouseEnter = this.onMouseEnter.bind(this);
         this.onMouseLeave = this.onMouseLeave.bind(this);
@@ -59,17 +59,17 @@ class InteractiveSearch extends PureComponent {
     }
 
     onKeyDown({ target }) {
-        if (this.deferredCallback) {
-            clearTimeout(this.deferredCallback);
-        }
-
         const { value: pattern } = target;
         const { onFilter, onFilterTimer } = this.props;
+
+        if (this.deferredCallback !== undefined) {
+            clearTimeout(this.deferredCallback);
+        }
 
         this.setState(
             { pattern },
             () => {
-                setTimeout(() => onFilter(this.props, this.state, this.onSuccess, this.onError), onFilterTimer);
+                this.deferredCallback = setTimeout(() => onFilter(this.props, this.state, this.onSuccess, this.onError), onFilterTimer);
             }
         );
     }
@@ -141,11 +141,12 @@ class InteractiveSearch extends PureComponent {
 
         return <div
             className={`interactive-search ${className}`}
+            data-cy={`${cy}-wrapper`}
             onMouseEnter={this.onMouseEnter}
             onMouseLeave={this.onMouseLeave}
         >
             <InputWithPills
-                data-cy={cy}
+                data-cy={`${cy}-input`}
                 onFocus={this.onMouseEnter}
                 onChange={this.onKeyDown}
                 onClick={this.onRemoveOption}
