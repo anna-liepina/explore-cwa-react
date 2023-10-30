@@ -107,6 +107,13 @@ const tabs = [
             form: (() => {
                 const c = composeConfig();
 
+                c.className = 'map-handler--form';
+                c.config[0].className = '';
+                c.submitCTRL = {
+                    label: 'search',
+                    className: 'map-handler--form-button',
+                };
+
                 c.config[0].items[0] = {
                     ...c.config[0].items[0],
                     maxValues: 1,
@@ -132,7 +139,14 @@ const tabs = [
                                 }
                             )
                             .then(({ data: { data } }) => {
-                                const cache = data.postcodeSearch.map(({ postcode: v, lat, lng }) => ({ label: v, value: v, latitude: lat, longitude: lng }));
+                                const cache = data
+                                    .postcodeSearch
+                                    .map(({ postcode: v, lat, lng }) => ({
+                                        label: v,
+                                        value: v,
+                                        latitude: lat,
+                                        longitude: lng
+                                    }));
 
                                 onSuccess(cache);
                             })
