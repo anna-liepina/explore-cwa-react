@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default (Component) => {
+const compose = (Component) => {
     const FormField = ({ 'data-cy': cy, className, label, errors, validators, ...props }) =>
         <label className={`form-input_label ${className}`}>
             {label}
@@ -38,3 +38,5 @@ export default (Component) => {
 
     return FormField;
 }
+
+export default compose;
