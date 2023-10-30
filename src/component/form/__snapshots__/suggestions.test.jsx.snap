@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Suggestions/> render specific optional props [::hashmap] - should NOT render options with values which are present in ::hashmap 1`] = `
+<DocumentFragment>
+  <div
+    class="suggestions "
+  >
+    <div
+      class="suggestion "
+      data-cy="-suggestion-0"
+      data-id="0"
+    >
+      <div
+        class="suggestion__label"
+        data-id="0"
+      >
+        props.label 1
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<Suggestions/> render with default/required props 1`] = `
+<DocumentFragment>
+  <div
+    class="suggestions "
+  >
+    <div
+      class="suggestion "
+      data-cy="-suggestion-0"
+      data-id="0"
+    >
+      <div
+        class="suggestion__label"
+        data-id="0"
+      >
+        props.label 1
+      </div>
+    </div>
+    <div
+      class="suggestion "
+      data-cy="-suggestion-1"
+      data-id="1"
+    >
+      <div
+        class="suggestion__hierarchy"
+      >
+        <span
+          class="suggestion__hierarchy-label "
+          data-id="1"
+        >
+          {{root}}
+        </span>
+        <span
+          class="suggestion__hierarchy-label "
+          data-id="1"
+        >
+          {{sub-children}}
+        </span>
+        <span
+          class="suggestion__hierarchy-label "
+          data-id="1"
+        >
+          {{label-with-hierarchy}}
+        </span>
+      </div>
+      <div
+        class="suggestion__label"
+        data-id="1"
+      >
+        props.label 2 with hierarchy
+      </div>
+    </div>
+    <div
+      class="suggestion "
+      data-cy="-suggestion-2"
+      data-id="2"
+    >
+      <div
+        class="suggestion__label"
+        data-id="2"
+      >
+        props.label 3 with description
+      </div>
+      <p
+        class="suggestion__description"
+        data-id="2"
+      >
+        {{description}}
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<Suggestions/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <div
+    class="suggestions optProps.className"
+  >
+    <div
+      class="suggestion "
+      data-cy="optProps.data-cy-suggestion-0"
+      data-id="0"
+    >
+      <div
+        class="suggestion__label"
+        data-id="0"
+      >
+        props.label 1
+      </div>
+    </div>
+    <div
+      class="suggestion "
+      data-cy="optProps.data-cy-suggestion-1"
+      data-id="1"
+    >
+      <div
+        class="suggestion__hierarchy"
+      >
+        <span
+          class="suggestion__hierarchy-label "
+          data-id="1"
+        >
+          {{root}}
+        </span>
+        <span
+          class="suggestion__hierarchy-label "
+          data-id="1"
+        >
+          {{sub-children}}
+        </span>
+        <span
+          class="suggestion__hierarchy-label "
+          data-id="1"
+        >
+          {{label-with-hierarchy}}
+        </span>
+      </div>
+      <div
+        class="suggestion__label"
+        data-id="1"
+      >
+        props.label 2 with hierarchy
+      </div>
+    </div>
+    <div
+      class="suggestion "
+      data-cy="optProps.data-cy-suggestion-2"
+      data-id="2"
+    >
+      <div
+        class="suggestion__label"
+        data-id="2"
+      >
+        props.label 3 with description
+      </div>
+      <p
+        class="suggestion__description"
+        data-id="2"
+      >
+        {{description}}
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
