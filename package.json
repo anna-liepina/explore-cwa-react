@@ -8,10 +8,10 @@
   "dependencies": {
     "axios": "^0.21.0",
     "byte-sequence-calculator": "^2.0.4",
-    "highcharts": "^9.0.0",
-    "highcharts-react-official": "^3.0.0",
-    "pigeon-maps": "^0.17.1",
-    "prop-types": "^15.7.0",
+    "highcharts": "^11.2.0",
+    "highcharts-react-official": "^3.2.0",
+    "pigeon-maps": "^0.21.3",
+    "prop-types": "^15.8.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0"
