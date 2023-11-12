@@ -11,6 +11,11 @@ describe('<TreeNode/>', () => {
     const optionalProps = {
         'data-cy': 'optProps.data-cy',
         className: 'optProps.className',
+        chunks: [
+            { v: 't', isMatch: true },
+            { v: 'e', isMatch: false },
+            { v: 'xt' },
+        ],
     };
 
     describe('render', () => {
@@ -24,6 +29,45 @@ describe('<TreeNode/>', () => {
             const { asFragment } = render(<TreeNode {...props} {...optionalProps} />);
 
             expect(asFragment()).toMatchSnapshot();
+        });
+
+        describe('prop combinations', () => {
+            [
+                [
+                    'collapsed with nodes',
+                    {
+                        isExpanded: false,
+                        nodes: [{ text: 'nodes[0].text' }],
+                    },
+                ],
+                [
+                    'expanded with NO nodes',
+                    {
+                        isExpanded: true,
+                        nodes: [],
+                    },
+                ],
+                [
+                    'expanded with "hidden" nodes',
+                    {
+                        isExpanded: true,
+                        nodes: [{ text: 'nodes[0].text' }],
+                    },
+                ],
+                [
+                    'expanded with "visible" nodes',
+                    {
+                        isExpanded: true,
+                        nodes: [{ text: 'nodes[0].text', isVisible: true }],
+                    },
+                ],
+            ].forEach(([desc, propsCombination]) => {
+                it(desc, () => {
+                    const { asFragment } = render(<TreeNode {...props} {...propsCombination} />);
+
+                    expect(asFragment()).toMatchSnapshot();
+                });
+            });
         });
     });
 });

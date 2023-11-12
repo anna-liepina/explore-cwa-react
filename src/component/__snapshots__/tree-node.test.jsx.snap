@@ -1,5 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<TreeNode/> render prop combinations collapsed with nodes 1`] = `
+<DocumentFragment>
+  <div
+    class="tree-node--with-children "
+    data-cy=""
+  >
+    <span>
+      props.text
+    </span>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<TreeNode/> render prop combinations expanded with "hidden" nodes 1`] = `
+<DocumentFragment>
+  <div
+    class="tree-node--with-children-expanded "
+    data-cy=""
+  >
+    <span>
+      props.text
+    </span>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<TreeNode/> render prop combinations expanded with "visible" nodes 1`] = `
+<DocumentFragment>
+  <div
+    class="tree-node--with-children-expanded "
+    data-cy=""
+  >
+    <span>
+      props.text
+    </span>
+    <div
+      class="tree-node "
+      data-cy="-0"
+      data-node="0"
+    >
+      <span>
+        nodes[0].text
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<TreeNode/> render prop combinations expanded with NO nodes 1`] = `
+<DocumentFragment>
+  <div
+    class="tree-node--with-children-expanded "
+    data-cy=""
+  >
+    <span>
+      props.text
+    </span>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`<TreeNode/> render with default/required props 1`] = `
 <DocumentFragment>
   <div
@@ -21,8 +82,16 @@ exports[`<TreeNode/> render with optional/required props 1`] = `
     data-cy="optProps.data-cy"
     data-node="0"
   >
+    <span
+      class="tree-node--pattern-match"
+    >
+      t
+    </span>
     <span>
-      props.text
+      e
+    </span>
+    <span>
+      xt
     </span>
   </div>
 </DocumentFragment>
