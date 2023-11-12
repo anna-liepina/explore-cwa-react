@@ -98,7 +98,7 @@ interface ITopNavProps {
     className?: string;
 };
 
-const TopNav: React.FC<ITopNavProps> = ({ 'data-cy': cy, className, ...props }) =>
+const TopNav: React.FC<ITopNavProps> = ({ 'data-cy': cy = '', className = '', ...props }) =>
     <nav data-cy={`${cy}-topnav`} className={`topnav ${className}`} {...props}>
         <Link to="/" className="topnav__link">
             <img data-cy={`${cy}-topnav-logo`} className="topnav__logo--main" alt="Logo" src="/assets/img/1.png" />
