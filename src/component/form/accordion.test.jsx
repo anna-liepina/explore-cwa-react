@@ -34,6 +34,7 @@ describe('<Accordion/>', () => {
 
             expect(asFragment()).toMatchSnapshot();
         });
+
         it('with optional/required props - expanded', () => {
             const { asFragment } = render(<Accordion {...props} {...expandedlProps} />);
 
