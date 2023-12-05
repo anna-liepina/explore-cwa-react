@@ -102,7 +102,6 @@ const fetchIncidents = async ({ latitude, longitude, range, perPage }) => {
     }
 }`)
         .then(({ data: { data } }) => {
-            console.log('data.incidentSearchWithInRange', data.incidentSearchWithInRange);
             const cache = {};
 
             for (const v of data.incidentSearchWithInRange) {
@@ -117,6 +116,8 @@ const fetchIncidents = async ({ latitude, longitude, range, perPage }) => {
             for (const coords in cache) {
                 v.push({
                     postcode: coords,
+                    lat: cache[coords][0].lat,
+                    lng: cache[coords][0].lng,
                     data: cache[coords],
                 })
             }
@@ -275,6 +276,7 @@ class DrawerTable extends PureComponent {
     }
 }
 
+const heightOffset = 70;
 export default class MapHandler extends PureComponent {
     constructor({ isLoading, properties, incidents, errors, coords, postcode, zoom }) {
         super();
@@ -288,7 +290,7 @@ export default class MapHandler extends PureComponent {
             postcode,
             zoom,
             width: window.innerWidth,
-            height: window.innerHeight - 120,
+            height: window.innerHeight - heightOffset,
         };
 
         this.updateDimensions = this.updateDimensions.bind(this);
@@ -317,7 +319,7 @@ export default class MapHandler extends PureComponent {
     }
 
     updateDimensions() {
-        this.setState({ width: window.innerWidth });
+        this.setState({ width: window.innerWidth, height: window.innerHeight - heightOffset });
     }
 
     onSuccess(properties, incidents) {
@@ -425,7 +427,7 @@ export default class MapHandler extends PureComponent {
             {
                 undefined === coords
                 && <div data-cy={`${cy}--notification--no-geo`} className="map-handler--disabled-location">
-                    location services are not enabled, search by your current postcode is not possible
+                    location services are not enabled, search by your current location is not possible
                 </div>
             }
             {
