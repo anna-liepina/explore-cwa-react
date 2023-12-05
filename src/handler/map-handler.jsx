@@ -185,7 +185,7 @@ class DrawerTable extends PureComponent {
     }
 
     onFilter({ target: { value: pattern } }) {
-        const { data } = this.state;
+        const { data } = this.props;
 
         this.props.onFilter(data, pattern);
 
@@ -194,7 +194,7 @@ class DrawerTable extends PureComponent {
 
     render() {
         const { title, placeholder, 'data-cy': cy } = this.props;
-        const { data, } = this.state;
+        const { data } = this.state;
 
         return <>
             <h2 data-cy={`${cy}--title`} className="drawer-table--title">{title}</h2>
