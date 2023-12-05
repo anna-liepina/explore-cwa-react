@@ -22,7 +22,15 @@ const onFilter = (data, pattern) => {
     }
 };
 
-const onSearch = async ({ config }, state, onSuccess, onError) => {
+const query = (query) => {
+    return axios
+        .post(
+            process.env.REACT_APP_GRAPHQL,
+            { query }
+        )
+}
+
+const resolvePayload = ({ form: { config }}, state) => {
     const [, { value: range }] = config[0].items;
     const { point } = state;
 
@@ -32,11 +40,11 @@ const onSearch = async ({ config }, state, onSuccess, onError) => {
 
     const { latitude, longitude } = point;
 
-    return axios
-        .post(
-            process.env.REACT_APP_GRAPHQL,
-            {
-                query: `
+    return { latitude, longitude, range, perPage: 2_500_000 }
+}
+
+const fetchProperties = async ({ latitude, longitude, range, perPage }) => {
+    return query(`
 {
     propertySearchWithInRange(
         pos: {
@@ -44,7 +52,7 @@ const onSearch = async ({ config }, state, onSuccess, onError) => {
             lng: ${longitude}
         }
         range: ${range}
-        perPage: 2500
+        perPage: ${perPage}
     ) {
         postcode {
             postcode
@@ -52,19 +60,14 @@ const onSearch = async ({ config }, state, onSuccess, onError) => {
             lng
         }
     }
-}
-`
-            }
-        )
+}`)
         .then(({ data: { data } }) => {
             const cache = {};
 
             for (const v of data.propertySearchWithInRange) {
                 const { postcode: { postcode } } = v;
-                if (undefined === cache[postcode]) {
-                    cache[postcode] = [];
-                }
 
+                cache[postcode] ||= [];
                 cache[postcode].push(v);
             }
 
@@ -76,19 +79,68 @@ const onSearch = async ({ config }, state, onSuccess, onError) => {
                 })
             }
 
-            onSuccess(v);
+            return v;
         })
-        .catch(onError);
+        .catch((errors) => errors);
+};
+
+const fetchIncidents = async ({ latitude, longitude, range, perPage }) => {
+    return query(`
+{
+    incidentSearchWithInRange(
+        pos: {
+            lat: ${latitude}
+            lng: ${longitude}
+        }
+        range: ${range}
+        perPage: ${perPage}
+    ) {
+        lat
+        lng
+        date
+        type
+    }
+}`)
+        .then(({ data: { data } }) => {
+            console.log('data.incidentSearchWithInRange', data.incidentSearchWithInRange);
+            const cache = {};
+
+            for (const v of data.incidentSearchWithInRange) {
+                const { lat, lng } = v;
+                const key = `${lat}:${lng}`;
+
+                cache[key] ||= [];
+                cache[key].push(v);
+            }
+
+            const v = [];
+            for (const coords in cache) {
+                v.push({
+                    postcode: coords,
+                    data: cache[coords],
+                })
+            }
+
+            return v;
+        })
+        .catch((errors) => errors);
 };
 
 const onSearchDetails = (props, state, onSuccess, onError) => {
     const { postcode } = props;
 
-    return axios
-        .post(
-            process.env.REACT_APP_GRAPHQL,
+    if (postcode.includes(':')) {
+        const cursor = props.data.find(v => v.postcode === postcode);
+
+        return onSuccess([
             {
-                query: `
+                text: postcode,
+                transactions: cursor.data.map((v) => ({ date: v.date, price: v.type }))
+            }
+        ]);
+    }
+
+    return query(`
 {
     propertySearch(postcode: "${postcode}") {
         paon
@@ -99,13 +151,10 @@ const onSearchDetails = (props, state, onSuccess, onError) => {
             price
         }
     }
-}
-`
-            }
-        )
+}`)
         .then(({ data: { data } }) => {
             for (const v of data.propertySearch) {
-                v.text = `${v.street || ''} ${v.paon || ''} ${v.saon ? `, ${v.saon}` : ''}`;
+                v.text = [v.street, v.paon, v.saon].filter(Boolean).join(', ');
             }
 
             onSuccess(data.propertySearch);
@@ -173,18 +222,23 @@ class DrawerTable extends PureComponent {
                                     : text
                             }
                         </h3>
-                        <table>
-                            <tbody>
-                                {
-                                    transactions.map(({ date, price }, j) =>
-                                        <tr className="drawer-table--row" key={j} >
-                                            <td className="drawer-table--cell" data-cy={`${cy}-${i}-row-${j}-date`}>{date}</td>
-                                            <td className="drawer-table--cell" data-cy={`${cy}-${i}-row-${j}-price`}>{(price).toLocaleString()}</td>
-                                        </tr>
-                                    )
-                                }
-                            </tbody>
-                        </table>
+                        {
+                            !!transactions &&
+                            <table>
+                                <tbody>
+                                    {
+                                        transactions.map(({ date, price }, j) =>
+                                            <tr className="drawer-table--row" key={j} >
+                                                <td className="drawer-table--cell" data-cy={`${cy}-${i}-row-${j}-date`}>{date}</td>
+                                                <td className="drawer-table--cell" data-cy={`${cy}-${i}-row-${j}-price`}>
+                                                    { typeof price === 'number' ? price.toLocaleString() : price }
+                                                </td>
+                                            </tr>
+                                        )
+                                    }
+                                </tbody>
+                            </table>
+                        }
                     </React.Fragment>
                 )
             }
@@ -193,7 +247,6 @@ class DrawerTable extends PureComponent {
 
     static propTypes = {
         'data-cy': PropTypes.string,
-        className: PropTypes.string,
         placeholder: PropTypes.string,
         pattern: PropTypes.string,
         onFilter: PropTypes.func.isRequired,
@@ -219,17 +272,17 @@ class DrawerTable extends PureComponent {
 
     static defaultProps = {
         'data-cy': '',
-        className: '',
     }
 }
 
 export default class MapHandler extends PureComponent {
-    constructor({ isLoading, data, errors, coords, postcode, zoom }) {
+    constructor({ isLoading, properties, incidents, errors, coords, postcode, zoom }) {
         super();
 
         this.state = {
             isLoading,
-            data,
+            properties,
+            incidents,
             errors,
             coords,
             postcode,
@@ -267,20 +320,25 @@ export default class MapHandler extends PureComponent {
         this.setState({ width: window.innerWidth });
     }
 
-    onSuccess(data) {
-        this.setState({ data, errors: undefined, isLoading: false });
+    onSuccess(properties, incidents) {
+        this.setState({ properties, incidents, errors: undefined, isLoading: false });
     }
 
     onError(errors) {
-        this.setState({ data: undefined, errors, isLoading: false });
+        this.setState({ properties: undefined, incidents: undefined, errors, isLoading: false });
     }
 
     onDrawerToggle(e) {
         this.setState({ postcode: e && e.payload });
     }
 
-    onSearch() {
-        onSearch(this.props.form, this.state, this.onSuccess, this.onError)
+    async onSearch() {
+        await Promise.all([
+            fetchProperties(resolvePayload(this.props, this.state)),
+            fetchIncidents(resolvePayload(this.props, this.state))
+        ]).then(([ properties, incidents ]) => {
+            this.onSuccess(properties, incidents);
+        });
     }
 
     onMapSearch({ center: [latitude, longitude], zoom }) {
@@ -305,8 +363,7 @@ export default class MapHandler extends PureComponent {
 
     render() {
         const { 'data-cy': cy } = this.props;
-        const { postcode, isLoading, coords, zoom, data, point = {}, width, height } = this.state;
-        const { latitude, longitude } = point;
+        const { postcode, isLoading, coords, zoom, properties, incidents, point, width, height } = this.state;
 
         return <section className="map-handler">
             {
@@ -319,6 +376,7 @@ export default class MapHandler extends PureComponent {
                         data-cy={`${cy}--details`}
                         onMount={onSearchDetails}
                         postcode={postcode}
+                        data={incidents}
                     >
                         {
                             (props, state) =>
@@ -334,10 +392,11 @@ export default class MapHandler extends PureComponent {
             }
             {
                 !isLoading
-                && undefined !== latitude
-                && undefined !== longitude
+                && undefined !== point
+                && undefined !== point.latitude
+                && undefined !== point.longitude
                 && <Map
-                    center={[latitude, longitude]}
+                    center={[point.latitude, point.longitude]}
                     zoom={zoom}
                     width={width}
                     height={height}
@@ -346,9 +405,14 @@ export default class MapHandler extends PureComponent {
                     attributionPrefix={false}
                 >
                     {
-                        data &&
-                        data.map(({ lat, lng, postcode }, i) =>
-                            <Marker key={i} anchor={[lat, lng]} payload={postcode} onClick={this.onDrawerToggle} color="#000" />
+                        properties &&
+                        properties.map(({ lat, lng, postcode }, i) =>
+                            <Marker key={i} anchor={[lat, lng]} payload={postcode} onClick={this.onDrawerToggle} color="#000" />)
+                    }
+                    {
+                        incidents &&
+                        incidents.map(({ lat, lng, postcode }, i) =>
+                            <Marker key={i} anchor={[lat, lng]} payload={postcode} onClick={this.onDrawerToggle} color="#F00" />
                         )
                     }
                 </Map>
@@ -366,28 +430,26 @@ export default class MapHandler extends PureComponent {
             }
             {
                 isLoading
-                && undefined !== latitude
-                && undefined !== longitude
+                && undefined !== point
+                && undefined !== point.latitude
+                && undefined !== point.longitude
                 && <div data-cy={`${cy}--loading`} className="query--loading">
                     <div />
                     <div />
                 </div>
             }
-
         </section>;
     }
 
     static propTypes = {
         'data-cy': PropTypes.string,
-        className: PropTypes.string,
-        zoom: PropTypes.number,
         isLoading: PropTypes.bool,
+        zoom: PropTypes.number,
     }
 
     static defaultProps = {
         'data-cy': '',
-        className: '',
-        zoom: 15,
         isLoading: true,
+        zoom: 15,
     }
 }
