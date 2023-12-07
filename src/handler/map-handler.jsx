@@ -407,12 +407,12 @@ export default class MapHandler extends PureComponent {
                     attributionPrefix={false}
                 >
                     {
-                        properties &&
+                        Array.isArray(properties) &&
                         properties.map(({ lat, lng, postcode }, i) =>
                             <Marker key={i} anchor={[lat, lng]} payload={postcode} onClick={this.onDrawerToggle} color="#000" />)
                     }
                     {
-                        incidents &&
+                        Array.isArray(incidents) &&
                         incidents.map(({ lat, lng, postcode }, i) =>
                             <Marker key={i} anchor={[lat, lng]} payload={postcode} onClick={this.onDrawerToggle} color="#F00" />
                         )
