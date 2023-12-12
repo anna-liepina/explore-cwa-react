@@ -96,3 +96,6 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 
 
 ### DEMO 
+[map](docs/images/map.png)
+[incidents](docs/images/incidents.png)
+[properties](docs/images/properties.png)
