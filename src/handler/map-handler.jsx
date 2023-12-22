@@ -9,6 +9,13 @@ import Drawer from '../drawer';
 import FormHandler from './form-handler';
 import { filter } from '../filtering/filter';
 
+const colorHashmapByType = {
+    police: '#F00',
+    property: '#000',
+};
+const defaultHashmap = '#0ff';
+const resolveMarkerColor = (marker) => colorHashmapByType[marker.type] || defaultHashmap;
+
 const onFilter = (data, pattern) => {
     pattern = (pattern || '').toLowerCase();
 
@@ -38,129 +45,98 @@ const resolvePayload = ({ form: { config }}, state) => {
         return;
     }
 
-    const { latitude, longitude } = point;
-
-    return { latitude, longitude, range, perPage: 2_500_000 }
+    return {
+        lat: point.latitude,
+        lng: point.longitude,
+        range: .5,
+        perPage: 2_500_000
+    };
 }
 
-const fetchProperties = async ({ latitude, longitude, range, perPage }) => {
+const fetchProperties = async ({ lat, lng, range = 0, perPage = 2500 }) => {
     return query(`
 {
     propertySearchWithInRange(
         pos: {
-            lat: ${latitude}
-            lng: ${longitude}
+            lat: ${lat}
+            lng: ${lng}
         }
         range: ${range}
         perPage: ${perPage}
     ) {
-        postcode {
-            postcode
-            lat
-            lng
-        }
-    }
-}`)
-        .then(({ data: { data } }) => {
-            const cache = {};
-
-            for (const v of data.propertySearchWithInRange) {
-                const { postcode: { postcode } } = v;
-
-                cache[postcode] ||= [];
-                cache[postcode].push(v);
-            }
-
-            const v = [];
-            for (const postcode in cache) {
-                v.push({
-                    ...cache[postcode][0].postcode,
-                    data: cache[postcode],
-                })
-            }
-
-            return v;
-        })
-        .catch((errors) => errors);
-};
-
-const fetchIncidents = async ({ latitude, longitude, range, perPage }) => {
-    return query(`
-{
-    incidentSearchWithInRange(
-        pos: {
-            lat: ${latitude}
-            lng: ${longitude}
-        }
-        range: ${range}
-        perPage: ${perPage}
-    ) {
-        lat
-        lng
-        date
-        type
-    }
-}`)
-        .then(({ data: { data } }) => {
-            const cache = {};
-
-            for (const v of data.incidentSearchWithInRange) {
-                const { lat, lng } = v;
-                const key = `${lat}:${lng}`;
-
-                cache[key] ||= [];
-                cache[key].push(v);
-            }
-
-            const v = [];
-            for (const coords in cache) {
-                v.push({
-                    postcode: coords,
-                    lat: cache[coords][0].lat,
-                    lng: cache[coords][0].lng,
-                    data: cache[coords],
-                })
-            }
-
-            return v;
-        })
-        .catch((errors) => errors);
-};
-
-const onSearchDetails = (props, state, onSuccess, onError) => {
-    const { postcode } = props;
-
-    if (postcode.includes(':')) {
-        const cursor = props.data.find(v => v.postcode === postcode);
-
-        return onSuccess([
-            {
-                text: postcode,
-                transactions: cursor.data.map((v) => ({ date: v.date, price: v.type }))
-            }
-        ]);
-    }
-
-    return query(`
-{
-    propertySearch(postcode: "${postcode}") {
         paon
         saon
         street
+        postcode {
+            postcode
+        }
         transactions {
             date
             price
         }
     }
 }`)
-        .then(({ data: { data } }) => {
-            for (const v of data.propertySearch) {
-                v.text = [v.street, v.paon, v.saon].filter(Boolean).join(', ');
-            }
-
-            onSuccess(data.propertySearch);
+        .then(({ data: { data: { propertySearchWithInRange: properties } } }) => {
+            return properties.map((v) => ({
+                text: [v.street, v.paon, v.saon].filter(Boolean).join(', '),
+                content: v.transactions.map(({ date, price: text }) => ({ date, text }))
+            }))
         })
-        .catch(onError);
+        .catch((errors) => errors);
+};
+
+const fetchIncidents = async ({ lat, lng, range = 0, perPage = 2500 }) => {
+    return query(`
+{
+    incidentSearchWithInRange(
+        pos: {
+            lat: ${lat}
+            lng: ${lng}
+        }
+        range: ${range}
+        perPage: ${perPage}
+    ) {
+        date
+        type
+    }
+}`)
+        .then(({ data: { data: { incidentSearchWithInRange: incidents } } }) => ([{
+            text: 'WIP: LSOA/Place Name <DrawerTable /> .data[0].label',
+            content: incidents.map(({ date, type: text }) => ({ date, text })),
+        }]))
+        .catch((errors) => errors);
+};
+
+const fetchMarkers = async ({ lat, lng, range = 0, perPage = 2500 }) => {
+    return query(`
+{
+    markerSearchWithInRange(
+        pos: {
+            lat: ${lat}
+            lng: ${lng}
+        }
+        range: ${range}
+        perPage: ${perPage}
+    ) {
+        lat
+        lng
+        type
+    }
+}`)
+        .then(({ data: { data } }) => data.markerSearchWithInRange)
+        .catch((errors) => errors);
+};
+
+const onSearchDetails = (props, state, onSuccess, onError) => {
+    const { payload } = props;
+
+    if (payload.type === 'police') {
+        return fetchIncidents(payload).then(onSuccess);
+    }
+
+    if (payload.type === 'property') {
+        return fetchProperties(payload).then(onSuccess);
+    }
 };
 
 const extractPoint = ({ config }) => {
@@ -205,7 +181,7 @@ class DrawerTable extends PureComponent {
                 placeholder={placeholder}
             />
             {
-                data.map(({ text, chunks, isVisible, transactions }, i) =>
+                data.map(({ isVisible, chunks, text, content }, i) =>
                     (undefined === isVisible || isVisible)
                     && <React.Fragment key={i}>
                         <h3 data-cy={`${cy}-${i}`} className="drawer-header">
@@ -224,15 +200,15 @@ class DrawerTable extends PureComponent {
                             }
                         </h3>
                         {
-                            !!transactions &&
+                            Array.isArray(content) &&
                             <table>
                                 <tbody>
                                     {
-                                        transactions.map(({ date, price }, j) =>
+                                        content.map(({ date, text }, j) =>
                                             <tr className="drawer-table--row" key={j} >
                                                 <td className="drawer-table--cell" data-cy={`${cy}-${i}-row-${j}-date`}>{date}</td>
                                                 <td className="drawer-table--cell" data-cy={`${cy}-${i}-row-${j}-price`}>
-                                                    { typeof price === 'number' ? price.toLocaleString() : price }
+                                                    { typeof text === 'number' ? text.toLocaleString() : text }
                                                 </td>
                                             </tr>
                                         )
@@ -261,7 +237,7 @@ class DrawerTable extends PureComponent {
                     })
                 ),
                 isVisible: PropTypes.bool,
-                transactions: PropTypes.arrayOf(
+                records: PropTypes.arrayOf(
                     PropTypes.shape({
                         date: PropTypes.string.isRequired,
                         price: PropTypes.number.isRequired,
@@ -278,16 +254,15 @@ class DrawerTable extends PureComponent {
 
 const heightOffset = 70;
 export default class MapHandler extends PureComponent {
-    constructor({ isLoading, properties, incidents, errors, coords, postcode, zoom }) {
+    constructor({ isLoading, data, errors, coords, payload, zoom }) {
         super();
 
         this.state = {
             isLoading,
-            properties,
-            incidents,
+            data,
             errors,
             coords,
-            postcode,
+            payload,
             zoom,
             width: window.innerWidth,
             height: window.innerHeight - heightOffset,
@@ -322,25 +297,21 @@ export default class MapHandler extends PureComponent {
         this.setState({ width: window.innerWidth, height: window.innerHeight - heightOffset });
     }
 
-    onSuccess(properties, incidents) {
-        this.setState({ properties, incidents, errors: undefined, isLoading: false });
+    onSuccess(data) {
+        this.setState({ data, errors: undefined, isLoading: false });
     }
 
     onError(errors) {
-        this.setState({ properties: undefined, incidents: undefined, errors, isLoading: false });
+        this.setState({ data: undefined, errors, isLoading: false });
     }
 
     onDrawerToggle(e) {
-        this.setState({ postcode: e && e.payload });
+        this.setState({ payload: e && e.payload });
     }
 
     async onSearch() {
-        await Promise.all([
-            fetchProperties(resolvePayload(this.props, this.state)),
-            fetchIncidents(resolvePayload(this.props, this.state))
-        ]).then(([ properties, incidents ]) => {
-            this.onSuccess(properties, incidents);
-        });
+        await fetchMarkers(resolvePayload(this.props, this.state))
+            .then(this.onSuccess);
     }
 
     onMapSearch({ center: [latitude, longitude], zoom }) {
@@ -365,11 +336,11 @@ export default class MapHandler extends PureComponent {
 
     render() {
         const { 'data-cy': cy } = this.props;
-        const { postcode, isLoading, coords, zoom, properties, incidents, point, width, height } = this.state;
+        const { payload, isLoading, coords, zoom, data, point, width, height } = this.state;
 
-        return <section className="map-handler">
+        return <section className="map-handler" style={{ height: `${height}px` }}>
             {
-                postcode
+                !!payload
                 && <Drawer
                     data-cy={`${cy}--details`}
                     onClose={this.onDrawerToggle}
@@ -377,15 +348,14 @@ export default class MapHandler extends PureComponent {
                     <Query
                         data-cy={`${cy}--details`}
                         onMount={onSearchDetails}
-                        postcode={postcode}
-                        data={incidents}
+                        payload={payload}
                     >
                         {
                             (props, state) =>
                                 <DrawerTable
                                     data-cy={`${cy}--details`}
                                     data={state.data}
-                                    title={postcode}
+                                    title={`lat: ${payload.lat} | lng: ${payload.lng} | ${payload.type}`}
                                     onFilter={onFilter}
                                 />
                         }
@@ -407,14 +377,15 @@ export default class MapHandler extends PureComponent {
                     attributionPrefix={false}
                 >
                     {
-                        Array.isArray(properties) &&
-                        properties.map(({ lat, lng, postcode }, i) =>
-                            <Marker key={i} anchor={[lat, lng]} payload={postcode} onClick={this.onDrawerToggle} color="#000" />)
-                    }
-                    {
-                        Array.isArray(incidents) &&
-                        incidents.map(({ lat, lng, postcode }, i) =>
-                            <Marker key={i} anchor={[lat, lng]} payload={postcode} onClick={this.onDrawerToggle} color="#F00" />
+                        Array.isArray(data) &&
+                        data.map((marker, i) =>
+                            <Marker
+                                key={i}
+                                anchor={[marker.lat, marker.lng]}
+                                payload={marker}
+                                onClick={this.onDrawerToggle}
+                                color={resolveMarkerColor(marker)}
+                            />
                         )
                     }
                 </Map>
