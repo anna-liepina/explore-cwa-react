@@ -26,39 +26,39 @@ const onMount = (
 ) => {
     axios
         .post<undefined, AxiosResponse<{ data: Data }>>(
-        graphql!,
-        {
-            query: `
+            graphql!,
             {
-                areaSearch(perPage: 5000) {
-                area
-                city
-                }
+                query: `
+{
+    areaSearch(perPage: 5000) {
+        area
+        city
+    }
+}
+`,
             }
-            `,
-        }
         )
         .then(({ data: { data } }) => {
-        const obj: Record<string, { text: string }[]> = {};
+            const obj: Record<string, { text: string }[]> = {};
 
-        for (const { city, area: text } of data.areaSearch) {
-            if (!obj[city]) {
-            obj[city] = [];
+            for (const { city, area: text } of data.areaSearch) {
+                if (!obj[city]) {
+                    obj[city] = [];
+                }
+
+                obj[city].push({ text });
             }
 
-            obj[city].push({ text });
-        }
+            const series: Series[] = [];
 
-        const series: Series[] = [];
+            for (const text in obj) {
+                series.push({
+                    text,
+                    nodes: obj[text],
+                });
+            }
 
-        for (const text in obj) {
-            series.push({
-            text,
-            nodes: obj[text],
-            });
-        }
-
-        onSuccess(series);
+            onSuccess(series);
         })
         .catch(onError);
 };
@@ -115,14 +115,5 @@ const TopNav: React.FC<ITopNavProps> = ({ 'data-cy': cy = '', className = '', ..
             <img data-cy={`${cy}-topnav-github`} className="topnav__logo--github" alt="GitHub logo" src="/assets/img/github-logo.png" />
         </Link>
     </nav>;
-
-// TopNav.propTypes = {
-//     'data-cy': PropTypes.string,
-//     className: PropTypes.string,
-// };
-// TopNav.defaultProps = {
-//     'data-cy': '',
-//     className: '',
-// };
 
 export default TopNav;

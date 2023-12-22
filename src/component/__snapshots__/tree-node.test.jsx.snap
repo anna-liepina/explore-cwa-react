@@ -3,8 +3,9 @@
 exports[`<TreeNode/> render prop combinations collapsed with nodes 1`] = `
 <DocumentFragment>
   <div
-    class="tree-node--with-children "
+    class="tree-node--with-children"
     data-cy=""
+    data-node=""
   >
     <span>
       props.text
@@ -16,8 +17,9 @@ exports[`<TreeNode/> render prop combinations collapsed with nodes 1`] = `
 exports[`<TreeNode/> render prop combinations expanded with "hidden" nodes 1`] = `
 <DocumentFragment>
   <div
-    class="tree-node--with-children-expanded "
+    class="tree-node--with-children-expanded"
     data-cy=""
+    data-node=""
   >
     <span>
       props.text
@@ -29,14 +31,15 @@ exports[`<TreeNode/> render prop combinations expanded with "hidden" nodes 1`] =
 exports[`<TreeNode/> render prop combinations expanded with "visible" nodes 1`] = `
 <DocumentFragment>
   <div
-    class="tree-node--with-children-expanded "
+    class="tree-node--with-children-expanded"
     data-cy=""
+    data-node=""
   >
     <span>
       props.text
     </span>
     <div
-      class="tree-node "
+      class="tree-node"
       data-cy="-0"
       data-node="0"
     >
@@ -51,8 +54,9 @@ exports[`<TreeNode/> render prop combinations expanded with "visible" nodes 1`] 
 exports[`<TreeNode/> render prop combinations expanded with NO nodes 1`] = `
 <DocumentFragment>
   <div
-    class="tree-node--with-children-expanded "
+    class="tree-node--with-children-expanded"
     data-cy=""
+    data-node=""
   >
     <span>
       props.text
@@ -64,7 +68,7 @@ exports[`<TreeNode/> render prop combinations expanded with NO nodes 1`] = `
 exports[`<TreeNode/> render with default/required props 1`] = `
 <DocumentFragment>
   <div
-    class="tree-node "
+    class="tree-node"
     data-cy=""
     data-node="0"
   >
@@ -78,7 +82,7 @@ exports[`<TreeNode/> render with default/required props 1`] = `
 exports[`<TreeNode/> render with optional/required props 1`] = `
 <DocumentFragment>
   <div
-    class="tree-node optProps.className"
+    class="optProps.className tree-node"
     data-cy="optProps.data-cy"
     data-node="0"
   >
@@ -87,10 +91,14 @@ exports[`<TreeNode/> render with optional/required props 1`] = `
     >
       t
     </span>
-    <span>
+    <span
+      class=""
+    >
       e
     </span>
-    <span>
+    <span
+      class=""
+    >
       xt
     </span>
   </div>

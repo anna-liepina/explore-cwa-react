@@ -13,25 +13,26 @@
 | __tests__     | [![tests][ci.tests-master-badge]][ci.tests-master]            | [![tests][ci.tests-heroku-badge]][ci.tests-heroku]
 | __coverage__  | [![coverage][ci.coverage-master-badge]][ci.coverage-master]   | [![coverage][ci.coverage-heroku-badge]][ci.coverage-heroku]
 
-##### THIS IS A SPARE TIME PROJECT, WORK IN PROGRESS!
+# 'Explore Me CWA' [client web application]
 
-# 'Data Explorer' client web application [CWA] 
+This project is centered around parsing various datasets, including UK government data on property sales, police reporting data, and post code data. The goal is to harness geographical information to establish connections between postcodes using latitude and longitude.
 
-the project aims to parse UK government data on the property sales, and some geo data to link postcodes by latitude and longitude.
-This project is done to demonstrate my knowledge, which I learned recently as I try to get into the software development industry, I had a mentor to help me out
+The primary objective is to develop a scalable GraphQL backend capable of swiftly delivering requested results. This endeavor seeks to illuminate intricate aspects of GraphQL use, addressing challenges like the N+1 problem and scaling scenarios where more than one database is required for both write and read nodes.
 
-the aim is to build a scalable graphql backend, which can quickly return requested results
-to demonstrate complex cases of GraphQL use, such as N+1 problem, scaling where more than one database required [write/read nodes]
-complex automated QA, anonymized data seeding for QA purposes, flexibility on javascript, some limits of Javascript, where for example by default object in V8 object can have ~8.4mil of fields, but Map can handle way more. Queue system for data processing
+Key features of the project include a robust automated Quality Assurance (QA) system, incorporating anonymized data seeding for comprehensive QA testing. The project also explores the flexibility of JavaScript, pushing the boundaries of the language. Notably, it delves into the constraints of default V8 object fields, which are capped at around ~8.4 million, while highlighting the superior handling capacity of the Map data structure.
 
-* Web Application live [demo](https://www.data-explorer.co.uk) 
-  * GraphQL live [demo](https://api.data-explorer.co.uk/graphql)
+Additionally, the project incorporates a queue system to enhance the efficiency of data processing. In essence, project serves as a practical demonstration of diverse and advanced aspects of software development, reflecting a commitment to excellence and innovation.
+
+### Live DEMO
+
+* Web Application [https://exploreme.co.uk]
+  * GraphQL [https://dolphin-app-3qow6.ondigitalocean.app]
 
 ### software requirements
 
 if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ and __[docker-compose](https://docs.docker.com/compose/install/)__ are required, and local __[node.js](https://nodejs.org/)__ with __[npm](https://www.npmjs.com/)__ are optional
-* [node.js](https://nodejs.org/) v10+
-* [npm](https://www.npmjs.com/) v6+ or [yarn](https://yarnpkg.com/)
+* [node.js](https://nodejs.org/)
+* [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 * __optional__ [makefile](https://en.wikipedia.org/wiki/Makefile) comes out of the box in *unix* enviroments
 * __optional__ [docker](https://www.docker.com/) v18.09+
 * __optional__ [docker-compose](https://docs.docker.com/compose/) v3+ *for 'cypress' tests only*
@@ -41,7 +42,6 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 * [react.js](https://reactjs.org/)
 * [sass](https://sass-lang.com/)
 * [jest](https://facebook.github.io/jest/)
-* [enzyme](http://airbnb.io/enzyme/)
 * [react testing library](https://testing-library.com/docs/react-testing-library/intro)
 * [cypress](https://www.cypress.io/)
 
@@ -51,15 +51,14 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 * [codecov](https://codecov.io/)
 * [code climate](https://codeclimate.com/)
 * [snyk](https://snyk.io/)
-* [heroku](https://www.heroku.com/)
 
 ### how to install
 
-* with `make` commands no steps additional required, otherwise you need execute `$ npm i`
+* with `make` commands no additional steps are required, otherwise you need to execute `$ npm i`
 
 ### how to run tests
 
-* end to end 'cypress' tests: `$ make sync` to fetch GraphQL backend as git submodule, then `$ make cypress`
+* end-to-end 'cypress' tests: `$ make sync` to fetch GraphQL backend as a git submodule, then `$ make cypress`
   * _npm analogue_ require booting up [CWA](https://github.com/anna-lipina/explore-cwa-react) & [SA](https://github.com/anna-lipina/explore-sa-node/) and link them together, then `cd cypress && npm test`
 * functional 'jest' tests: `$ make test` or `$ npm test`
   * __optional__ [ 'jest' CLI params](https://facebook.github.io/jest/docs/en/cli.html), examples:
@@ -83,14 +82,27 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 ### gitflow
 
 * *heroku* -> current __production__, contains *production specific changes*, trigger deploy on AWS on *every push*
-* *master* -> most upto date __production ready__, all pull requests in to this branch got mandatory checks 'ci/circleci: jest' and 'ci/circleci: cypress'
-* *feature branches* -> get merged into master branch, when they ready and mandatory checks passed
-* *CI execute tests in isolated enviroment*
+* *master* -> most upto date __production ready__, all pull requests into this branch got mandatory checks 'ci/circleci: jest' and 'ci/circleci: cypress'
+* *feature branches* -> get merged into the master branch when they are ready and mandatory checks passed
+* *CI executes tests in an isolated environment*
 
 ### used environment variables
 
 | variable          | default value     | used as   | purpose
 |---                |---                |---        |---
-| PORT              | 8080              | number    | port on which application will be made available
+| PORT              | 8080              | number    | port on which the application will be made available
 | REACT_APP_GRAPHQL | //localhost:8081  | string    | GraphQL backend URI
 | REACT_APP_TITLE   | DATA EXPLORER     | string    | website's title
+
+
+### DEMO 
+
+#### overview
+![Overview](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/map.png?raw=true)
+
+#### properties
+![Properties](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/properties.png?raw=true)
+
+#### incidents
+![Incidents](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/incidents.png?raw=true)
+
