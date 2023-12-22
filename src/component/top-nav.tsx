@@ -98,11 +98,22 @@ interface ITopNavProps {
     className?: string;
 };
 
+const SponsorList: React.FC = () => {
+    return <a href="https://www.digitalocean.com/?refcode=b01dc9c859eb&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
+        <img
+            style={{ 'height': '100%', 'filter': 'grayscale(100%)' }}
+            src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%202.svg"
+            alt="DigitalOcean Badge"
+        />
+    </a>
+}
+
 const TopNav: React.FC<ITopNavProps> = ({ 'data-cy': cy = '', className = '', ...props }) =>
     <nav data-cy={`${cy}-topnav`} className={`topnav ${className}`} {...props}>
         <Link to="/" className="topnav__link">
             <img data-cy={`${cy}-topnav-logo`} className="topnav__logo--main" alt="Logo" src="/assets/img/1.png" />
         </Link>
+        <SponsorList />
         <DrawerHandler
             data-cy="topnav-postcode_tree"
             button={(props: any) => <img {...props} className={`${props.className || ''} topnav__item`} alt="UK postcode areas" src="/assets/img/united-kingdom.svg" />}
