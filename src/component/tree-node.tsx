@@ -1,12 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 
-interface ITextChunk {
+export interface ITextChunk {
     v: string;
     isMatch?: boolean;
 }
 
-interface ITreeNodeProps {
+export interface ITreeNodeProps {
     className?: string;
     'data-cy'?: string;
     'data-node'?: string;
