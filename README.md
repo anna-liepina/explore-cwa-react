@@ -23,8 +23,10 @@ Key features of the project include a robust automated Quality Assurance (QA) sy
 
 Additionally, the project incorporates a queue system to enhance the efficiency of data processing. In essence, project serves as a practical demonstration of diverse and advanced aspects of software development, reflecting a commitment to excellence and innovation.
 
-* Web Application (currently not available)
-  * GraphQL live (currently not available)
+### Live DEMO
+
+* Web Application [https://exploreme.co.uk]
+  * GraphQL [https://dolphin-app-3qow6.ondigitalocean.app]
 
 ### software requirements
 
@@ -88,7 +90,7 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 
 | variable          | default value     | used as   | purpose
 |---                |---                |---        |---
-| PORT              | 8080              | number    | port on which application will be made available
+| PORT              | 8080              | number    | port on which the application will be made available
 | REACT_APP_GRAPHQL | //localhost:8081  | string    | GraphQL backend URI
 | REACT_APP_TITLE   | DATA EXPLORER     | string    | website's title
 
