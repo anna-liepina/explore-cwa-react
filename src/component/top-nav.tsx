@@ -107,7 +107,7 @@ const TopNav: React.FC<ITopNavProps> = ({ 'data-cy': cy = '', className = '', ..
             data-cy="topnav-postcode_tree"
             button={(props: any) => <img {...props} className={`${props.className || ''} topnav__item`} alt="UK postcode areas" src="/assets/img/united-kingdom.svg" />}
         >
-            <Query onMount={onMount}>
+            <Query fetch={onMount}>
                 {(props: any, state: any) => <TreeHandler data={state.data} onFilter={onFilter} onExpand={onExpand} />}
             </Query>
         </DrawerHandler>

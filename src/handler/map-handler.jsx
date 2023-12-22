@@ -347,7 +347,7 @@ export default class MapHandler extends PureComponent {
                 >
                     <Query
                         data-cy={`${cy}--details`}
-                        onMount={onSearchDetails}
+                        fetch={onSearchDetails}
                         payload={payload}
                     >
                         {
