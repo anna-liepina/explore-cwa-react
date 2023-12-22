@@ -54,11 +54,11 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 
 ### how to install
 
-* with `make` commands no steps additional required, otherwise you need execute `$ npm i`
+* with `make` commands no additional steps are required, otherwise you need to execute `$ npm i`
 
 ### how to run tests
 
-* end to end 'cypress' tests: `$ make sync` to fetch GraphQL backend as git submodule, then `$ make cypress`
+* end-to-end 'cypress' tests: `$ make sync` to fetch GraphQL backend as a git submodule, then `$ make cypress`
   * _npm analogue_ require booting up [CWA](https://github.com/anna-lipina/explore-cwa-react) & [SA](https://github.com/anna-lipina/explore-sa-node/) and link them together, then `cd cypress && npm test`
 * functional 'jest' tests: `$ make test` or `$ npm test`
   * __optional__ [ 'jest' CLI params](https://facebook.github.io/jest/docs/en/cli.html), examples:
@@ -82,9 +82,9 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 ### gitflow
 
 * *heroku* -> current __production__, contains *production specific changes*, trigger deploy on AWS on *every push*
-* *master* -> most upto date __production ready__, all pull requests in to this branch got mandatory checks 'ci/circleci: jest' and 'ci/circleci: cypress'
-* *feature branches* -> get merged into master branch, when they ready and mandatory checks passed
-* *CI execute tests in isolated enviroment*
+* *master* -> most upto date __production ready__, all pull requests into this branch got mandatory checks 'ci/circleci: jest' and 'ci/circleci: cypress'
+* *feature branches* -> get merged into the master branch when they are ready and mandatory checks passed
+* *CI executes tests in an isolated environment*
 
 ### used environment variables
 
@@ -96,3 +96,13 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 
 
 ### DEMO 
+
+#### overview
+![Overview](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/map.png?raw=true)
+
+#### properties
+![Properties](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/properties.png?raw=true)
+
+#### incidents
+![Incidents](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/incidents.png?raw=true)
+
