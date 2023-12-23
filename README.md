@@ -13,9 +13,9 @@
 | __tests__     | [![tests][ci.tests-master-badge]][ci.tests-master]            | [![tests][ci.tests-heroku-badge]][ci.tests-heroku]
 | __coverage__  | [![coverage][ci.coverage-master-badge]][ci.coverage-master]   | [![coverage][ci.coverage-heroku-badge]][ci.coverage-heroku]
 
-##### THIS IS A SPARE TIME PROJECT, WORK IN PROGRESS!
+# 'Explore Me CWA' [client web application]
 
-# 'Data Explorer' client web application [CWA] 
+This project is centered around parsing various datasets, including UK government data on property sales, police reporting data, and post code data. The goal is to harness geographical information to establish connections between postcodes using latitude and longitude.
 
 This project is centered around parsing various datasets, including UK government data on property sales, police reporting data, and post code data. The goal is to harness geographical information to establish connections between postcodes using latitude and longitude.
 
@@ -25,8 +25,10 @@ Key features of the project include a robust automated Quality Assurance (QA) sy
 
 Additionally, the project incorporates a queue system to enhance the efficiency of data processing. In essence, project serves as a practical demonstration of diverse and advanced aspects of software development, reflecting a commitment to excellence and innovation.
 
-* Web Application (currently not available)
-  * GraphQL live (currently not available)
+### Live DEMO
+
+* Web Application [https://exploreme.co.uk]
+  * GraphQL [https://dolphin-app-3qow6.ondigitalocean.app]
 
 ### software requirements
 
@@ -54,11 +56,11 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 
 ### how to install
 
-* with `make` commands no steps additional required, otherwise you need execute `$ npm i`
+* with `make` commands no additional steps are required, otherwise you need to execute `$ npm i`
 
 ### how to run tests
 
-* end to end 'cypress' tests: `$ make sync` to fetch GraphQL backend as git submodule, then `$ make cypress`
+* end-to-end 'cypress' tests: `$ make sync` to fetch GraphQL backend as a git submodule, then `$ make cypress`
   * _npm analogue_ require booting up [CWA](https://github.com/anna-lipina/explore-cwa-react) & [SA](https://github.com/anna-lipina/explore-sa-node/) and link them together, then `cd cypress && npm test`
 * functional 'jest' tests: `$ make test` or `$ npm test`
   * __optional__ [ 'jest' CLI params](https://facebook.github.io/jest/docs/en/cli.html), examples:
@@ -82,20 +84,29 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 ### gitflow
 
 * *heroku* -> current __production__, contains *production specific changes*, trigger deploy on AWS on *every push*
-* *master* -> most upto date __production ready__, all pull requests in to this branch got mandatory checks 'ci/circleci: jest' and 'ci/circleci: cypress'
-* *feature branches* -> get merged into master branch, when they ready and mandatory checks passed
-* *CI execute tests in isolated enviroment*
+* *master* -> most upto date __production ready__, all pull requests into this branch got mandatory checks 'ci/circleci: jest' and 'ci/circleci: cypress'
+* *feature branches* -> get merged into the master branch when they are ready and mandatory checks passed
+* *CI executes tests in an isolated environment*
 
 ### used environment variables
 
 | variable          | default value     | used as   | purpose
 |---                |---                |---        |---
-| PORT              | 8080              | number    | port on which application will be made available
+| PORT              | 8080              | number    | port on which the application will be made available
 | REACT_APP_GRAPHQL | //localhost:8081  | string    | GraphQL backend URI
 | REACT_APP_TITLE   | DATA EXPLORER     | string    | website's title
 
 
 ### DEMO 
-[map](docs/images/map.png)
-[incidents](docs/images/incidents.png)
-[properties](docs/images/properties.png)
+
+#### overview
+![Overview](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/map.png?raw=true)
+![Area Overview](docs/images/map.png?raw=true)
+
+#### properties
+![Properties](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/properties.png?raw=true)
+![Properties](docs/images/properties.png?raw=true)
+
+#### incidents
+![Incidents](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/incidents.png?raw=true)
+[incidents](docs/images/incidents.png?raw=true)
