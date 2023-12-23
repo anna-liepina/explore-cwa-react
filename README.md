@@ -94,15 +94,13 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 | REACT_APP_GRAPHQL | //localhost:8081  | string    | GraphQL backend URI
 | REACT_APP_TITLE   | DATA EXPLORER     | string    | website's title
 
-
-### DEMO 
+### DEMO
 
 #### overview
-![Overview](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/map.png?raw=true)
+![Area Overview](docs/images/map.png?raw=true)
 
 #### properties
-![Properties](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/properties.png?raw=true)
+![Properties](docs/images/properties.png?raw=true)
 
 #### incidents
-![Incidents](https://github.com/anna-liepina/explore-cwa-react/blob/master/docs/images/incidents.png?raw=true)
-
+![Incidents](docs/images/incidents.png?raw=true)
