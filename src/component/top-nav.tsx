@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import Query from '../handler/query';
 import TreeHandler from '../handler/tree-handler';
 import DrawerHandler from '../handler/drawer-handler';
-import { graphql } from '../parameters';
 import { filter } from '../filtering/filter';
-import axios from 'axios';
-import type { AxiosResponse } from 'axios';
 
-interface Data {
+
+import { query } from '../graphql/query';
+
+interface AreaSearchResponse {
     areaSearch: { area: string; city: string }[];
 }
 
@@ -24,20 +24,15 @@ const onMount = (
     onSuccess: (data: Series[]) => void,
     onError: (error: any) => void
 ) => {
-    axios
-        .post<undefined, AxiosResponse<{ data: Data }>>(
-            graphql!,
-            {
-                query: `
+
+                query<AreaSearchResponse>(`
 {
     areaSearch(perPage: 5000) {
         area
         city
     }
 }
-`,
-            }
-        )
+`)
         .then(({ data: { data } }) => {
             const obj: Record<string, { text: string }[]> = {};
 

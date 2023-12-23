@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import HTMLInput from '../component/form/html-input';
 import Search from '../component/form/interactive-search';
@@ -8,24 +7,19 @@ import TabHandler from '../handler/tab-handler';
 import TableHandler from '../handler/table-handler';
 import { validationEngine } from '../validation/engine';
 import { composeConditionalRule } from '../validation/rules';
+import { query } from '../graphql/query';
 
 const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
     const pattern = state.pattern.toUpperCase();
 
     if (!cache || 0 === cache.length) {
-        return axios
-            .post(
-                process.env.REACT_APP_GRAPHQL,
-                {
-                    query: `
+        return query(`
 {
     areaSearch(perPage: 5000) {
         area
         city
     }
-}`
-                }
-            )
+}`)
             .then(({ data: { data } }) => {
                 cache = data.areaSearch.map(({ area, city }) => ({
                     value: area,
@@ -124,20 +118,14 @@ const tabs = [
                             return;
                         }
 
-                        return axios
-                            .post(
-                                process.env.REACT_APP_GRAPHQL,
-                                {
-                                    query: `
+                        return query(`
 {
     postcodeSearch(pattern: "${pattern}") {
         postcode
         lat
         lng
     }
-}`
-                                }
-                            )
+}`)
                             .then(({ data: { data } }) => {
                                 const cache = data
                                     .postcodeSearch
@@ -197,18 +185,12 @@ const tabs = [
                             return;
                         }
 
-                        return axios
-                            .post(
-                                process.env.REACT_APP_GRAPHQL,
-                                {
-                                    query: `
+                        return query(`
 {
     postcodeSearch(pattern: "${pattern}") {
         postcode
     }
-}`
-                                }
-                            )
+}`)
                             .then(({ data: { data } }) => {
                                 const v = data.postcodeSearch.map(({ postcode: v }) => ({ label: v, value: v }));
 

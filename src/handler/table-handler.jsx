@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-
 import FormHandler from './form-handler';
+import { query } from '../graphql/query';
+
 
 const search = (props, state, onSuccess, onError) => {
     const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
@@ -12,11 +12,7 @@ const search = (props, state, onSuccess, onError) => {
         return;
     }
 
-    return axios
-        .post(
-            process.env.REACT_APP_GRAPHQL,
-            {
-                query: `
+    return query(`
 {
     transactionSearch(
         postcode: "${postcodes[0].value}"
@@ -37,10 +33,7 @@ const search = (props, state, onSuccess, onError) => {
             paon 
         }
     }
-}
-`
-            }
-        )
+}`)
         .then(({ data: { data } }) => {
             const arr = (state.data || []);
 

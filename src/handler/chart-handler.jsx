@@ -3,8 +3,7 @@ import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 import FormHandler from './form-handler';
-
-import axios from 'axios';
+import { query } from '../graphql/query';
 
 const onSubmit = (props, state, onSuccess, onError) => {
     const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
@@ -13,11 +12,7 @@ const onSubmit = (props, state, onSuccess, onError) => {
         return;
     }
 
-    return axios
-        .post(
-            process.env.REACT_APP_GRAPHQL,
-            {
-                query: `
+    return query(`
 {
     timelineSearch(
         postcodes: ["${postcodes.map(({ value: v }) => v).join('", "')}"]
@@ -29,10 +24,7 @@ const onSubmit = (props, state, onSuccess, onError) => {
         avg
         postcode
     }
-}
-`
-            }
-        )
+}`)
         .then(({ data: { data } }) => {
             const obj = {};
 
