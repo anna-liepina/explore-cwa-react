@@ -17,8 +17,6 @@
 
 This project is centered around parsing various datasets, including UK government data on property sales, police reporting data, and post code data. The goal is to harness geographical information to establish connections between postcodes using latitude and longitude.
 
-This project is centered around parsing various datasets, including UK government data on property sales, police reporting data, and post code data. The goal is to harness geographical information to establish connections between postcodes using latitude and longitude.
-
 The primary objective is to develop a scalable GraphQL backend capable of swiftly delivering requested results. This endeavor seeks to illuminate intricate aspects of GraphQL use, addressing challenges like the N+1 problem and scaling scenarios where more than one database is required for both write and read nodes.
 
 Key features of the project include a robust automated Quality Assurance (QA) system, incorporating anonymized data seeding for comprehensive QA testing. The project also explores the flexibility of JavaScript, pushing the boundaries of the language. Notably, it delves into the constraints of default V8 object fields, which are capped at around ~8.4 million, while highlighting the superior handling capacity of the Map data structure.
