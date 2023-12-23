@@ -3,7 +3,7 @@ import React from 'react';
 import HTMLInput from '../component/form/html-input';
 import Search from '../component/form/interactive-search';
 import ChartHandler from '../handler/chart-handler';
-import MapHandler from '../handler/map-handler';
+import MapHandler from '../handler/map.overview';
 import TabHandler from '../handler/tab-handler';
 import TableHandler from '../handler/table-handler';
 import { validationEngine } from '../validation/engine';

@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { Map, Marker } from 'pigeon-maps';
-import axios from 'axios';
 
 import Query from './query';
 import Drawer from '../drawer';
 import FormHandler from './form-handler';
 import { filter } from '../filtering/filter';
+import { query } from '../graphql/query';
 
 const colorHashmapByType = {
     police: '#F00',
@@ -28,14 +28,6 @@ const onFilter = (data, pattern) => {
         }
     }
 };
-
-const query = (query) => {
-    return axios
-        .post(
-            process.env.REACT_APP_GRAPHQL,
-            { query }
-        )
-}
 
 const resolvePayload = ({ form: { config }}, state) => {
     const [, { value: range }] = config[0].items;
@@ -98,12 +90,39 @@ const fetchIncidents = async ({ lat, lng, range = 0, perPage = 2500 }) => {
     ) {
         date
         type
+        outcome
     }
 }`)
-        .then(({ data: { data: { incidentSearchWithInRange: incidents } } }) => ([{
-            text: 'WIP: LSOA/Place Name <DrawerTable /> .data[0].label',
-            content: incidents.map(({ date, type: text }) => ({ date, text })),
-        }]))
+        .then(({ data: { data: { incidentSearchWithInRange: incidents } } }) => {
+            debugger;
+            const cache = {};
+            const defaultCategory = 'uncategorized';
+            const defaultCategoryIncidents = [];
+            for (const v of incidents) {
+                if (!v.type) {
+                    defaultCategoryIncidents.push({ date: v.date, text: v.outcome });
+                    continue;
+                }
+
+                cache[v.type] ||= [];
+                cache[v.type].push({ date: v.date, text: v.outcome })
+            }
+
+            const results = [];
+            for (const incidentType in cache) {
+                results.push({
+                    text: incidentType,
+                    content: cache[incidentType]
+                })
+            }
+
+            results.push({
+                text: defaultCategory,
+                content: defaultCategoryIncidents
+            })
+
+            return results;
+        })
         .catch((errors) => errors);
 };
 
@@ -355,7 +374,7 @@ export default class MapHandler extends PureComponent {
                                 <DrawerTable
                                     data-cy={`${cy}--details`}
                                     data={state.data}
-                                    title={`lat: ${payload.lat} | lng: ${payload.lng} | ${payload.type}`}
+                                    title={`WIP Marker.label`}
                                     onFilter={onFilter}
                                 />
                         }
