@@ -15,7 +15,7 @@ export interface IQueryProps {
         onSuccess: (data: any) => void,
         onError: (errors: any) => void
     ) => void;
-    children: (props?: IQueryProps, state?: IQueryState) => React.ReactNode;
+    children: (props?: IQueryProps, state?: IQueryState) => React.ReactElement<any, any> | null;
 }
 
 const Query: React.FC<IQueryProps> = (props) => {
