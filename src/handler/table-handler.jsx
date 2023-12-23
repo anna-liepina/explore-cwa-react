@@ -109,8 +109,8 @@ export default class TableHandler extends PureComponent {
     }
 
     render() {
-        const { 'data-cy': cy, columns } = this.props;
-        const { data, isLoading } = this.state;
+        const { columns } = this.props;
+        const { data } = this.state;
 
         return <>
             <FormHandler

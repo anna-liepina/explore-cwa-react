@@ -240,8 +240,10 @@ const tabs = [
     },
 ];
 
-export default {
+const routeConfig = {
     path: ['/'],
     exact: true,
     component: (props) => React.createElement(TabHandler, { ...props, tabs }),
 };
+
+export default routeConfig;

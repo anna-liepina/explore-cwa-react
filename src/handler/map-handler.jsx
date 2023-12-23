@@ -48,7 +48,7 @@ const resolvePayload = ({ form: { config }}, state) => {
     return {
         lat: point.latitude,
         lng: point.longitude,
-        range: .5,
+        range,
         perPage: 2_500_000
     };
 }
@@ -347,7 +347,7 @@ export default class MapHandler extends PureComponent {
                 >
                     <Query
                         data-cy={`${cy}--details`}
-                        onMount={onSearchDetails}
+                        fetch={onSearchDetails}
                         payload={payload}
                     >
                         {
