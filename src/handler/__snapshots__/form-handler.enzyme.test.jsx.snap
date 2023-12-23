@@ -3,6 +3,7 @@
 exports[`<FormHandler/> internal callbacks ::onChange should mutate state field [::config] and set [::value] for relevant field from payload 1`] = `
 Array [
   Object {
+    "isCollapsed": false,
     "items": Array [
       Object {
         "c": [Function],
@@ -12,186 +13,97 @@ Array [
         "c": [Function],
       },
     ],
-  },
-]
-`;
-
-exports[`<FormHandler/> internal callbacks ::onCollapse should mutate state field [::config] and toggle [::isCollapsed] field for relevant section, from click on <Accordion/> 1`] = `
-Array [
-  Object {
-    "isCollapsed": true,
-    "items": Array [
-      Object {
-        "c": [Function],
-      },
-    ],
-    "title": "{{section 0}}",
+    "title": "props.config[0].title",
   },
 ]
 `;
 
 exports[`<FormHandler/> render with default/required props 1`] = `
-<form
-  className="form "
->
-  <Accordion
-    className=""
-    data-cy="section-0"
-    data-section={0}
-    key="0"
-    onCollapse={[Function]}
-    title="{{section 0}}"
+<DocumentFragment>
+  <form
+    class="form "
   >
-    <c
-      data-cy="section-0-input-0"
-      data-field={0}
-      data-section={0}
-      key="0"
-      onChange={[Function]}
-    />
-  </Accordion>
-  <div
-    className="form_controls"
-  >
-    <Button
-      className=""
-      data-cy="form-action-submit"
-      disabled={true}
-      label="{{submit}}"
-      onClick={[Function]}
-    />
-    <Button
-      className=""
-      data-cy="form-action-cancel"
-      label="{{cancel}}"
-      onClick={[Function]}
-    />
-  </div>
-</form>
+    <section
+      class="accordion "
+    >
+      <h2
+        class="accordion_title"
+        data-cy="section-0"
+        data-section="0"
+      >
+        props.config[0].title
+      </h2>
+      <input
+        data-cy="section-0-input-0"
+        data-field="0"
+        data-section="0"
+      />
+    </section>
+    <div
+      class="form_controls"
+    >
+      <button
+        class="button "
+        data-cy="form-action-submit"
+        disabled=""
+      >
+        submitCTRL.label
+      </button>
+      <button
+        class="button "
+        data-cy="form-action-cancel"
+      >
+        cancelCTRL.cancel
+      </button>
+    </div>
+  </form>
+</DocumentFragment>
 `;
 
-exports[`<FormHandler/> render with optional props [::data] as "[object Object]" 1`] = `
-<form
-  className="form "
->
-  <Accordion
-    className=""
-    data-cy="section-0"
-    data-section={0}
-    key="0"
-    onCollapse={[Function]}
-    title="{{section 0}}"
+exports[`<FormHandler/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <form
+    class="form optProps.className"
   >
-    <c
-      data-cy="section-0-input-0"
-      data-field={0}
-      data-section={0}
-      key="0"
-      onChange={[Function]}
-    />
-  </Accordion>
-  <div
-    className="form_controls"
-  >
-    <Button
-      className=""
-      data-cy="form-action-update"
-      disabled={true}
-      label="{{update}}"
-      onClick={[Function]}
-    />
-    <Button
-      className=""
-      data-cy="form-action-cancel"
-      label="{{cancel}}"
-      onClick={[Function]}
-    />
-  </div>
-</form>
-`;
-
-exports[`<FormHandler/> render with optional props [::data-cy] as "{{data-cy}}" 1`] = `
-<form
-  className="form "
->
-  <Accordion
-    className=""
-    data-cy="{{data-cy}}section-0"
-    data-section={0}
-    key="0"
-    onCollapse={[Function]}
-    title="{{section 0}}"
-  >
-    <c
-      data-cy="{{data-cy}}section-0-input-0"
-      data-field={0}
-      data-section={0}
-      key="0"
-      onChange={[Function]}
-    />
-  </Accordion>
-  <div
-    className="form_controls"
-  >
-    <Button
-      className=""
-      data-cy="{{data-cy}}form-action-submit"
-      disabled={true}
-      label="{{submit}}"
-      onClick={[Function]}
-    />
-    <Button
-      className=""
-      data-cy="{{data-cy}}form-action-cancel"
-      label="{{cancel}}"
-      onClick={[Function]}
-    />
-  </div>
-</form>
-`;
-
-exports[`<FormHandler/> render with optional props [::title] as "{{title}}" 1`] = `
-<form
-  className="form "
->
-  <h1
-    className="form_title"
-    data-cy="form-title"
-  >
-    {{title}}
-  </h1>
-  <Accordion
-    className=""
-    data-cy="section-0"
-    data-section={0}
-    key="0"
-    onCollapse={[Function]}
-    title="{{section 0}}"
-  >
-    <c
-      data-cy="section-0-input-0"
-      data-field={0}
-      data-section={0}
-      key="0"
-      onChange={[Function]}
-    />
-  </Accordion>
-  <div
-    className="form_controls"
-  >
-    <Button
-      className=""
-      data-cy="form-action-submit"
-      disabled={true}
-      label="{{submit}}"
-      onClick={[Function]}
-    />
-    <Button
-      className=""
-      data-cy="form-action-cancel"
-      label="{{cancel}}"
-      onClick={[Function]}
-    />
-  </div>
-</form>
+    <h1
+      class="form_title"
+      data-cy="optProps.data-cyform-title"
+    >
+      optProps.title
+    </h1>
+    <section
+      class="accordion "
+    >
+      <h2
+        class="accordion_title"
+        data-cy="optProps.data-cysection-0"
+        data-section="0"
+      >
+        props.config[0].title
+      </h2>
+      <input
+        data-cy="optProps.data-cysection-0-input-0"
+        data-field="0"
+        data-section="0"
+      />
+    </section>
+    <div
+      class="form_controls"
+    >
+      <button
+        class="button "
+        data-cy="optProps.data-cyform-action-update"
+        disabled=""
+      >
+        updateCTRL.label
+      </button>
+      <button
+        class="button "
+        data-cy="optProps.data-cyform-action-cancel"
+      >
+        cancelCTRL.cancel
+      </button>
+    </div>
+  </form>
+</DocumentFragment>
 `;
