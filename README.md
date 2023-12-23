@@ -96,8 +96,7 @@ if you're using `make` commands, __[docker](https://docs.docker.com/install/)__ 
 | REACT_APP_GRAPHQL | //localhost:8081  | string    | GraphQL backend URI
 | REACT_APP_TITLE   | DATA EXPLORER     | string    | website's title
 
-
-### DEMO 
+### DEMO
 
 #### overview
 ![Area Overview](docs/images/map.png?raw=true)
