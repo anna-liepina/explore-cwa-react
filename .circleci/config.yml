@@ -17,6 +17,9 @@ jobs:
             - ~/.npm
             - ~/.cache
       - run:
+          name: compile typescript
+          command: npm run build
+      - run:
           name: execute 'jest' tests with coverage
           command: npm test -- --coverage
       - run:

@@ -48,7 +48,7 @@ const resolvePayload = ({ form: { config }}, state) => {
     return {
         lat: point.latitude,
         lng: point.longitude,
-        range: .5,
+        range,
         perPage: 2_500_000
     };
 }
