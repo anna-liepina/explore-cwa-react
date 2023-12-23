@@ -1,5 +1,7 @@
 import dashboard from './dashboard.route';
 
-export default [
+const routes = [
     dashboard,
 ];
+
+export default routes;
