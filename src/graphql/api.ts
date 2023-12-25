@@ -171,26 +171,26 @@ const api = {
         city
     }
 }`)
-            .then(({ data: { data } }) => {
-                const cache: Record<string, IAreaTreeNode[]> = {};
-    
-                for (const { city, area: text } of data.areaSearch) {
-                    cache[city] ||= [];
-                    cache[city].push({ text });
-                }
-    
-                const series: IAreaTreeNode[] = [];
-    
-                for (const text in cache) {
-                    series.push({
-                        text,
-                        nodes: cache[text],
-                    });
-                }
-    
-                console.log('series', series);
-                return series;
-            })
+        .then(({ data: { data } }) => {
+            const cache: Record<string, IAreaTreeNode[]> = {};
+
+            for (const { city, area: text } of data.areaSearch) {
+                cache[city] ||= [];
+                cache[city].push({ text });
+            }
+
+            const series: IAreaTreeNode[] = [];
+
+            for (const text in cache) {
+                series.push({
+                    text,
+                    nodes: cache[text],
+                });
+            }
+
+            console.log('series', series);
+            return series;
+        })
     },
 };
 

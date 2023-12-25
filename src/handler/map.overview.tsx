@@ -6,7 +6,7 @@ import Query from './query';
 import Drawer from '../drawer';
 import FormHandler from './form-handler';
 import type { ITextChunk } from '../filtering/filter';
-import { filter } from '../filtering/filter';
+import { filterTree } from '../filtering/filter';
 
 import { useHistory, useLocation } from 'react-router';
 import { useQuery } from '../hooks/useQuery';
@@ -19,22 +19,7 @@ const colorHashmapByType: Record<MarkerType, string> = {
     [MarkerType.property]: '#000',
 };
 const defaultColor = '#0ff';
-console.log('colorHashmapByType', colorHashmapByType);
 const resolveMarkerColor = (marker: IMarker): string => colorHashmapByType[marker.type] || defaultColor;
-
-//@ts-ignore
-const onFilter = (data, pattern) => {
-    pattern = (pattern || '').toLowerCase();
-
-    for (const v of data) {
-        v.isExpanded = filter(v, pattern);
-
-        if (!pattern) {
-            v.isExpanded = false;
-            v.isVisible = true;
-        }
-    }
-};
 
 //@ts-ignore
 const extractPoint = ({ config }) => {
@@ -306,10 +291,9 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
                             (props, state) => 
                                 <DrawerTable
                                     data-cy={`${cy}--details`}
-                                    //@ts-ignore
                                     data={state.data}
                                     title={`WIP Marker.label`}
-                                    onFilter={onFilter}
+                                    onFilter={filterTree}
                                 />
                         }
                     </Query>

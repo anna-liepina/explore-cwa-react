@@ -7,7 +7,7 @@ export interface IQueryProps {
     fetch: (args: any) => Promise<any>;
     fetchArgs?: any;
     fetchTrigger?: number;
-    children: (props?: IQueryProps, state?: IQueryState) => React.ReactElement<any, any> | null;
+    children: (props: IQueryProps, state: IQueryState) => React.ReactElement<any, any> | null;
 }
 
 const Query: React.FC<IQueryProps> = (props) => {

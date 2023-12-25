@@ -4,21 +4,8 @@ import { Link } from 'react-router-dom';
 import Query from '../handler/query';
 import TreeHandler from '../handler/tree-handler';
 import DrawerHandler from '../handler/drawer-handler';
-import { filter } from '../filtering/filter';
 import api from '../graphql/api';
-  
-const onFilter = (data: any, pattern: string) => {
-    pattern = (pattern || '').toLowerCase();
-
-    for (const v of data) {
-        v.isExpanded = filter(v, pattern);
-
-        if (!pattern) {
-            v.isExpanded = false;
-            v.isVisible = true;
-        }
-    }
-};
+import { filterTree } from '../filtering/filter';
 
 const onExpand = (data: any, path: string) => {
     let pos = 0;
@@ -52,7 +39,7 @@ const TopNav: React.FC<ITopNavProps> = ({ 'data-cy': cy = '', className = '', ..
             button={(props: any) => <img {...props} className={`${props.className || ''} topnav__item`} alt="UK postcode areas" src="/assets/img/united-kingdom.svg" />}
         >
             <Query fetch={api.fetchAreas}>
-                {(props: any, state: any) => <TreeHandler data={state.data} onFilter={onFilter} onExpand={onExpand} />}
+                {(props: any, state: any) => <TreeHandler data={state.data} onFilter={filterTree} onExpand={onExpand} />}
             </Query>
         </DrawerHandler>
         <Link to="//github.com/anna-liepina/explore-cwa-react" className="topnav__link--github" target="_blank">

@@ -5,6 +5,19 @@ export interface ITextChunk {
     isMatch?: boolean;
 }
 
+export const filterTree = (data: ITreeNodeProps[], pattern: string) => {
+    pattern = (pattern || '').toLowerCase();
+
+    for (const v of data) {
+        v.isExpanded = filter(v, pattern);
+
+        if (!pattern) {
+            v.isExpanded = false;
+            v.isVisible = true;
+        }
+    }
+};
+
 export const filter = (obj: ITreeNodeProps, pattern: string): boolean => {
     let left = obj.text.toLowerCase();
     let chunks: ITextChunk[] | undefined;
