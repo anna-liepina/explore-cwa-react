@@ -5,58 +5,7 @@ import Query from '../handler/query';
 import TreeHandler from '../handler/tree-handler';
 import DrawerHandler from '../handler/drawer-handler';
 import { filter } from '../filtering/filter';
-
-
-import { query } from '../graphql/query';
-
-interface AreaSearchResponse {
-    areaSearch: { area: string; city: string }[];
-}
-
-interface Series {
-    text: string;
-    nodes: { text: string }[];
-}
-
-const onMount = (
-    props: any,
-    state: any,
-    onSuccess: (data: Series[]) => void,
-    onError: (error: any) => void
-) => {
-
-                query<AreaSearchResponse>(`
-{
-    areaSearch(perPage: 5000) {
-        area
-        city
-    }
-}
-`)
-        .then(({ data: { data } }) => {
-            const obj: Record<string, { text: string }[]> = {};
-
-            for (const { city, area: text } of data.areaSearch) {
-                if (!obj[city]) {
-                    obj[city] = [];
-                }
-
-                obj[city].push({ text });
-            }
-
-            const series: Series[] = [];
-
-            for (const text in obj) {
-                series.push({
-                    text,
-                    nodes: obj[text],
-                });
-            }
-
-            onSuccess(series);
-        })
-        .catch(onError);
-};
+import api from '../graphql/api';
   
 const onFilter = (data: any, pattern: string) => {
     pattern = (pattern || '').toLowerCase();
@@ -102,7 +51,7 @@ const TopNav: React.FC<ITopNavProps> = ({ 'data-cy': cy = '', className = '', ..
             data-cy="topnav-postcode_tree"
             button={(props: any) => <img {...props} className={`${props.className || ''} topnav__item`} alt="UK postcode areas" src="/assets/img/united-kingdom.svg" />}
         >
-            <Query fetch={onMount}>
+            <Query fetch={api.fetchAreas}>
                 {(props: any, state: any) => <TreeHandler data={state.data} onFilter={onFilter} onExpand={onExpand} />}
             </Query>
         </DrawerHandler>

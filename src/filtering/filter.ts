@@ -1,4 +1,9 @@
-import type { ITextChunk, ITreeNodeProps } from "../component/tree-node";
+import type { ITreeNodeProps } from "../component/tree-node";
+
+export interface ITextChunk {
+    v: string;
+    isMatch?: boolean;
+}
 
 export const filter = (obj: ITreeNodeProps, pattern: string): boolean => {
     let left = obj.text.toLowerCase();
