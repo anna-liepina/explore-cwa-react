@@ -1,56 +1,57 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import type { IQueryProps } from './query';
 import Query from './query';
 
 describe('<Query/>', () => {
-    // const props: IQueryProps = {
-    //     fetch: jest.fn(),
-    //     children: () => <div data-cy="query-child"/>
-    // };
+    const props: IQueryProps = {
+        fetch: jest.fn(() => new Promise(() => {})),
+        children: (props, state) => <div data-cy="query-child"/>
+    };
 
-    // const optionalProps: Partial<IQueryProps> = {
-    //     'data-cy': '{{data-cy}}',
-    // };
+    const optionalProps: Partial<IQueryProps> = {
+        'data-cy': '{{data-cy}}',
+    };
 
-    // describe('render', () => {
-    //     it('with required/default props', () => {
-    //         const { asFragment } = render(<Query {...props} />);
+    describe('render', () => {
+        // it('with required/default props', async () => {
+        //     let asFragment;
+        //     await act(async () => {
+        //         const obj = await render(<Query {...props} />);
+        //         asFragment = obj.asFragment
+        //     });
 
-    //         expect(asFragment()).toMatchSnapshot();
-    //     });
+        //         expect(asFragment!()).toMatchSnapshot();
+        // });
 
-    //     it('with optional/required props', () => {
-    //         const { asFragment } = render(<Query {...props} {...optionalProps} />);
+        // it('with optional/required props', () => {
+        //     const { asFragment } = render(<Query {...props} {...optionalProps} />);
 
-    //         expect(asFragment()).toMatchSnapshot();
-    //     });
+        //     expect(asFragment()).toMatchSnapshot();
+        // });
 
-    //     // describe('children render [render props approach]', () => {
-    //     //     it('if internal state field [::isLoading] is true, it should call children with arguments [props, internal state]', () => {
-    //     //         const spy = jest.spyOn(props, 'children');
+        // describe('children render [render props approach]', () => {
+        //     it('if internal state field [::isLoading] is true, it should call children with arguments [props, internal state]', async () => {
+        //         const spy = jest.spyOn(props, 'children');
 
-    //     //         const fetch = (
-    //     //             props: Partial<IQueryProps>,
-    //     //             state: Partial<IQueryState>,
-    //     //             onSuccess: any,
-    //     //             onError: any
-    //     //         ) => onSuccess();
+        //         const fetch = () => Promise.resolve('result');
     
-    //     //         render(<Query {...props} fetch={fetch} />);
-
-    //     //         expect(spy).toBeCalledWith(
-    //     //             { ...props, fetch },
-    //     //             {
-    //     //                 data: undefined,
-    //     //                 errors: undefined,
-    //     //                 isLoading: false,
-    //     //             }
-    //     //         );
-    //     //     });
-    //     // });
-    // });
+        //         await act(async () => {
+        //             await render(<Query {...props} fetch={fetch} />);
+        //         })
+            
+        //         expect(spy).toBeCalledWith(
+        //             { ...props, fetch },
+        //             {
+        //                 data: 'result',
+        //                 errors: undefined,
+        //                 isLoading: false,
+        //             }
+        //         );
+        //     });
+        // });
+    });
 
     // describe('refetch functionality', () => {
     //     it('should invoke external callback [::fetch] if prop [::fetchTrigger] changed', async () => {
