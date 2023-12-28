@@ -21,17 +21,6 @@ const colorHashmapByType: Record<MarkerType, string> = {
 const defaultColor = '#0ff';
 const resolveMarkerColor = (marker: IMarker): string => colorHashmapByType[marker.type] || defaultColor;
 
-//@ts-ignore
-const extractPoint = ({ config }) => {
-    const { value: points } = config[0].items[0];
-
-    if (undefined === points || 0 === points.length) {
-        return undefined;
-    }
-
-    return points[0];
-}
-
 interface ITableRecord {
     date: string;
     text: string|number;
@@ -154,9 +143,13 @@ const resolveMapDimensions = () => ({
 })
 
 const resolvePayload = (props: IMapOverviewPageProps, state: IMapOverviewPageState) => {
-    // const { form: { config }} = props;
-    // const [, { value: range }] = config[0].items;
-    const { coordinates } = state;
+    const { form: { config }} = props;
+    const [ { value: _coordinates } , { value: range }] = config[0].items;
+    let { coordinates } = state;
+
+    if (_coordinates?.length) {
+        coordinates = _coordinates[0];
+    }
 
     if (!coordinates.latitude || !coordinates.longitude) {
         return;
@@ -164,7 +157,7 @@ const resolvePayload = (props: IMapOverviewPageProps, state: IMapOverviewPageSta
 
     return {
         ...coordinates,
-        range: 1,
+        range,
         perPage: 2_500_000
     };
 }
@@ -172,6 +165,8 @@ const resolvePayload = (props: IMapOverviewPageProps, state: IMapOverviewPageSta
 interface IMapOverviewPageProps {
     'data-cy'?: string;
     defaultZoom?: number;
+    // TODO: review after <FormHandler /> is converted to TypeScript
+    form: any;
 }
 
 interface IMapOverviewPageState {
@@ -182,7 +177,7 @@ interface IMapOverviewPageState {
     coordinates: {
         latitude: number;
         longitude: number;
-    }
+    };
 }
 
 const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
@@ -193,7 +188,6 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
     const latitude = parseFloat(urlSearchParams.get('latitude')!);
     const longitude = parseFloat(urlSearchParams.get('longitude')!);
 
-    //@ts-ignore
     const { 'data-cy': cy = '', defaultZoom = 15, form } = props;
     const [state, setState] = useState<IMapOverviewPageState>({
         ...resolveMapDimensions(),
@@ -254,10 +248,9 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
     };
 
     const onFormSearch = () => {
-        //@ts-ignore
-        // const point = extractPoint(this.props.form) || state.point;
+        const coordinates = resolvePayload(props, state);
 
-        // onMapChange({ center: [ point.lat, point.lng ], zoom: state.zoom })
+        onMapChange({ center: [ coordinates!.latitude, coordinates!.longitude ], zoom: state.zoom })
     };
 
     const onMapChange = ({ center: [latitude, longitude], zoom }: { center: [ number, number ], zoom: number }) => {
