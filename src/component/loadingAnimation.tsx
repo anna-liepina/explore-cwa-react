@@ -10,4 +10,4 @@ const LoadingAnimation: React.FC<ILoadingAnimationProps> = ({ 'data-cy': cy = ''
     <div />
 </div>;
 
-export default LoadingAnimation
+export default LoadingAnimation;
