@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useQuery, IQueryState } from "../../hooks/useQuery";
 import LoadingAnimation from "./queryAnimation";
+import type { IQAProps } from "../../utils/commonTypes";
 
-export interface IQueryProps {
-    'data-cy'?: string;
+export interface IQueryProps extends IQAProps {
     fetch: (args: any) => Promise<any>;
     fetchArgs?: any;
     fetchTrigger?: number;
