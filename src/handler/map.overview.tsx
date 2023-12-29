@@ -1,130 +1,128 @@
-import React, { useState, useEffect, PureComponent } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import type { ChangeEvent } from 'react';
 
 import { Map, Marker } from 'pigeon-maps';
+
+import { useHistory, useLocation } from 'react-router';
+import { useQuery } from '../hooks/useQuery';
 
 import Query from './query';
 import Drawer from '../drawer';
 import FormHandler from './form-handler';
 import type { ITextChunk } from '../filtering/filter';
 import { filterTree } from '../filtering/filter';
-
-import { useHistory, useLocation } from 'react-router';
-import { useQuery } from '../hooks/useQuery';
-
 import type { IGeoSearchPayload, IMarker } from '../graphql/api';
 import api, { MarkerType } from '../graphql/api';
 
 const colorHashmapByType: Record<MarkerType, string> = {
-    [MarkerType.police]: '#F00',
+    [MarkerType.police]: '#f00',
     [MarkerType.property]: '#000',
 };
 const defaultColor = '#0ff';
 const resolveMarkerColor = (marker: IMarker): string => colorHashmapByType[marker.type] || defaultColor;
 
-interface ITableRecord {
+export interface ITableRecord {
     date: string;
     text: string|number;
 }
 
-interface IDrawTableRecord {
+export interface IDrawTableRecord {
     isVisible?: boolean;
     text: string;
     chunks?: ITextChunk[];
-    records: ITableRecord[];
+    content: ITableRecord[];
 }
 
-interface IDrawerTableProps {
-    'data-cy': string,
-    pattern?: string,
-    placeholder?: string,
-    title: string,
+export interface IDrawerTableProps {
+    'data-cy': string;
+    pattern?: string;
+    placeholder?: string;
+    title: string;
 
-    onFilter: (data: any, pattern: string) => void,
-    data: IDrawTableRecord[]
+    onFilter: (data: any, pattern: string) => void;
+    data: IDrawTableRecord[];
 }
 
-class DrawerTable extends PureComponent<IDrawerTableProps> {
-    //@ts-ignore
-    constructor({ data }) {
-        //@ts-ignore
-        super();
+const DrawerTable: React.FC<IDrawerTableProps> = ({
+    'data-cy': cy = '',
+    pattern,
+    placeholder,
+    title,
+    onFilter,
+    data,
+}) => {
+    const [filteredData, setFilteredData] = useState<IDrawTableRecord[]>(data);
+  
+    const handleFilterChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            onFilter(data, event.target.value);
 
-        this.state = {
-            data,
-        };
-
-        this.onFilter = this.onFilter.bind(this);
-    }
-
-    //@ts-ignore
-    onFilter({ target: { value: pattern } }) {
-        //@ts-ignore
-        const { data } = this.props;
-
-        //@ts-ignore
-        this.props.onFilter(data, pattern);
-
-        this.setState({ data: [...data] });
-    }
-
-    render() {
-        //@ts-ignore
-        const { title, placeholder, 'data-cy': cy } = this.props;
-        //@ts-ignore
-        const { data } = this.state;
-
-        return <>
-            <h2 data-cy={`${cy}--title`} className="drawer-table--title">{title}</h2>
-            <input
-                data-cy={`${cy}--input`}
-                className="drawer-table--input"
-                onChange={this.onFilter}
-                placeholder={placeholder}
-            />
-            {
-                //@ts-ignore
-                data.map(({ isVisible, chunks, text, content }, i) =>
-                    (undefined === isVisible || isVisible)
-                    && <React.Fragment key={i}>
-                        <h3 data-cy={`${cy}-${i}`} className="drawer-header">
-                            {
-                                chunks && 0 !== chunks.length
-                                    //@ts-ignore
-                                    ? chunks.map(({ v, isMatch }, j) =>
-                                        <span
-                                            key={j}
-                                            data-cy={`${cy}-${i}-chunk-${j}${isMatch ? '--match' : ''}`}
-                                            className={isMatch ? 'drawer-header--match' : ''}
-                                        >
-                                            {v}
-                                        </span>
-                                    )
-                                    : text
-                            }
-                        </h3>
-                        {
-                            Array.isArray(content) &&
-                            <table>
+            setFilteredData([...data]);
+        },
+        [data, onFilter]
+    );
+  
+    return <>
+        <h2 data-cy={`${cy}--title`} className="drawer-table--title">
+            {title}
+        </h2>
+        <input
+            data-cy={`${cy}--input`}
+            className="drawer-table--input"
+            onChange={handleFilterChange}
+            placeholder={placeholder}
+            value={pattern}
+        />
+        {
+            Array.isArray(filteredData) &&
+            filteredData.map(({ isVisible, chunks, text, content }, i) => (
+                (undefined === isVisible || isVisible) && (
+                <React.Fragment key={i}>
+                    <h3 data-cy={`${cy}-${i}`} className="drawer-header">
+                    {
+                        Array.isArray(chunks) && 0 !== chunks.length
+                            ? chunks.map(({ v, isMatch }, j) => (
+                                <span
+                                    key={j}
+                                    data-cy={`${cy}-${i}-chunk-${j}${isMatch ? '--match' : ''}`}
+                                    className={isMatch ? 'drawer-header--match' : ''}
+                                >
+                                    {v}
+                                </span>
+                            ))
+                            : <span>{text}</span>
+                    }
+                    </h3>
+                    {
+                        Array.isArray(content) && 0 !== content.length
+                        && <table>
                                 <tbody>
-                                    {
-                                        content.map(({ date, text }, j) =>
-                                            <tr className="drawer-table--row" key={j} >
-                                                <td className="drawer-table--cell" data-cy={`${cy}-${i}-row-${j}-date`}>{date}</td>
-                                                <td className="drawer-table--cell" data-cy={`${cy}-${i}-row-${j}-price`}>
-                                                    { typeof text === 'number' ? text.toLocaleString() : text }
-                                                </td>
-                                            </tr>
-                                        )
-                                    }
-                                </tbody>
-                            </table>
-                        }
-                    </React.Fragment>
-                )
-            }
-        </>;
-    }
-}
+                                {
+                                    content.map(({ date, text }, j) =>
+                                        <tr className="drawer-table--row" key={j}>
+                                            <td
+                                                className="drawer-table--cell"
+                                                data-cy={`${cy}-${i}-row-${j}-date`}
+                                            >
+                                                {date}
+                                            </td>
+                                            <td
+                                                className="drawer-table--cell"
+                                                data-cy={`${cy}-${i}-row-${j}-price`}
+                                            >
+                                                {typeof text === 'number' ? text.toLocaleString() : text}
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </React.Fragment>
+            )
+            ))}
+    </>
+};
 
 const onSearchDetails = (payload: IMarker): Promise<Object[]> => {
     if (payload.type === MarkerType.police) {
@@ -136,7 +134,7 @@ const onSearchDetails = (payload: IMarker): Promise<Object[]> => {
     // }
 };
 
-const heightOffset = 70;
+const heightOffset = 90;
 const resolveMapDimensions = () => ({
     width: window.innerWidth,
     height: window.innerHeight - heightOffset,
