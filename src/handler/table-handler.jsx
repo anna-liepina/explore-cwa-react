@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import FormHandler from './form-handler';
+import FormHandler from '../component/form/form-handler';
 import { query } from '../graphql/query';
 
 

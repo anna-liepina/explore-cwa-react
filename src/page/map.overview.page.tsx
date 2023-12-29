@@ -6,11 +6,11 @@ import { Map, Marker } from 'pigeon-maps';
 import { useHistory, useLocation } from 'react-router';
 import { useQuery } from '../hooks/useQuery';
 
-import Query from './query';
+import Query from '../component/query/query';
 import Drawer from '../drawer';
-import FormHandler from './form-handler';
-import type { ITextChunk } from '../filtering/filter';
-import { filterTree } from '../filtering/filter';
+import FormHandler from '../component/form/form-handler';
+import type { ITextChunk } from '../utils/filtering/filter';
+import { filterTree } from '../utils/filtering/filter';
 import type { IGeoSearchPayload, IMarker } from '../graphql/api';
 import api, { MarkerType } from '../graphql/api';
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-import FormHandler from './form-handler';
+import FormHandler from '../component/form/form-handler';
 import { query } from '../graphql/query';
 
 const onSubmit = (props, state, onSuccess, onError) => {

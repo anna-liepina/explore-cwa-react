@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Drawer from '../drawer';
+import Drawer from '../../drawer';
 
 export default class DrawerHandler extends PureComponent {
     constructor({ isExpanded }) {

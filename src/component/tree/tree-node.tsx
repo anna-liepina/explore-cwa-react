@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import type { ITextChunk } from '../filtering/filter';
+import type { ITextChunk } from '../../utils/filtering/filter';
 
 export interface ITreeNodeProps {
     className?: string;

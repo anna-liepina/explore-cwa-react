@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoadingAnimation/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <div
+    class="query--loading"
+    data-cy="{{data-cy}}--query"
+  >
+    <div />
+    <div />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<LoadingAnimation/> render with required/default props 1`] = `
+<DocumentFragment>
+  <div
+    class="query--loading"
+    data-cy="--query"
+  >
+    <div />
+    <div />
+  </div>
+</DocumentFragment>
+`;

@@ -1,32 +1,28 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import _TopNav from './top-nav';
+import MapHandler from '../handler/chart-handler';
 
-const TopNav = (props) =>
-    <MemoryRouter>
-        <_TopNav {...props} />
-    </MemoryRouter>;
-
-describe('<TopNav/>', () => {
+describe('<MapHandler/>', () => {
     const props = {
+        form: { config: [] }
     };
 
     const optionalProps = {
         'data-cy': 'optProps.data-cy',
         className: 'optProps.className',
+        title: 'optProps.title',
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const { asFragment } = render(<TopNav {...props} />);
+            const { asFragment } = render(<MapHandler {...props} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
 
         it('with optional/required props', () => {
-            const { asFragment } = render(<TopNav {...props} {...optionalProps} />);
+            const { asFragment } = render(<MapHandler {...props} {...optionalProps} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
