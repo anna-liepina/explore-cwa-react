@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export interface IQueryState<TData = any, TErrors = any> {
-  isLoading: boolean;
+  isLoading?: boolean;
   data?: TData;
   errors?: TErrors;
 }
@@ -14,15 +14,13 @@ export const useQuery = <TArgs = any, TData = any, TErrors = any>(
     fetch: (args: TArgs) => Promise<TData>,
     options?: IQueryOptions
 ): [IQueryState<TData, TErrors>, (args?: TArgs) => void] => {
-    const [state, setState] = useState<IQueryState<TData, TErrors>>({
-        isLoading: true,
-    });
+    const [state, setState] = useState<IQueryState<TData, TErrors>>({});
 
     const handleFetch = useCallback(
         async (args?: TArgs) => {
             try {
                 setState({ isLoading: true });
-                const data = await fetch(args || {} as TArgs); // Use provided args or default to an empty object
+                const data = await fetch(args || {} as TArgs)
                 setState({ data, isLoading: false });
             } catch (error) {
                 setState({ errors: error as TErrors, isLoading: false });
