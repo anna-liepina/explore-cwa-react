@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useQuery, IQueryState } from "../hooks/useQuery";
-import LoadingAnimation from "../component/loadingAnimation";
+import { useQuery, IQueryState } from "../../hooks/useQuery";
+import LoadingAnimation from "./queryAnimation";
 
 export interface IQueryProps {
     'data-cy'?: string;

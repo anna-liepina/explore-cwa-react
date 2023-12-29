@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Accordion from '../component/form/accordion';
-import Button from '../component/button';
+import Accordion from './accordion';
+import Button from '../button/button';
 
 export default class FormHandler extends PureComponent {
     constructor({ config, data, isValid }) {

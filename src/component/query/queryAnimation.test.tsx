@@ -1,8 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import type { ILoadingAnimationProps } from './loadingAnimation';
-import LoadingAnimation from './loadingAnimation';
+import type { ILoadingAnimationProps } from './queryAnimation';
+import LoadingAnimation from './queryAnimation';
 
 describe('<LoadingAnimation/>', () => {
     const props: ILoadingAnimationProps = {

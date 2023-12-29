@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import TopNav from './component/top-nav';
+import TopNav from './component/topnav/topnav';
 import routes from './__config/routes';
 import './index.scss';
 

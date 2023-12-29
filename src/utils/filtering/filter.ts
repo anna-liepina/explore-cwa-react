@@ -1,4 +1,4 @@
-import type { ITreeNodeProps } from "../component/tree-node";
+import type { ITreeNodeProps } from "../../component/tree/tree-node";
 
 export interface ITextChunk {
     v: string;

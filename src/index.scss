@@ -5,23 +5,27 @@
 @import './media';
 @import './variables';
 
+@import './component/button/button';
+
+@import './component/drawer/drawer';
+@import './component/drawer/drawer-handler';
+
 @import './component/form/accordion';
 @import './component/form/input-with-pills';
 @import './component/form/interactive-search';
 @import './component/form/pill';
 @import './component/form/suggestions';
+@import './component/form/form-handler';
 
-@import './component/button';
-@import './component/drawer';
-@import './component/loadingAnimation';
-@import './component/top-nav';
-@import './component/tree-node';
+@import './component/query/queryAnimation';
+
+@import './component/topnav/topnav';
+
+@import './component/tree/tree-node';
+@import './component/tree/tree-handler';
 
 @import './handler/chart-handler';
-@import './handler/drawer-handler';
-@import './handler/form-handler';
 @import './handler/tab-handler';
 @import './handler/table-handler';
-@import './handler/tree-handler';
 
-@import './handler/map.overview';
+@import './page/map.overview.page';

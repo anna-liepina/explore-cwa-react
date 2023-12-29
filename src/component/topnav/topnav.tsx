@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Query from '../handler/query';
-import TreeHandler from '../handler/tree-handler';
-import DrawerHandler from '../handler/drawer-handler';
-import api from '../graphql/api';
-import { filterTree } from '../filtering/filter';
+import Query from '../query/query';
+import TreeHandler from '../tree/tree-handler';
+import DrawerHandler from '../drawer/drawer-handler';
+import api from '../../graphql/api';
+import { filterTree } from '../../utils/filtering/filter';
 
 const onExpand = (data: any, path: string) => {
     let pos = 0;

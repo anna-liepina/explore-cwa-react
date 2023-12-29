@@ -1,6 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import Drawer from './component/drawer';
+import Drawer from './component/drawer/drawer';
 
 interface IPortalProps {
 }

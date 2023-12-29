@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import TreeNode from '../component/tree-node';
+import TreeNode from './tree-node';
 
 export default class TreeHandler extends PureComponent {
     constructor({ data, pattern }) {
