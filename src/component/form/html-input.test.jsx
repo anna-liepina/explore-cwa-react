@@ -1,19 +1,30 @@
 import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
 import { PureHTMLInput as HTMLInput } from './html-input';
-
-configure({ adapter: new Adapter() });
 
 describe('<HTMLInput/>', () => {
     const props = {
     };
 
+    const optionalProps = {
+        'data-cy': 'optProps.data-cy',
+        className: 'optProps.className',
+        value: 'optProps.value',
+        onChange: jest.fn(),
+    };
+
     describe('render', () => {
         it('with default/required props', () => {
-            const c = shallow(<HTMLInput {...props} />);
+            const { asFragment } = render(<HTMLInput {...props} />);
 
-            expect(c).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it('with optional/required props', () => {
+            const { asFragment } = render(<HTMLInput {...props} {...optionalProps} />);
+
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

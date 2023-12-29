@@ -1,9 +1,7 @@
 import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
 import compose from './compose-form-field';
-
-configure({ adapter: new Adapter() });
 
 const FormField = compose((props) => <input {...props} />);
 
@@ -11,23 +9,24 @@ describe('<FormField/>', () => {
     const props = {
     };
 
+    const optionalProps = {
+        'data-cy': 'optProps.data-cy',
+        className: 'optProps.className',
+        label: 'optProps.label',
+        errors: ['optProps.errors[0]', 'optProps.errors[1]'],
+    };
+
     describe('render', () => {
         it('with default/required props', () => {
-            const c = shallow(<FormField {...props} />);
+            const { asFragment } = render(<FormField {...props} />);
 
-            expect(c).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
-        describe('with optional props', () => {
-            [
-                ['errors', ['{{error}}']],
-            ].forEach(([prop, v]) => {
-                it(`[::${prop}] as "${v}"`, () => {
-                    const c = shallow(<FormField {...props} {...{ [prop]: v }} />);
+        it('with optional/required props', () => {
+            const { asFragment } = render(<FormField {...props} {...optionalProps} />);
 
-                    expect(c).toMatchSnapshot();
-                });
-            });
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

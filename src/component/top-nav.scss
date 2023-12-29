@@ -5,6 +5,11 @@
     height: 3rem;
     box-sizing: border-box;
 
+
+    &__logo--main {
+        margin: 0 1rem;
+    }
+
     &__logo--main,
     &__logo--github,
     &__item {

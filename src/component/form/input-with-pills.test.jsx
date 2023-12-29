@@ -1,37 +1,33 @@
 import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
 import InputWithPills from './input-with-pills';
-
-configure({ adapter: new Adapter() });
 
 describe('<InputWithPills/>', () => {
     const props = {
+    };
+
+    const optionalProps = {
         value: [
             {
-                label: '{{label}}',
+                label: 'props.value[0].label',
             }
-        ]
+        ],
+        'data-cy': 'optProps.data-cy',
+        className: 'optProps.className',
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const c = shallow(<InputWithPills {...props} />);
+            const { asFragment } = render(<InputWithPills {...props} />);
 
-            expect(c).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
-        describe('with optional props', () => {
-            [
-                ['data-cy', '{{data-cy}}'],
-                ['onClick', () => {}],
-            ].forEach(([prop, v]) => {
-                it(`[::${prop}] as "${v}"`, () => {
-                    const c = shallow(<InputWithPills {...props} {...{ [prop]: v }} />);
+        it('with optional/required props', () => {
+            const { asFragment } = render(<InputWithPills {...props} {...optionalProps} />);
 
-                    expect(c).toMatchSnapshot();
-                });
-            });
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

@@ -17,20 +17,19 @@ export default class TabHandler extends PureComponent {
         e.stopPropagation();
 
         const { onChange } = this.props;
-
         const tabId = parseInt(e.target.getAttribute('data-tab-id'));
 
         this.setState(
             { tabId },
             () => {
-                this.props.onChange && onChange(this.props, this.state);
+                onChange && onChange(this.props, this.state);
             }
         )
     }
 
     render() {
+        const { 'data-cy': cy, tabs } = this.props;
         const { tabId } = this.state;
-        const { tabs } = this.props;
         const { c: C, props } = tabs[tabId];
 
         return <>
@@ -39,24 +38,31 @@ export default class TabHandler extends PureComponent {
                     tabs.map(({ label }, i) =>
                         <li
                             key={i}
-                            data-tab-id={i}
                             onClick={this.onChange}
                             className={`tab${i === tabId ? '--selected' : ''}`}
+                            data-tab-id={i}
+                            data-cy={`${cy}tab-${i}`}
                         >
                             {label}
                         </li>
                     )
                 }
             </ul>
-            <C {...props}/>
+            <C {...props} />
         </>;
     }
 
     static propTypes = {
         'data-cy': PropTypes.string,
         className: PropTypes.string,
+        tabs: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string.isRequired,
+                c: PropTypes.func.isRequired,
+                props: PropTypes.object,
+            })
+        ).isRequired,
         tabId: PropTypes.number,
-        tabs: PropTypes.array.isRequired,
     }
 
     static defaultProps = {

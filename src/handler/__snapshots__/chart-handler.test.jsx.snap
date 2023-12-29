@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ChartHandler/> render with default/required props 1`] = `
+<DocumentFragment>
+  <section
+    class="chart-handler"
+  >
+    <form
+      class="form "
+    >
+      <div
+        class="form_controls"
+      />
+    </form>
+  </section>
+</DocumentFragment>
+`;
+
+exports[`<ChartHandler/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <section
+    class="chart-handler"
+  >
+    <form
+      class="form "
+    >
+      <div
+        class="form_controls"
+      />
+    </form>
+  </section>
+</DocumentFragment>
+`;

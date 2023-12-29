@@ -1,32 +1,30 @@
 import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
 import TableHandler from './table-handler';
 
-configure({ adapter: new Adapter() });
-
-describe.skip('<TableHandler/>', () => {
+describe('<TreeHandler/>', () => {
     const props = {
+        form: { config: [] }
+    };
 
+    const optionalProps = {
+        'data-cy': 'optProps.data-cy',
+        className: 'optProps.className',
+        title: 'optProps.title',
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const c = shallow(<TableHandler {...props} />);
+            const { asFragment, debug } = render(<TableHandler {...props} />);
 
-            expect(c).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
-        describe('with optional props', () => {
-            [
-                ['data-cy', '{{data-cy}}'],
-            ].forEach(([prop, v]) => {
-                it(`[::${prop}] as "${v}"`, () => {
-                    const c = shallow(<TableHandler {...props} {...{ [prop]: v }} />);
+        it('with optional/required props', () => {
+            const { asFragment } = render(<TableHandler {...props} {...optionalProps} />);
 
-                    expect(c).toMatchSnapshot();
-                });
-            });
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

@@ -1,55 +1,51 @@
 import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
 import Suggestions from './suggestions';
-
-configure({ adapter: new Adapter() });
 
 describe('<Suggestions/>', () => {
     const props = {
         options: [
             {
-                label: '{{label-only}}',
+                label: 'props.label 1',
                 value: 1,
             },
             {
-                label: '{{label-with-hierarchy}}',
+                label: 'props.label 2 with hierarchy',
                 hierarchy: ['{{root}}', '{{sub-children}}', '{{label-with-hierarchy}}'],
                 value: 2,
             },
             {
-                label: '{{label-with-description}}',
+                label: 'props.label 3 with description',
                 description: '{{description}}',
                 value: 'three',
             },
         ],
     };
+    const optionalProps = {
+        'data-cy': 'optProps.data-cy',
+        className: 'optProps.className',
+    };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const c = shallow(<Suggestions {...props} />);
+            const { asFragment, debug } = render(<Suggestions {...props} />);
 
-            expect(c).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
+        it('with optional/required props', () => {
+            const { asFragment } = render(<Suggestions {...props} {...optionalProps} />);
 
-        describe('with optional props', () => {
-            [
-                ['data-cy', '{{data-cy}}'],
-                ['className', '{{className}}'],
-            ].forEach(([prop, v]) => {
-                it(`[::${prop}] as "${v}"`, () => {
-                    const c = shallow(<Suggestions {...props} {...{ [prop]: v }} />);
+            expect(asFragment()).toMatchSnapshot();
+        });
 
-                    expect(c).toMatchSnapshot();
-                });
-            });
-
+        describe('specific optional props', () => {
             it(`[::hashmap] - should NOT render options with values which are present in ::hashmap`, () => {
-                const c = shallow(<Suggestions {...props} hashmap={{ 2: true, three: true }} />);
-
-                expect(c).toMatchSnapshot();
-            });
-        });
+                const { asFragment } = render(<Suggestions {...props} hashmap={{ 2: true, three: true }} />);
+    
+                expect(asFragment()).toMatchSnapshot();
+            });    
+        })
     });
 });

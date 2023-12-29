@@ -1,26 +1,46 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { render, fireEvent, act } from '@testing-library/react';
 import Drawer from './drawer';
 
-describe.skip('<Drawer/>', () => {
+describe('<Drawer/>', () => {
     const props = {
         onClose: jest.fn(),
     };
 
+    const optionalProps = {
+        'data-cy': 'optionalProps.data-cy',
+        className: 'optionalProps.className',
+    };
+
     describe('render', () => {
         it('with default/required props', () => {
-            const { container } = render(<Drawer {...props} />);
+            const { asFragment } = render(<Drawer {...props} />);
 
-            expect(container.querySelector('[data-cy="-Drawer-close"]')).toBeInTheDocument();
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it('with optional/required props', () => {
+            const { asFragment } = render(<Drawer {...props} {...optionalProps} />);
+
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 
     describe('callbacks', () => {
-        describe('onClose', () => {
+        beforeEach(() => {
+            jest.useFakeTimers();
+            jest.clearAllTimers();
+        });
+
+        it('onClose', () => {
             const { container } = render(<Drawer {...props} />);
 
-            fireEvent.click(container.querySelector('[data-cy="-Drawer-close"]'));
+            act(() => {
+                fireEvent.click(container.querySelector('[data-cy="--drawer--close"]'));
+
+                jest.runAllTimers();
+            });
 
             expect(props.onClose).toBeCalled();
         });

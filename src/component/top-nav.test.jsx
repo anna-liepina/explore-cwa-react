@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import _TopNav from './top-nav';
@@ -11,15 +11,24 @@ const TopNav = (props) =>
 
 describe('<TopNav/>', () => {
     const props = {
-        label: '{{label}}',
+    };
+
+    const optionalProps = {
+        'data-cy': 'optProps.data-cy',
+        className: 'optProps.className',
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const { container } = render(<TopNav {...props} />);
+            const { asFragment } = render(<TopNav {...props} />);
 
-            expect(container.querySelector('[data-cy="topnav__logo"]')).toBeInTheDocument();
-            expect(container.querySelector('[data-cy="topnav__github"]')).toBeInTheDocument();
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it('with optional/required props', () => {
+            const { asFragment } = render(<TopNav {...props} {...optionalProps} />);
+
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

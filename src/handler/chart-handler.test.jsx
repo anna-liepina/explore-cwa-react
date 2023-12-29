@@ -1,32 +1,30 @@
 import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
 import ChartHandler from './chart-handler';
 
-configure({ adapter: new Adapter() });
-
-describe.skip('<ChartHandler/>', () => {
+describe('<ChartHandler/>', () => {
     const props = {
+        form: { config: [] }
+    };
 
+    const optionalProps = {
+        'data-cy': 'optProps.data-cy',
+        className: 'optProps.className',
+        title: 'optProps.title',
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const c = shallow(<ChartHandler {...props} />);
+            const { asFragment } = render(<ChartHandler {...props} />);
 
-            expect(c).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
-        describe('with optional props', () => {
-            [
-                ['data-cy', '{{data-cy}}'],
-            ].forEach(([prop, v]) => {
-                it(`[::${prop}] as "${v}"`, () => {
-                    const c = shallow(<ChartHandler {...props} {...{ [prop]: v }} />);
+        it('with optional/required props', () => {
+            const { asFragment } = render(<ChartHandler {...props} {...optionalProps} />);
 
-                    expect(c).toMatchSnapshot();
-                });
-            });
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

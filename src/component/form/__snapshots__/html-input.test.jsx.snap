@@ -1,3 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<HTMLInput/> render with default/required props 1`] = `<input />`;
+exports[`<HTMLInput/> render with default/required props 1`] = `
+<DocumentFragment>
+  <input />
+</DocumentFragment>
+`;
+
+exports[`<HTMLInput/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <input
+    class="optProps.className"
+    data-cy="optProps.data-cy"
+    value="optProps.value"
+  />
+</DocumentFragment>
+`;

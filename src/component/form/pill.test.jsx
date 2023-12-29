@@ -1,33 +1,30 @@
 import React from 'react';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
 import Pill from './pill';
-
-configure({ adapter: new Adapter() });
 
 describe('<Pill/>', () => {
     const props = {
-        label: '{{label}}',
+        label: 'props.label',
+    };
+
+    const optionalProps = {
+        'data-cy': 'optProps.data-cy',
+        'data-id': 'optProps.data-id',
+        className: 'optProps.className',
     };
 
     describe('render', () => {
         it('with default/required props', () => {
-            const c = shallow(<Pill {...props} />);
+            const { asFragment } = render(<Pill {...props} />);
 
-            expect(c).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
-        describe('with optional props', () => {
-            [
-                ['data-cy', '{{data-cy}}'],
-                ['data-id', '{{data-id}}'],
-            ].forEach(([prop, v]) => {
-                it(`[::${prop}] as "${v}"`, () => {
-                    const c = shallow(<Pill {...props} {...{ [prop]: v }} />);
+        it('with optional/required props', () => {
+            const { asFragment } = render(<Pill {...props} {...optionalProps} />);
 
-                    expect(c).toMatchSnapshot();
-                });
-            });
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });
