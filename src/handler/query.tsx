@@ -1,47 +1,33 @@
-import React, { useState, useEffect } from 'react';
-
-export interface IQueryState {
-    isLoading: boolean;
-    data?: any;
-    errors?: any;
-}
+import React, { useEffect } from "react";
+import { useQuery, IQueryState } from "../hooks/useQuery";
+import LoadingAnimation from "../component/loadingAnimation";
 
 export interface IQueryProps {
     'data-cy'?: string;
-    fetchTrigger?: number
-    fetch: (
-        props: IQueryProps,
-        state: IQueryState,
-        onSuccess: (data: any) => void,
-        onError: (errors: any) => void
-    ) => void;
-    children: (props?: IQueryProps, state?: IQueryState) => React.ReactElement<any, any> | null;
+    fetch: (args: any) => Promise<any>;
+    fetchArgs?: any;
+    fetchTrigger?: number;
+    children: (props: IQueryProps, state: IQueryState) => React.ReactElement<any, any> | null;
 }
 
 const Query: React.FC<IQueryProps> = (props) => {
-    const { 'data-cy': cy = '', fetchTrigger, fetch, children } = props;
-    const [state, setState] = useState<IQueryState>({ isLoading: true });
+    const { 'data-cy': cy = '', fetch, fetchArgs, fetchTrigger, children } = props;
+
+    const [queryState, handleFetch] = useQuery<any, any, IQueryProps>(
+        (args) => fetch(args),
+        { manual: true }
+    );
 
     useEffect(() => {
-        setState({ isLoading: true })
-
-        fetch(
-            props,
-            state,
-            (data: any) => setState({ data, isLoading: false }),
-            (errors: any) => setState({ errors, isLoading: false })
-        );
+        handleFetch(fetchArgs);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchTrigger]);
 
-    if (state.isLoading) {
-        return <div data-cy={`${cy}--query`} className="query--loading">
-            <div />
-            <div />
-        </div>;
+    if (queryState.isLoading) {
+        return <LoadingAnimation data-cy={cy} />;
     }
 
-    return children(props, state);
+    return children(props, queryState);
 };
 
 export default Query;

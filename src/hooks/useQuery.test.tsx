@@ -1,12 +1,17 @@
 import "@testing-library/jest-dom/extend-expect";
 import { render, screen, act, waitFor } from "@testing-library/react";
+import type { IQueryOptions } from "./useQuery";
 import { useQuery } from "./useQuery";
 
 describe("<useQuery /> hook", () => {
     const mockFetch = jest.fn();
 
-    const TestComponent = () => {
-        const [state, fetch] = useQuery(mockFetch);
+    interface ITestComponentProps {
+        options?: IQueryOptions
+    }
+
+    const TestComponent = (props: ITestComponentProps) => {
+        const [state, fetch] = useQuery(mockFetch, props.options);
 
         return <div>
             <div data-testid="loading">{state.isLoading ? "Loading..." : "false"}</div>
@@ -57,7 +62,7 @@ describe("<useQuery /> hook", () => {
         mockFetch.mockResolvedValue("testData");
 
         await act(async () => {
-            render(<TestComponent />);
+            render(<TestComponent options={{ manual: true }} />);
         });
 
         expect(screen.getByTestId("loading")).toHaveTextContent("false");

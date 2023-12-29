@@ -4,72 +4,8 @@ import { Link } from 'react-router-dom';
 import Query from '../handler/query';
 import TreeHandler from '../handler/tree-handler';
 import DrawerHandler from '../handler/drawer-handler';
-import { filter } from '../filtering/filter';
-
-
-import { query } from '../graphql/query';
-
-interface AreaSearchResponse {
-    areaSearch: { area: string; city: string }[];
-}
-
-interface Series {
-    text: string;
-    nodes: { text: string }[];
-}
-
-const onMount = (
-    props: any,
-    state: any,
-    onSuccess: (data: Series[]) => void,
-    onError: (error: any) => void
-) => {
-
-                query<AreaSearchResponse>(`
-{
-    areaSearch(perPage: 5000) {
-        area
-        city
-    }
-}
-`)
-        .then(({ data: { data } }) => {
-            const obj: Record<string, { text: string }[]> = {};
-
-            for (const { city, area: text } of data.areaSearch) {
-                if (!obj[city]) {
-                    obj[city] = [];
-                }
-
-                obj[city].push({ text });
-            }
-
-            const series: Series[] = [];
-
-            for (const text in obj) {
-                series.push({
-                    text,
-                    nodes: obj[text],
-                });
-            }
-
-            onSuccess(series);
-        })
-        .catch(onError);
-};
-  
-const onFilter = (data: any, pattern: string) => {
-    pattern = (pattern || '').toLowerCase();
-
-    for (const v of data) {
-        v.isExpanded = filter(v, pattern);
-
-        if (!pattern) {
-            v.isExpanded = false;
-            v.isVisible = true;
-        }
-    }
-};
+import api from '../graphql/api';
+import { filterTree } from '../filtering/filter';
 
 const onExpand = (data: any, path: string) => {
     let pos = 0;
@@ -102,8 +38,8 @@ const TopNav: React.FC<ITopNavProps> = ({ 'data-cy': cy = '', className = '', ..
             data-cy="topnav-postcode_tree"
             button={(props: any) => <img {...props} className={`${props.className || ''} topnav__item`} alt="UK postcode areas" src="/assets/img/united-kingdom.svg" />}
         >
-            <Query fetch={onMount}>
-                {(props: any, state: any) => <TreeHandler data={state.data} onFilter={onFilter} onExpand={onExpand} />}
+            <Query fetch={api.fetchAreas}>
+                {(props: any, state: any) => <TreeHandler data={state.data} onFilter={filterTree} onExpand={onExpand} />}
             </Query>
         </DrawerHandler>
         <Link to="//github.com/anna-liepina/explore-cwa-react" className="topnav__link--github" target="_blank">

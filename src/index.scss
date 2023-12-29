@@ -13,13 +13,13 @@
 
 @import './component/button';
 @import './component/drawer';
+@import './component/loadingAnimation';
 @import './component/top-nav';
 @import './component/tree-node';
 
 @import './handler/chart-handler';
 @import './handler/drawer-handler';
 @import './handler/form-handler';
-@import './handler/query';
 @import './handler/tab-handler';
 @import './handler/table-handler';
 @import './handler/tree-handler';

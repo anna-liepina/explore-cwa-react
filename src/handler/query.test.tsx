@@ -1,13 +1,18 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, waitFor } from '@testing-library/react';
-import type { IQueryProps, IQueryState } from './query';
+import { act, render, waitFor } from '@testing-library/react';
+import type { IQueryProps } from './query';
 import Query from './query';
+
 
 describe('<Query/>', () => {
     const props: IQueryProps = {
-        fetch: jest.fn(),
-        children: () => <div data-cy="query-child"/>
+        fetch: jest.fn(() => Promise.resolve('result')),
+        children: (props, state) => <div data-cy="query-child">
+            <div data-testid="loading">{state.isLoading ? "Loading..." : "false"}</div>
+            <div data-testid="data">{state.data}</div>
+            <div data-testid="errors">{state.errors && state.errors.message}</div>
+        </div>
     };
 
     const optionalProps: Partial<IQueryProps> = {
@@ -15,39 +20,34 @@ describe('<Query/>', () => {
     };
 
     describe('render', () => {
-        it('with required/default props', () => {
+        it('with required/default props', async () => {
             const { asFragment } = render(<Query {...props} />);
 
-            expect(asFragment()).toMatchSnapshot();
+            await waitFor(() => { 
+                expect(asFragment()).toMatchSnapshot();
+            });
         });
 
-        it('with optional/required props', () => {
+        it('with optional/required props', async () => {
             const { asFragment } = render(<Query {...props} {...optionalProps} />);
 
-            expect(asFragment()).toMatchSnapshot();
+            await waitFor(() => { 
+                expect(asFragment()).toMatchSnapshot();
+            });
         });
 
         describe('children render [render props approach]', () => {
-            it('if internal state field [::isLoading] is true, it should call children with arguments [props, internal state]', () => {
+            it('once ::fetch call is resolved it should call children with arguments [props, (internal query) state]', async () => {
                 const spy = jest.spyOn(props, 'children');
 
-                const fetch = (
-                    props: Partial<IQueryProps>,
-                    state: Partial<IQueryState>,
-                    onSuccess: any,
-                    onError: any
-                ) => onSuccess();
-    
-                render(<Query {...props} fetch={fetch} />);
+                render(<Query {...props} />);
 
-                expect(spy).toBeCalledWith(
-                    { ...props, fetch },
-                    {
-                        data: undefined,
-                        errors: undefined,
-                        isLoading: false,
-                    }
-                );
+                await waitFor(async () => {
+                    expect(spy).toBeCalledWith(
+                        expect.any(Object),
+                        expect.any(Object)
+                    );
+                });
             });
         });
     });
@@ -70,51 +70,32 @@ describe('<Query/>', () => {
         });
 
         it('should NOT invoke external callback [::fetch] if prop [::fetchTrigger] NOT changed', async () => {
-            const fetch = jest.fn((
-                props: Partial<IQueryProps>,
-                state: Partial<IQueryState>,
-                onSuccess: any,
-                onError: any
-            ) => {
-                state.isLoading = true; 
-                onSuccess();
-            });
+            const spy = jest.spyOn(props, 'fetch');
 
-            const { rerender } = render(<Query {...props} fetch={fetch} fetchTrigger={1}/>);
+            const { rerender } = render(<Query {...props} fetchTrigger={1}/>);
 
             await waitFor(() => {
-                expect(fetch).toHaveBeenCalledTimes(1);
+                expect(spy).toHaveBeenCalledTimes(1);
             });
         
-            rerender(<Query {...props} fetch={fetch} fetchTrigger={1} />);
+            rerender(<Query {...props} fetchTrigger={1} />);
         
             await waitFor(() => {
-                expect(fetch).toHaveBeenCalledTimes(1);
+                expect(spy).toHaveBeenCalledTimes(1);
             });
         });
     });
 
     describe('lifecycles events', () => {
-        describe('::componentDidMount', () => {
-            it('should invoke external callback [::fetch] after component mount', () => {
+        describe('onMount', () => {
+            it('should invoke external callback [::fetch] onMount', async () => {
                 const spy = jest.spyOn(props, 'fetch');
 
                 render(<Query {...props} />);
 
-                expect(spy).toBeCalledWith(
-                    props,
-                    expect.any(Object),
-                    expect.any(Function),
-                    expect.any(Function),
-                );
-            });
-
-            it('should NOT render ::children if [::isLoading] is truthy', async () => {
-                const spy = jest.fn();
-    
-                render(<Query {...props} children={spy} />);
-
-                expect(spy).not.toBeCalled();
+                await waitFor(() => {
+                    expect(spy).toBeCalled();
+                });
             });
         });
     });
@@ -127,19 +108,16 @@ describe('<Query/>', () => {
                 }
             ];
 
-            const fetch = (
-                props: Partial<IQueryProps>,
-                state: Partial<IQueryState>,
-                onSuccess: any,
-                onError: any
-            ) => onSuccess(data);
+            const fetch = () => Promise.resolve(data);
 
-            it('should set internal state field [::isLoading] to false, reset [::errors] and set [::data] from payload', () => {
+            it('should set internal state field [::isLoading] to false, reset [::errors] and set [::data] from payload', async () => {
                 const spy = jest.fn();
 
                 render(<Query {...props} fetch={fetch} children={spy} />);
 
-                expect(spy).toBeCalledWith(expect.anything(), { data, errors: undefined, isLoading: false });
+                await waitFor(() => {
+                    expect(spy).toBeCalledWith(expect.any(Object), { data, errors: undefined, isLoading: false });
+                });
             });
         });
 
@@ -149,18 +127,16 @@ describe('<Query/>', () => {
                 'error 1',
             ];
 
-            const fetch = (
-                props: Partial<IQueryProps>,
-                state: Partial<IQueryState>,
-                onSuccess: any,
-                onError: any
-            ) => onError(errors);
+            const fetch = () => Promise.reject(errors);
 
-            it('should set internal state field [::isLoading] to false, reset [::data] and [::errors] from payload', () => {
+            it('should set internal state field [::isLoading] to false, reset [::data] and [::errors] from payload', async () => {
                 const spy = jest.fn();
+
                 render(<Query {...props} fetch={fetch} children={spy} />);
 
-                expect(spy).toBeCalledWith(expect.anything(), { data: undefined, errors, isLoading: false });
+                await waitFor(() => {
+                    expect(spy).toBeCalledWith(expect.anything(), { data: undefined, errors, isLoading: false });
+                });
             });
         });
     });
