@@ -194,4 +194,4 @@ const api = {
     },
 };
 
-export default API;
+export default api;
