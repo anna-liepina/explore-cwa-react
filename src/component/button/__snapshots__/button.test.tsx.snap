@@ -3,7 +3,7 @@
 exports[`<Button/> render with default/required props 1`] = `
 <DocumentFragment>
   <button
-    class="button "
+    class="button"
   >
     props.label
   </button>
