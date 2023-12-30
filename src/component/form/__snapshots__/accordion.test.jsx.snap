@@ -3,7 +3,7 @@
 exports[`<Accordion/> render with default/required props 1`] = `
 <DocumentFragment>
   <section
-    class="accordion "
+    class="accordion"
   />
 </DocumentFragment>
 `;
@@ -11,7 +11,7 @@ exports[`<Accordion/> render with default/required props 1`] = `
 exports[`<Accordion/> render with optional/required props - collapsed 1`] = `
 <DocumentFragment>
   <section
-    class="accordion--collapsed optProps.className"
+    class="optProps.className accordion--collapsed"
   />
 </DocumentFragment>
 `;
@@ -19,7 +19,7 @@ exports[`<Accordion/> render with optional/required props - collapsed 1`] = `
 exports[`<Accordion/> render with optional/required props - expanded 1`] = `
 <DocumentFragment>
   <section
-    class="accordion optProps.className"
+    class="optProps.className accordion"
   >
     <div
       class="optionalProps.children"
