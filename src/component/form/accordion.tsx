@@ -1,3 +1,4 @@
+import React from 'react';
 import type { PropsWithChildren } from 'react';
 import classNames from 'classnames';
 import type { IQAProps } from '../../utils/commonTypes';
