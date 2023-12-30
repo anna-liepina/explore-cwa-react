@@ -7,7 +7,7 @@ exports[`<InputWithPills/> render with default/required props 1`] = `
   >
     <input
       class="input-with-pills__input"
-      data-cy="-input"
+      data-cy=""
     />
   </div>
 </DocumentFragment>
@@ -46,7 +46,7 @@ exports[`<InputWithPills/> render with optional/required props 1`] = `
     </span>
     <input
       class="input-with-pills__input"
-      data-cy="optProps.data-cy-input"
+      data-cy="optProps.data-cy"
     />
   </div>
 </DocumentFragment>

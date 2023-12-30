@@ -28,7 +28,7 @@ const InputWithPills: React.FC<IInputWithPillsProps> = ({
             Array.isArray(value)
             && value.map((props, i) => <Pill key={i} data-cy={`${cy}-pill-${i}`} data-id={i} {...props} />)
         }
-        <PureHTMLInput {...props} data-cy={`${cy}-input`} className="input-with-pills__input" />
+        <PureHTMLInput {...props} data-cy={cy} className="input-with-pills__input" />
     </div>
 );
 
