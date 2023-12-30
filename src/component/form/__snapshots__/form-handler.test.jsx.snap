@@ -43,14 +43,14 @@ exports[`<FormHandler/> render with default/required props 1`] = `
       class="form_controls"
     >
       <button
-        class="button "
+        class="button"
         data-cy="form-action-submit"
         disabled=""
       >
         submitCTRL.label
       </button>
       <button
-        class="button "
+        class="button"
         data-cy="form-action-cancel"
       >
         cancelCTRL.cancel
@@ -91,14 +91,14 @@ exports[`<FormHandler/> render with optional/required props 1`] = `
       class="form_controls"
     >
       <button
-        class="button "
+        class="button"
         data-cy="optProps.data-cyform-action-update"
         disabled=""
       >
         updateCTRL.label
       </button>
       <button
-        class="button "
+        class="button"
         data-cy="optProps.data-cyform-action-cancel"
       >
         cancelCTRL.cancel
