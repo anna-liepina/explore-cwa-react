@@ -13,6 +13,7 @@ import type { ITextChunk } from '../utils/filtering/filter';
 import { filterTree } from '../utils/filtering/filter';
 import type { IGeoSearchPayload, IMarker } from '../graphql/api';
 import api, { MarkerType } from '../graphql/api';
+import type { IQAProps } from '../utils/commonTypes';
 
 const colorHashmapByType: Record<MarkerType, string> = {
     [MarkerType.police]: '#f00',
@@ -33,8 +34,7 @@ export interface IDrawTableRecord {
     content: ITableRecord[];
 }
 
-export interface IDrawerTableProps {
-    'data-cy': string;
+export interface IDrawerTableProps extends IQAProps {
     pattern?: string;
     placeholder?: string;
     title: string;
@@ -160,8 +160,7 @@ const resolvePayload = (props: IMapOverviewPageProps, state: IMapOverviewPageSta
     };
 }
 
-interface IMapOverviewPageProps {
-    'data-cy'?: string;
+interface IMapOverviewPageProps extends IQAProps {
     defaultZoom?: number;
     // TODO: review after <FormHandler /> is converted to TypeScript
     form: any;

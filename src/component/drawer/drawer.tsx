@@ -1,7 +1,7 @@
 import React, { useState, useEffect, KeyboardEvent } from 'react';
+import type { IQAProps } from '../../utils/commonTypes';
 
-interface IDrawerProps {
-    'data-cy'?: string;
+interface IDrawerProps extends IQAProps {
     className?: string;
     timeout?: number;
     isOpen: boolean;

@@ -6,6 +6,7 @@ import TreeHandler from '../tree/tree-handler';
 import DrawerHandler from '../drawer/drawer-handler';
 import api from '../../graphql/api';
 import { filterTree } from '../../utils/filtering/filter';
+import type { IQAProps } from '../../utils/commonTypes';
 
 const onExpand = (data: any, path: string) => {
     let pos = 0;
@@ -24,8 +25,7 @@ const onExpand = (data: any, path: string) => {
     cursor.nodes.forEach((v: any) => v.isVisible = cursor.isExpanded);
 };
 
-interface ITopNavProps {
-    'data-cy'?: string;
+interface ITopNavProps extends IQAProps {
     className?: string;
 };
 
