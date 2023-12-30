@@ -1,5 +1,6 @@
+import React from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 import classNames from 'classnames';
-import React, { ButtonHTMLAttributes } from 'react';
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     label: string;
