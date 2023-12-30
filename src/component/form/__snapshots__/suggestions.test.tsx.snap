@@ -3,10 +3,10 @@
 exports[`<Suggestions/> render specific optional props [::hashmap] - should NOT render options with values which are present in ::hashmap 1`] = `
 <DocumentFragment>
   <div
-    class="suggestions "
+    class="suggestions"
   >
     <div
-      class="suggestion "
+      class="suggestion"
       data-cy="-suggestion-0"
       data-id="0"
     >
@@ -14,7 +14,7 @@ exports[`<Suggestions/> render specific optional props [::hashmap] - should NOT 
         class="suggestion__label"
         data-id="0"
       >
-        props.label 1
+        props.label 1 value as number
       </div>
     </div>
   </div>
@@ -24,10 +24,10 @@ exports[`<Suggestions/> render specific optional props [::hashmap] - should NOT 
 exports[`<Suggestions/> render with default/required props 1`] = `
 <DocumentFragment>
   <div
-    class="suggestions "
+    class="suggestions"
   >
     <div
-      class="suggestion "
+      class="suggestion"
       data-cy="-suggestion-0"
       data-id="0"
     >
@@ -35,11 +35,11 @@ exports[`<Suggestions/> render with default/required props 1`] = `
         class="suggestion__label"
         data-id="0"
       >
-        props.label 1
+        props.label 1 value as number
       </div>
     </div>
     <div
-      class="suggestion "
+      class="suggestion"
       data-cy="-suggestion-1"
       data-id="1"
     >
@@ -47,33 +47,27 @@ exports[`<Suggestions/> render with default/required props 1`] = `
         class="suggestion__hierarchy"
       >
         <span
-          class="suggestion__hierarchy-label "
+          class="suggestion__hierarchy-label"
           data-id="1"
         >
-          {{root}}
+          tag 0
         </span>
         <span
-          class="suggestion__hierarchy-label "
+          class="suggestion__hierarchy-label tags.classnName"
           data-id="1"
         >
-          {{sub-children}}
-        </span>
-        <span
-          class="suggestion__hierarchy-label "
-          data-id="1"
-        >
-          {{label-with-hierarchy}}
+          tag 1 with className
         </span>
       </div>
       <div
         class="suggestion__label"
         data-id="1"
       >
-        props.label 2 with hierarchy
+        props.label 2 with tags
       </div>
     </div>
     <div
-      class="suggestion "
+      class="suggestion"
       data-cy="-suggestion-2"
       data-id="2"
     >
@@ -100,7 +94,7 @@ exports[`<Suggestions/> render with optional/required props 1`] = `
     class="suggestions optProps.className"
   >
     <div
-      class="suggestion "
+      class="suggestion"
       data-cy="optProps.data-cy-suggestion-0"
       data-id="0"
     >
@@ -108,11 +102,11 @@ exports[`<Suggestions/> render with optional/required props 1`] = `
         class="suggestion__label"
         data-id="0"
       >
-        props.label 1
+        props.label 1 value as number
       </div>
     </div>
     <div
-      class="suggestion "
+      class="suggestion"
       data-cy="optProps.data-cy-suggestion-1"
       data-id="1"
     >
@@ -120,33 +114,27 @@ exports[`<Suggestions/> render with optional/required props 1`] = `
         class="suggestion__hierarchy"
       >
         <span
-          class="suggestion__hierarchy-label "
+          class="suggestion__hierarchy-label"
           data-id="1"
         >
-          {{root}}
+          tag 0
         </span>
         <span
-          class="suggestion__hierarchy-label "
+          class="suggestion__hierarchy-label tags.classnName"
           data-id="1"
         >
-          {{sub-children}}
-        </span>
-        <span
-          class="suggestion__hierarchy-label "
-          data-id="1"
-        >
-          {{label-with-hierarchy}}
+          tag 1 with className
         </span>
       </div>
       <div
         class="suggestion__label"
         data-id="1"
       >
-        props.label 2 with hierarchy
+        props.label 2 with tags
       </div>
     </div>
     <div
-      class="suggestion "
+      class="suggestion"
       data-cy="optProps.data-cy-suggestion-2"
       data-id="2"
     >
