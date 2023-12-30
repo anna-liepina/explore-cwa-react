@@ -3,11 +3,9 @@
 exports[`<FormField/> render with default/required props 1`] = `
 <DocumentFragment>
   <label
-    class="form-input_label "
+    class="form-input_label"
   >
-    <input
-      data-cy=""
-    />
+    <input />
   </label>
 </DocumentFragment>
 `;

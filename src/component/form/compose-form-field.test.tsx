@@ -2,8 +2,9 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import compose from './compose-form-field';
+import { PureHTMLInput } from './html-input';
 
-const FormField = compose((props) => <input {...props} />);
+const FormField = compose(PureHTMLInput);
 
 describe('<FormField/>', () => {
     const props = {
