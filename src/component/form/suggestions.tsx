@@ -10,7 +10,7 @@ export interface ISuggestionTag {
 
 export interface ISuggestion {
     label: string;
-    value: string;
+    value: string | number;
     className?: string;
     description?: string;
     tags?: ISuggestionTag[];
