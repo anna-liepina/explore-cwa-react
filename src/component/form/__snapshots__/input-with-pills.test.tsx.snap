@@ -16,13 +16,33 @@ exports[`<InputWithPills/> render with default/required props 1`] = `
 exports[`<InputWithPills/> render with optional/required props 1`] = `
 <DocumentFragment>
   <div
-    class="input-with-pills"
+    class="input-with-pills optProps.className"
   >
     <span
       class="pill"
       data-cy="optProps.data-cy-pill-0"
     >
-      props.value[0].label
+      tag 0 - value as string
+      <button
+        class="pill__control"
+        data-cy="optProps.data-cy-pill-0-remove"
+        data-id="0"
+      >
+        ×
+      </button>
+    </span>
+    <span
+      class="pill"
+      data-cy="optProps.data-cy-pill-1"
+    >
+      tag 1 - value as number
+      <button
+        class="pill__control"
+        data-cy="optProps.data-cy-pill-1-remove"
+        data-id="1"
+      >
+        ×
+      </button>
     </span>
     <input
       class="input-with-pills__input"
