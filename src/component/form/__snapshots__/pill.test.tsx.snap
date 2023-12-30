@@ -14,7 +14,7 @@ exports[`<Pill/> render with default/required props 1`] = `
 exports[`<Pill/> render with optional/required props 1`] = `
 <DocumentFragment>
   <span
-    class="pill"
+    class="pill optProps.className"
     data-cy="optProps.data-cy"
   >
     props.label
