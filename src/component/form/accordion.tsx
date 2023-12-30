@@ -8,7 +8,6 @@ export interface IAccordionProps extends IQAProps {
     title?: string;
     isCollapsed?: boolean;
     onCollapse?: () => void;
-    
 }
 
 const Accordion: React.FC<IAccordionProps & PropsWithChildren> = ({
