@@ -24,7 +24,7 @@ exports[`<FormHandler/> render with default/required props 1`] = `
     class="form "
   >
     <section
-      class="accordion "
+      class="accordion"
     >
       <h2
         class="accordion_title"
@@ -72,7 +72,7 @@ exports[`<FormHandler/> render with optional/required props 1`] = `
       optProps.title
     </h1>
     <section
-      class="accordion "
+      class="accordion"
     >
       <h2
         class="accordion_title"

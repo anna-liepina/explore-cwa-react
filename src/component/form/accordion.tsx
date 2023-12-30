@@ -1,15 +1,16 @@
 import React from 'react';
+import type { PropsWithChildren } from 'react';
 import classNames from 'classnames';
 import type { IQAProps } from '../../utils/commonTypes';
 
-interface AccordionProps extends IQAProps {
+export interface IAccordionProps extends IQAProps {
     className?: string;
     title?: string;
-    onCollapse?: () => void;
     isCollapsed?: boolean;
+    onCollapse?: () => void;
 }
 
-const Accordion: React.FC<AccordionProps> = ({
+const Accordion: React.FC<IAccordionProps & PropsWithChildren> = ({
     className,
     title,
     onCollapse,
