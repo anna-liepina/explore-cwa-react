@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import type { IQAProps } from '../../utils/commonTypes';
 
 export interface IPillProps extends IQAProps {
