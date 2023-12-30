@@ -10,7 +10,12 @@ describe('<InputWithPills/>', () => {
     const optionalProps = {
         value: [
             {
-                label: 'props.value[0].label',
+                label: 'tag 0 - value as string',
+                value: 'string'
+            },
+            {
+                label: 'tag 1 - value as number',
+                value: 1
             }
         ],
         'data-cy': 'optProps.data-cy',
