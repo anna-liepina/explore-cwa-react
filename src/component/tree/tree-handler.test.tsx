@@ -33,6 +33,7 @@ describe('<TreeHandler/>', () => {
         'data-cy': 'optProps.data-cy',
         className: 'optProps.className',
         title: 'optProps.title',
+        patternPlaceholder: 'optProps.patternPlaceholder'
     };
 
     describe('render', () => {
