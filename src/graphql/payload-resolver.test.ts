@@ -67,7 +67,7 @@ describe('form payload resolver', () => {
                     {
                         attr: 'test',
                         value: 1,
-                        valueTransformer: (v) => 2,
+                        valueTransformer: () => 2,
                         flags: 0x10,
                     }
                 ],
