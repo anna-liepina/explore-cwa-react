@@ -211,8 +211,6 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
         if (isNaN(latitude) || isNaN(longitude)) {
             navigator.geolocation.getCurrentPosition(
                 ({ coords: coordinates }) => {
-                    console.log('{navigator.geolocation.getCurrentPosition}', { coordinates })
-
                     setState(prevState => ({
                         ...prevState,
                         coordinates,
@@ -231,11 +229,11 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
 
     useEffect(() => {
         const payload = resolvePayload(props, state);
-        if (payload) {
+        if (undefined !== payload?.latitude && undefined !== payload.longitude ) {
             fetchMarkers(payload)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.coordinates.latitude, state.coordinates.longitude]);
+    }, [state.coordinates, state.coordinates.latitude, state.coordinates.longitude]);
 
     const onDrawerToggle = (e?: { payload: IMarker }) => {
         setState(prevState => ({
@@ -317,10 +315,13 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
             }
             <FormHandler {...form} data-cy={cy} onSubmit={onFormSearch} />
             {
-                // coords === undefined
-                // && <div data-cy={`${cy}--notification--no-geo`} className="map-handler--disabled-location">
-                //     location services are not enabled, search by your current location is not possible
-                // </div>
+                (
+                    undefined === coordinates
+                    || undefined === coordinates.latitude
+                    || undefined === coordinates.longitude
+                ) && <div data-cy={`${cy}--notification--disabled-location`} className="map-handler--disabled-location">
+                    location services are not enabled, search by your current location is not possible
+                </div>
             }
         </section>
     );
