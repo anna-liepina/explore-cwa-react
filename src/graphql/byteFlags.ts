@@ -10,4 +10,3 @@ export const removeFlag = (seq: number, v: number) => seq & ~v;
 export const enum FormFlags {
     AGGIGATE_VALUE_IN_ARRAY = 0x10,
 }
-
