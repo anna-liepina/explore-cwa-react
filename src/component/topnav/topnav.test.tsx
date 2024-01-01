@@ -2,11 +2,12 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import _TopNav from './topnav';
+import TopNav from './topnav';
+import type { ITopNavProps } from './topnav';
 
-const TopNav = (props) =>
+const ProxyComponent: React.FC = (props: ITopNavProps) =>
     <MemoryRouter>
-        <_TopNav {...props} />
+        <TopNav {...props} />
     </MemoryRouter>;
 
 describe('<TopNav/>', () => {
@@ -20,13 +21,13 @@ describe('<TopNav/>', () => {
 
     describe('render', () => {
         it('with default/required props', () => {
-            const { asFragment } = render(<TopNav {...props} />);
+            const { asFragment } = render(<ProxyComponent {...props} />);
 
             expect(asFragment()).toMatchSnapshot();
         });
 
         it('with optional/required props', () => {
-            const { asFragment } = render(<TopNav {...props} {...optionalProps} />);
+            const { asFragment } = render(<ProxyComponent {...props} {...optionalProps} />);
 
             expect(asFragment()).toMatchSnapshot();
         });

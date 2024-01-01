@@ -25,7 +25,7 @@ const onExpand = (data: any, path: string) => {
     cursor.nodes.forEach((v: any) => v.isVisible = cursor.isExpanded);
 };
 
-interface ITopNavProps extends IQAProps {
+export interface ITopNavProps extends IQAProps {
     className?: string;
 };
 

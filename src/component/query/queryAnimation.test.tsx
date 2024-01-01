@@ -1,14 +1,14 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import type { ILoadingAnimationProps } from './queryAnimation';
+import type { IQueryAnimationProps } from './queryAnimation';
 import LoadingAnimation from './queryAnimation';
 
 describe('<LoadingAnimation/>', () => {
-    const props: ILoadingAnimationProps = {
+    const props: IQueryAnimationProps = {
     };
 
-    const optionalProps: Partial<ILoadingAnimationProps> = {
+    const optionalProps: Partial<IQueryAnimationProps> = {
         'data-cy': '{{data-cy}}',
     };
 

@@ -1,13 +1,13 @@
 import React from "react";
+import type{ IQAProps } from "../../utils/commonTypes";
 
-export interface ILoadingAnimationProps {
-    'data-cy'?: string;
+export interface IQueryAnimationProps extends IQAProps {
 }
 
-const LoadingAnimation: React.FC<ILoadingAnimationProps> = ({ 'data-cy': cy = ''}) => 
-    <div data-cy={`${cy}--query`} className="query--loading">
+const QueryAnimation: React.FC<IQueryAnimationProps> = ({ 'data-cy': cy = '' }) => 
+<div data-cy={`${cy}--query`} className="query--loading">
     <div />
     <div />
 </div>;
 
-export default LoadingAnimation;
+export default QueryAnimation;
