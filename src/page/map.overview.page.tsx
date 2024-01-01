@@ -233,7 +233,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
             fetchMarkers(payload)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.coordinates, state.coordinates.latitude, state.coordinates.longitude]);
+    }, [state.coordinates]);
 
     const onDrawerToggle = (e?: { payload: IMarker }) => {
         setState(prevState => ({
@@ -315,11 +315,8 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
             }
             <FormHandler {...form} data-cy={cy} onSubmit={onFormSearch} />
             {
-                (
-                    undefined === coordinates
-                    || undefined === coordinates.latitude
-                    || undefined === coordinates.longitude
-                ) && <div data-cy={`${cy}--notification--disabled-location`} className="map-handler--disabled-location">
+                (undefined === coordinates?.latitude || undefined === coordinates.longitude)
+                 && <div data-cy={`${cy}--notification--disabled-location`} className="map-handler--disabled-location">
                     location services are not enabled, search by your current location is not possible
                 </div>
             }
