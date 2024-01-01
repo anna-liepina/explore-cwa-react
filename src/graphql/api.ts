@@ -4,14 +4,28 @@ export const enum MarkerType {
     police = 'police',
     property = 'property'
 }
+
 export interface IMarker {
-    lat: number,
-    lng: number,
-    type: MarkerType
+    lat: number;
+    lng: number;
+    type: MarkerType;
 }
 
 export interface IPostcode {
     postcode: string;
+}
+
+export interface IPostcodeGraphqQL {
+    lat: number;
+    lng: number;
+    postcode: string;
+}
+
+export interface IPostcodeAsValue {
+    latitude: number;
+    longitude: number;
+    value: string;
+    label: string;
 }
 
 export interface IPropertyTransaction {
@@ -24,7 +38,7 @@ export interface IProperty {
     saon: string;
     street: string;
     postcode: IPostcode;
-    transactions: IPropertyTransaction[]
+    transactions: IPropertyTransaction[];
 }
 
 export interface IIncident {
@@ -45,11 +59,24 @@ export interface IFetchIncidentsResponse {
     incidentSearchWithInRange: IIncident[];
 }
 
+export interface IFetchPostcodeResponse {
+    postcodeSearch: IPostcodeGraphqQL[];
+}
+
 export interface IGeoSearchPayload {
-    latitude: number,
-    longitude: number,
-    range?: number,
-    perPage?: number
+    latitude: number;
+    longitude: number;
+    range?: number;
+    perPage?: number;
+}
+
+export interface IFetchAreasPayload {
+    perPage?: number;
+}
+
+export interface IFetchPostcodePayload {
+    pattern?: string;
+    perPage?: number;
 }
 
 interface IArea {
@@ -163,10 +190,10 @@ const api = {
             return results;
         })
     },
-    fetchAreas: async (): Promise<IAreaTreeNode[]> => {
+    fetchAreas: async ({ perPage = 7500 }: IFetchAreasPayload): Promise<IAreaTreeNode[]> => {
         return query<IFetchAreasResponse>(`
 {
-    areaSearch(perPage: 5000) {
+    areaSearch(perPage: ${perPage}) {
         area
         city
     }
@@ -188,8 +215,27 @@ const api = {
                 });
             }
 
-            console.log('series', series);
             return series;
+        })
+    },
+    fetchPostcodes: async ({ pattern, perPage = 7500 }: IFetchPostcodePayload): Promise<IPostcodeAsValue[]> => {
+        return query<IFetchPostcodeResponse>(`
+{
+    postcodeSearch(pattern: "${pattern}", perPage: ${perPage}) {
+        postcode
+        lat
+        lng
+    }
+}`)
+        .then(({ data: { data } }) => {
+            return data
+                .postcodeSearch
+                .map(({ postcode, lat, lng }) => ({
+                    label: postcode,
+                    value: postcode,
+                    latitude: lat,
+                    longitude: lng
+                }));
         })
     },
 };
