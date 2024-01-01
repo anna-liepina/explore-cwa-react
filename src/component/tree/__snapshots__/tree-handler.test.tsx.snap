@@ -27,6 +27,19 @@ exports[`<TreeHandler/> render with default/required props 1`] = `
       data-cy="tree-pattern"
       value=""
     />
+    <div
+      class="tree_content"
+    >
+      <div
+        class="tree-node--with-children"
+        data-cy="tree-node-0"
+        data-node="0"
+      >
+        <span>
+          root node
+        </span>
+      </div>
+    </div>
   </section>
 </DocumentFragment>
 `;
@@ -42,6 +55,19 @@ exports[`<TreeHandler/> render with optional/required props 1`] = `
       placeholder="optProps.patternPlaceholder"
       value=""
     />
+    <div
+      class="tree_content"
+    >
+      <div
+        class="tree-node--with-children"
+        data-cy="optProps.data-cytree-node-0"
+        data-node="0"
+      >
+        <span>
+          root node
+        </span>
+      </div>
+    </div>
   </section>
 </DocumentFragment>
 `;

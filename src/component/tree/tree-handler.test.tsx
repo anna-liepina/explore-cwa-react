@@ -27,6 +27,7 @@ describe('<TreeHandler/>', () => {
     const props = {
         onFilter: jest.fn(),
         onExpand: jest.fn(),
+        data,
     };
 
     const optionalProps = {
@@ -63,7 +64,7 @@ describe('<TreeHandler/>', () => {
                 const spy = jest.fn();
                 const { container } = render(<TreeHandler {...props} data={data} onExpand={spy} />);
 
-                fireEvent.click(container.querySelector('[data-cy="tree-node-0"]'));
+                fireEvent.click(container.querySelector('[data-cy="tree-node-0"]')!);
 
                 expect(spy).toBeCalledWith(
                     data,
@@ -75,7 +76,7 @@ describe('<TreeHandler/>', () => {
                 const spy = jest.fn();
                 const { container } = render(<TreeHandler {...props} data={data} onExpand={spy} />);
 
-                fireEvent.click(container.querySelector('section'));
+                fireEvent.click(container.querySelector('section')!);
 
                 expect(spy).not.toBeCalled();
             });
@@ -87,7 +88,7 @@ describe('<TreeHandler/>', () => {
                 const spy = jest.fn();
                 const { container } = render(<TreeHandler {...props} data={data} onFilter={spy} />);
 
-                fireEvent.change(container.querySelector('[data-cy="tree-pattern"]'), { target: { value: 'val' } });
+                fireEvent.change(container.querySelector('[data-cy="tree-pattern"]')!, { target: { value: 'val' } });
 
                 expect(spy).toBeCalledWith(
                     data,
