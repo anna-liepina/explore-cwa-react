@@ -15,7 +15,7 @@ Object {
 }
 `;
 
-exports[`form payload resolver should pass result of ::valueTransformer in to payload 1`] = `
+exports[`form payload resolver should pass result of ::valueTransformer in to payload instead of ::value 1`] = `
 Object {
   "test": 2,
 }
