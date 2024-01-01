@@ -8,6 +8,7 @@ import TableHandler from '../handler/table-handler';
 import { validationEngine } from '../utils/validation/engine';
 import { composeConditionalRule } from '../utils/validation/rules';
 import { query } from '../graphql/query';
+import api from '../graphql/api';
 
 const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
     const pattern = state.pattern.toUpperCase();
@@ -118,26 +119,9 @@ const tabs = [
                             return;
                         }
 
-                        return query(`
-{
-    postcodeSearch(pattern: "${pattern}") {
-        postcode
-        lat
-        lng
-    }
-}`)
-                            .then(({ data: { data } }) => {
-                                const cache = data
-                                    .postcodeSearch
-                                    .map(({ postcode: v, lat, lng }) => ({
-                                        label: v,
-                                        value: v,
-                                        latitude: lat,
-                                        longitude: lng
-                                    }));
-
-                                onSuccess(cache);
-                            })
+                        return api
+                            .fetchPostcodes({ pattern })
+                            .then(onSuccess)
                             .catch(onError);
                     }
                 }
@@ -185,17 +169,9 @@ const tabs = [
                             return;
                         }
 
-                        return query(`
-{
-    postcodeSearch(pattern: "${pattern}") {
-        postcode
-    }
-}`)
-                            .then(({ data: { data } }) => {
-                                const v = data.postcodeSearch.map(({ postcode: v }) => ({ label: v, value: v }));
-
-                                onSuccess(v);
-                            })
+                        return api
+                            .fetchPostcodes({ pattern })
+                            .then(onSuccess)
                             .catch(onError);
                     }
                 }
