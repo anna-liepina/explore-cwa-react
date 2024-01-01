@@ -4,17 +4,36 @@ import { render, fireEvent } from '@testing-library/react';
 import TabHandler from './tab-handler';
 
 describe('<TabHandler/>', () => {
+    // interface ITabHandlerProps extends IQAProps {
+    //     'data-cy'?: string;
+    //     className?: string;
+    //     tabs: ITab[];
+    //     tabId?: number;
+    //     onChange?: (props: ITabHandlerProps, tabId: number) => void;
+    // }
+    // interface ITab {
+    //     label: string;
+    //     className?: string;
+    //     C: React.ComponentType<any>;
+    //     props?: Record<string, any>;
+    // }
+    const component: React.FC = (props) => <span {...props} />
     const props = {
         tabs: [
             {
                 label: 'tab 0',
-                c: (props) => <span className='tab0' {...props} />,
+                component,
+                props: {
+                    'data-cy': 'cy0',
+                    className: `tab--active`
+                }
             },
             {
                 label: 'tab 1',
-                c: (props) => <span className='tab1' {...props} />,
+                component,
                 props: {
-                    'data-cy': '{{data-cy}}',
+                    'data-cy': 'cy1',
+                    className: `tab`
                 }
             },
         ],
@@ -40,7 +59,7 @@ describe('<TabHandler/>', () => {
                 const spy = jest.fn();
                 const { container } = render(<TabHandler {...props} onChange={spy} />);
 
-                fireEvent.click(container.querySelector('[data-cy="tab-1"]'));
+                fireEvent.click(container.querySelector('[data-cy="tab-1"]')!);
 
                 expect(spy).toHaveBeenCalled();
             });
