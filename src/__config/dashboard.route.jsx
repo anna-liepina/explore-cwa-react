@@ -13,7 +13,7 @@ import api from '../graphql/api';
 const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {
     const pattern = state.pattern.toUpperCase();
 
-    if (!cache || 0 === cache.length) {
+    if (!cache || !cache.length) {
         return query(`
 {
     areaSearch(perPage: 5000) {
