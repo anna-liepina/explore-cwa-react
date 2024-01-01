@@ -80,7 +80,7 @@ const DrawerTable: React.FC<IDrawerTableProps> = ({
                 <React.Fragment key={i}>
                     <h3 data-cy={`${cy}-${i}`} className="drawer-header">
                     {
-                        Array.isArray(chunks) && 0 !== chunks.length
+                        Array.isArray(chunks) && !!chunks.length
                             ? chunks.map(({ v, isMatch }, j) => (
                                 <span
                                     key={j}
@@ -94,7 +94,7 @@ const DrawerTable: React.FC<IDrawerTableProps> = ({
                     }
                     </h3>
                     {
-                        Array.isArray(content) && 0 !== content.length
+                        Array.isArray(content) && !!content.length
                         && <table>
                                 <tbody>
                                 {

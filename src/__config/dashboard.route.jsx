@@ -1,6 +1,6 @@
 import React from 'react';
 import HTMLInput from '../component/form/html-input';
-import Search from '../component/form/interactive-search';
+import Search from '../component/form/search/interactive-search';
 import ChartHandler from '../handler/chart-handler';
 import MapHandler from '../page/map.overview.page';
 import TabHandler from '../handler/tab-handler';
@@ -95,7 +95,7 @@ const composeConfig = () => ({
 const tabs = [
     {
         label: 'map',
-        c: MapHandler,
+        component: MapHandler,
         props: {
             'data-cy': 'mapview',
             form: (() => {
@@ -163,14 +163,14 @@ const tabs = [
     },
     {
         label: 'chart',
-        c: ChartHandler,
+        component: ChartHandler,
         props: {
             form: composeConfig(),
         },
     },
     {
         label: 'transactions',
-        c: TableHandler,
+        component: TableHandler,
         props: {
             form: (() => {
                 const c = composeConfig();

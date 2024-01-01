@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Suggestions from './suggestions';
-import InputWithPills from './input-with-pills';
-import compose from './compose-form-field';
+import Suggestions from '../suggestions';
+import InputWithPills from '../input-with-pills';
+import compose from '../compose-form-field';
 
 export const executeOnChange = (props, value) => props.onChange(
     {

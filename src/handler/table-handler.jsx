@@ -8,7 +8,7 @@ const search = (props, state, onSuccess, onError) => {
     const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
     const { page = 1 } = state;
 
-    if (!postcodes || 0 === postcodes.length) {
+    if (!postcodes || !postcodes.length) {
         return;
     }
 

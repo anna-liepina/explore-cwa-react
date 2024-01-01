@@ -8,7 +8,7 @@ import { query } from '../graphql/query';
 const onSubmit = (props, state, onSuccess, onError) => {
     const [{ value: postcodes }, { value: from }, { value: to }] = state.config[0].items;
 
-    if (!postcodes || 0 === postcodes.length) {
+    if (!postcodes || !postcodes.length) {
         return;
     }
 
