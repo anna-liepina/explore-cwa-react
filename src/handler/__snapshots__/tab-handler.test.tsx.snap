@@ -21,7 +21,8 @@ exports[`<TabHandler/> render with default/required props 1`] = `
     </li>
   </ul>
   <span
-    class="tab0"
+    class="tab--active"
+    data-cy="cy0"
   />
 </DocumentFragment>
 `;
@@ -47,8 +48,8 @@ exports[`<TabHandler/> render with default/required props with preset tabId 1`] 
     </li>
   </ul>
   <span
-    class="tab1"
-    data-cy="{{data-cy}}"
+    class="tab"
+    data-cy="cy1"
   />
 </DocumentFragment>
 `;
