@@ -4,19 +4,6 @@ import { render, fireEvent } from '@testing-library/react';
 import TabHandler from './tab-handler';
 
 describe('<TabHandler/>', () => {
-    // interface ITabHandlerProps extends IQAProps {
-    //     'data-cy'?: string;
-    //     className?: string;
-    //     tabs: ITab[];
-    //     tabId?: number;
-    //     onChange?: (props: ITabHandlerProps, tabId: number) => void;
-    // }
-    // interface ITab {
-    //     label: string;
-    //     className?: string;
-    //     C: React.ComponentType<any>;
-    //     props?: Record<string, any>;
-    // }
     const component: React.FC = (props) => <span {...props} />
     const props = {
         tabs: [
