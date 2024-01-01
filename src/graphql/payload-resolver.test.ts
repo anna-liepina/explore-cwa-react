@@ -20,14 +20,14 @@ describe('form payload resolver', () => {
         expect(spy).toBeCalledWith(c[0].items[0].value);
     });
 
-    it('should pass result of ::valueTransformer in to payload', () => {
+    it('should pass result of ::valueTransformer in to payload instead of ::value', () => {
         const c = [
             {
                 items: [
                     {
                         attr: 'test',
                         value: 1,
-                        valueTransformer: (v) => 2,
+                        valueTransformer: () => 2,
                     },
                 ],
             },
@@ -58,7 +58,7 @@ describe('form payload resolver', () => {
                     {
                         attr: 'test',
                         value: 1,
-                        seq: 0x10,
+                        flags: 0x10,
                     }
                 ],
             },
@@ -68,7 +68,7 @@ describe('form payload resolver', () => {
                         attr: 'test',
                         value: 1,
                         valueTransformer: (v) => 2,
-                        seq: 0x10,
+                        flags: 0x10,
                     }
                 ],
             },
