@@ -6,7 +6,6 @@ export interface IFormSectionConfig {
 }
 
 export interface IFormFieldConfig {
-    // component: React.ComponentType;
     value: any;
     attr: string;
     valueTransformer?: (value: any) => any;
