@@ -3,7 +3,7 @@
 exports[`<TreeHandler/> render if node has ::isVisible = false, it should NOT render it 1`] = `
 <DocumentFragment>
   <section
-    class="tree "
+    class="tree"
   >
     <input
       class="tree_input"
@@ -20,13 +20,26 @@ exports[`<TreeHandler/> render if node has ::isVisible = false, it should NOT re
 exports[`<TreeHandler/> render with default/required props 1`] = `
 <DocumentFragment>
   <section
-    class="tree "
+    class="tree"
   >
     <input
       class="tree_input"
       data-cy="tree-pattern"
       value=""
     />
+    <div
+      class="tree_content"
+    >
+      <div
+        class="tree-node--with-children"
+        data-cy="tree-node-0"
+        data-node="0"
+      >
+        <span>
+          root node
+        </span>
+      </div>
+    </div>
   </section>
 </DocumentFragment>
 `;
@@ -39,8 +52,22 @@ exports[`<TreeHandler/> render with optional/required props 1`] = `
     <input
       class="tree_input"
       data-cy="optProps.data-cytree-pattern"
+      placeholder="optProps.patternPlaceholder"
       value=""
     />
+    <div
+      class="tree_content"
+    >
+      <div
+        class="tree-node--with-children"
+        data-cy="optProps.data-cytree-node-0"
+        data-node="0"
+      >
+        <span>
+          root node
+        </span>
+      </div>
+    </div>
   </section>
 </DocumentFragment>
 `;
