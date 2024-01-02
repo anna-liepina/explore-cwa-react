@@ -38,7 +38,7 @@ export interface IProperty {
     saon: string;
     street: string;
     postcode: IPostcode;
-    transactions: IPropertyTransaction[];
+    transactions?: IPropertyTransaction[];
 }
 
 export interface IIncident {
@@ -140,7 +140,7 @@ const api = {
                 .filter(({ transactions }) => transactions?.length)
                 .map((v) => ({
                     text: [v.street, v.paon, v.saon].filter(Boolean).join(', '),
-                    content: v.transactions.map(({ date, price: text }) => ({ date, text }))
+                    content: v.transactions!.map(({ date, price: text }) => ({ date, text }))
                 }))
 
             return results;    
