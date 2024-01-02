@@ -5,12 +5,12 @@ exports[`<Drawer/> render with default/required props 1`] = `
   <div
     class="drawer_overlay"
   >
-    <nav
-      class="drawer "
+    <aside
+      class="drawer--open"
       data-cy="--drawer"
       style="transition-duration: 0.25s;"
     >
-      <div
+      <header
         class="drawer_head"
       >
         <button
@@ -19,11 +19,15 @@ exports[`<Drawer/> render with default/required props 1`] = `
         >
           ×
         </button>
-      </div>
-      <div
+      </header>
+      <section
         class="drawer_content"
-      />
-    </nav>
+      >
+        <div
+          data-cy="drawer-child"
+        />
+      </section>
+    </aside>
   </div>
 </DocumentFragment>
 `;
@@ -33,12 +37,12 @@ exports[`<Drawer/> render with optional/required props 1`] = `
   <div
     class="drawer_overlay"
   >
-    <nav
-      class="drawer optionalProps.className"
+    <aside
+      class="optionalProps.className drawer--open"
       data-cy="optionalProps.data-cy--drawer"
       style="transition-duration: 0.25s;"
     >
-      <div
+      <header
         class="drawer_head"
       >
         <button
@@ -47,11 +51,15 @@ exports[`<Drawer/> render with optional/required props 1`] = `
         >
           ×
         </button>
-      </div>
-      <div
+      </header>
+      <section
         class="drawer_content"
-      />
-    </nav>
+      >
+        <div
+          data-cy="drawer-child"
+        />
+      </section>
+    </aside>
   </div>
 </DocumentFragment>
 `;

@@ -5,7 +5,9 @@
 
 .drawer-table {
     &--title {
+        text-transform: uppercase;
         margin: 0;
+        padding: 0;
     }
 
     &--row {
@@ -25,27 +27,29 @@
             border-right: none;
         }
     }
-}
-.drawer-header {
-    margin-bottom: 0;
-    font-size: 1rem;
-    text-transform: capitalize;
 
-    &--match {
-        background: chocolate;
+    &--input {
+        background: #fff;
+        font-size: 1rem;
+        color: #000;
+        border: none;
+        border-bottom: 1px dashed #000;
+        width: 100%;
+        text-transform: uppercase;
+    
+        position: sticky;
+        top: 0;
     }
-}
-.drawer-table--input {
-    background: #fff;
-    font-size: 1rem;
-    color: #000;
-    border: none;
-    border-bottom: 1px dashed #000;
-    width: 100%;
-    text-transform: uppercase;
 
-    position: sticky;
-    top: 0;
+    &--category {
+        margin-bottom: 0;
+        font-size: .75rem;
+        text-transform: uppercase;
+    
+        &--match {
+            background: chocolate;
+        }
+    }
 }
 
 .map-handler--form {

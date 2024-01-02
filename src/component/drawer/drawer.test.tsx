@@ -6,6 +6,7 @@ import Drawer from './drawer';
 describe('<Drawer/>', () => {
     const props = {
         onClose: jest.fn(),
+        children: <div data-cy="drawer-child"/>
     };
 
     const optionalProps = {
@@ -37,7 +38,7 @@ describe('<Drawer/>', () => {
             const { container } = render(<Drawer {...props} />);
 
             act(() => {
-                fireEvent.click(container.querySelector('[data-cy="--drawer--close"]'));
+                fireEvent.click(container.querySelector('[data-cy="--drawer--close"]')!);
 
                 jest.runAllTimers();
             });
