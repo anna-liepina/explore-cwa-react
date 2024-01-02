@@ -53,3 +53,57 @@ exports[`<TabHandler/> render with default/required props with preset tabId 1`] 
   />
 </DocumentFragment>
 `;
+
+exports[`<TabManager/> render with default/required props 1`] = `
+<DocumentFragment>
+  <ul
+    class="tab-handler"
+  >
+    <li
+      class="tab--selected"
+      data-cy="tab-0"
+      data-tab-id="0"
+    >
+      tab 0
+    </li>
+    <li
+      class="tab"
+      data-cy="tab-1"
+      data-tab-id="1"
+    >
+      tab 1
+    </li>
+  </ul>
+  <span
+    class="tab--active"
+    data-cy="cy0"
+  />
+</DocumentFragment>
+`;
+
+exports[`<TabManager/> render with default/required props with preset tabId 1`] = `
+<DocumentFragment>
+  <ul
+    class="tab-handler"
+  >
+    <li
+      class="tab"
+      data-cy="tab-0"
+      data-tab-id="0"
+    >
+      tab 0
+    </li>
+    <li
+      class="tab--selected"
+      data-cy="tab-1"
+      data-tab-id="1"
+    >
+      tab 1
+    </li>
+  </ul>
+  <span
+    class="tab"
+    data-cy="cy1"
+  />
+</DocumentFragment>
+`;
