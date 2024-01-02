@@ -38,7 +38,7 @@ export interface IProperty {
     saon: string;
     street: string;
     postcode: IPostcode;
-    transactions: IPropertyTransaction[];
+    transactions?: IPropertyTransaction[];
 }
 
 export interface IIncident {
@@ -135,11 +135,15 @@ const api = {
         }
     }
 }`)
-        .then(({ data: { data: { propertySearchWithInRange: properties } } }) => {
-            return properties.map((v) => ({
-                text: [v.street, v.paon, v.saon].filter(Boolean).join(', '),
-                content: v.transactions.map(({ date, price: text }) => ({ date, text }))
-            }))
+        .then(({ data: { data: { propertySearchWithInRange } } }) => {
+            const results = propertySearchWithInRange
+                .filter(({ transactions }) => transactions?.length)
+                .map((v) => ({
+                    text: [v.street, v.paon, v.saon].filter(Boolean).join(', '),
+                    content: v.transactions!.map(({ date, price: text }) => ({ date, text }))
+                }))
+
+            return results;    
         });
     },
     fetchIncidents: async ({ latitude, longitude, range = 0, perPage = 2500 }: IGeoSearchPayload) => {
