@@ -1,16 +1,22 @@
 import React, { useState, useEffect, KeyboardEvent } from 'react';
 import type { IQAProps } from '../../utils/commonTypes';
+import classNames from 'classnames';
 
 interface IDrawerProps extends IQAProps {
     className?: string;
     timeout?: number;
-    isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
 }
 
-const Drawer: React.FC<IDrawerProps> = ({ 'data-cy': cy = '', className = '', isOpen: _isOpen, timeout = 250, onClose, children }) => {
-    const [isOpen, setOpen] = useState(_isOpen);
+const Drawer: React.FC<IDrawerProps> = ({
+    'data-cy': cy = '',
+    className,
+    timeout = 250,
+    onClose,
+    children
+}) => {
+    const [isOpen, setOpen] = useState(true);
 
     useEffect(() => {
         setTimeout(() => setOpen(true), timeout);
@@ -42,12 +48,12 @@ const Drawer: React.FC<IDrawerProps> = ({ 'data-cy': cy = '', className = '', is
 
     return (
         <div className="drawer_overlay">
-            <nav
-                className={`drawer${isOpen ? '--open' : ''} ${className}`}
+            <aside
                 data-cy={`${cy}--drawer`}
                 style={{ transitionDuration: `${timeout / 1000}s` }}
+                className={classNames(className, { drawer: !isOpen, 'drawer--open': isOpen })}
             >
-                <div className="drawer_head">
+                <header className="drawer_head">
                     <button
                         className="drawer_button--close"
                         data-cy={`${cy}--drawer--close`}
@@ -55,9 +61,11 @@ const Drawer: React.FC<IDrawerProps> = ({ 'data-cy': cy = '', className = '', is
                     >
                         ×
                     </button>
-                </div>
-                <div className="drawer_content">{children}</div>
-            </nav>
+                </header>
+                <section className="drawer_content">
+                    {children}
+                </section>
+            </aside>
         </div>
     );
 };

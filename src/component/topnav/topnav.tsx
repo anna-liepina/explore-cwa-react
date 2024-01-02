@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Query from '../query/query';
 import TreeHandler from '../tree/tree-handler';
-import DrawerHandler from '../drawer/drawer-handler';
+import DrawerHandler from '../drawer/drawer.handler';
 import api from '../../graphql/api';
 import { filterTree } from '../../utils/filtering/filter';
 import type { IQAProps } from '../../utils/commonTypes';

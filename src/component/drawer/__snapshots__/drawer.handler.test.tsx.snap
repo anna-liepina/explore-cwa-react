@@ -3,7 +3,6 @@
 exports[`<DrawerHandler/> render with default/required props 1`] = `
 <DocumentFragment>
   <button
-    class=""
     data-cy="--drawer--open"
   />
 </DocumentFragment>
@@ -12,8 +11,7 @@ exports[`<DrawerHandler/> render with default/required props 1`] = `
 exports[`<DrawerHandler/> render with optional/required props 1`] = `
 <DocumentFragment>
   <button
-    class="{{className}}"
-    data-cy="{{data-cy}}--drawer--open"
+    data-cy="optionalProps.data-cy--drawer--open"
   />
 </DocumentFragment>
 `;

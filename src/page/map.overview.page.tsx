@@ -7,7 +7,7 @@ import { useHistory, useLocation } from 'react-router';
 import { useQuery } from '../hooks/useQuery';
 
 import Query from '../component/query/query';
-import Drawer from '../drawer';
+import Drawer from '../portal';
 import FormHandler from '../component/form/form-handler';
 import type { ITextChunk } from '../utils/filtering/filter';
 import { filterTree } from '../utils/filtering/filter';
@@ -78,19 +78,19 @@ const DrawerTable: React.FC<IDrawerTableProps> = ({
             filteredData.map(({ isVisible, chunks, text, content }, i) => (
                 (undefined === isVisible || isVisible) && (
                 <React.Fragment key={i}>
-                    <h3 data-cy={`${cy}-${i}`} className="drawer-header">
+                    <h3 data-cy={`${cy}-${i}`} className="drawer-table--category">
                     {
                         Array.isArray(chunks) && !!chunks.length
                             ? chunks.map(({ v, isMatch }, j) => (
                                 <span
                                     key={j}
                                     data-cy={`${cy}-${i}-chunk-${j}${isMatch ? '--match' : ''}`}
-                                    className={isMatch ? 'drawer-header--match' : ''}
+                                    className={isMatch ? 'drawer-table--category--match' : ''}
                                 >
                                     {v}
                                 </span>
                             ))
-                            : <span>{text}</span>
+                            : text
                     }
                     </h3>
                     {
