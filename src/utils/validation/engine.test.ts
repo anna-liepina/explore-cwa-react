@@ -1,219 +1,219 @@
 import { validationEngine } from './engine';
+import type { SectionConfig } from './engine';
+import type { Validator } from './rules';
 
 describe('validation engine', () => {
-    const c = [
+    const dataProvider = (): SectionConfig[] => [
         {
             items: [
             ],
         },
         {
             items: [
-            ],
-            items: [
+                {},
+                {}
             ],
         },
     ];
 
+    const neverFailValidator: Validator = () => true;
+    const alwaysFailValidator: Validator = () => '{{error message}}';
+
     describe('[default mode]', () => {
         it(`should return TRUE when validators are NOT defined, expected NO error messages in snapshot`, () => {
-            c[0].items[0] = {}
-            c[1].items[0] = {};
-            c[1].items[1] = {};
+            const config = dataProvider();
 
-            const v = validationEngine(c);
-
-            expect(v).toBe(true);
-            expect(c).toMatchSnapshot();
+            expect(validationEngine(config)).toBe(true);
+            expect(config).toMatchSnapshot();
         });
 
         it(`should return TRUE when validators are empty, expected NO error messages in snapshot`, () => {
-            c[0].items[0] = {
-                validators: [],
-            };
-            c[1].items[0] = {};
-            c[1].items[1] = {};
+            const config = dataProvider();
 
-            const v = validationEngine(c);
+            config[0].items.push({ validators: [] });
 
-            expect(v).toBe(true);
-            expect(c).toMatchSnapshot();
+            expect(validationEngine(config)).toBe(true);
+            expect(config).toMatchSnapshot();
         });
 
         it(`should return TRUE when all defined validators PASS, expected NO error messages in snapshot`, () => {
-            c[0].items[0] = {
+            const config = dataProvider();
+
+            config[0].items.push({
                 validators: [
-                    () => true,
+                    neverFailValidator,
                 ],
-            };
-            c[1].items[0] = {};
-            c[1].items[1] = {};
+            });
 
-
-            const v = validationEngine(c);
-
-            expect(v).toBe(true);
-            expect(c).toMatchSnapshot();
+            expect(validationEngine(config)).toBe(true);
+            expect(config).toMatchSnapshot();
         });
 
         it(`should return FALSE when all defined validators FAIL, expected error messages in snapshot`, () => {
-            c[0].items[0] = {
+            const config = dataProvider();
+
+            config[0].items.push({
                 validators: [
-                    () => '{{error message}}',
+                    alwaysFailValidator,
                 ],
-            };
-            c[1].items[0] = {};
-            c[1].items[1] = {};
+            });
 
-            const v = validationEngine(c);
-
-            expect(v).toBe(false);
-            expect(c).toMatchSnapshot();
+            expect(validationEngine(config)).toBe(false);
+            expect(config).toMatchSnapshot();
         });
 
         it(`should return FALSE when at least one of defined validators FAIL, expected error messages in snapshot`, () => {
-            c[0].items[0] = {
+            const config = dataProvider();
+
+            config[0].items.push({
                 validators: [
-                    () => '{{error message}}',
-                    () => true,
+                    neverFailValidator,
+                    alwaysFailValidator
                 ],
-            };
-            c[1].items[0] = {};
-            c[1].items[1] = {};
+            });
 
-            const v = validationEngine(c);
-
-            expect(v).toBe(false);
-            expect(c).toMatchSnapshot();
+            expect(validationEngine(config)).toBe(false);
+            expect(config).toMatchSnapshot();
         });
     });
 
     describe('[enforced scope mode]', () => {
         describe('[scope limited to entire section]', () => {
             it(`should return TRUE when all validators in a scope PASS`, () => {
-                c[0].items[0] = {
+                const config = dataProvider();
+
+                config[0].items[0] = {
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[0] = {
+                config[1].items[0] = {
                     value: '{{item-1-0}}',
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[1] = {
+                config[1].items[1] = {
                     value: '{{item-1-1}}',
                     validators: [
                         jest.fn(),
                     ],
                 };
 
-                expect(validationEngine(c, [[1]])).toBe(true);
+                expect(validationEngine(config, [[1]])).toBe(true);
 
-                expect(c[0].items[0].validators[0]).not.toBeCalled();
-                expect(c[1].items[0].validators[0]).toBeCalledWith('{{item-1-0}}', c);
-                expect(c[1].items[1].validators[0]).toBeCalledWith('{{item-1-1}}', c);
+                expect(config[0].items[0].validators![0]).not.toBeCalled();
+                expect(config[1].items[0].validators![0]).toBeCalledWith('{{item-1-0}}', config);
+                expect(config[1].items[1].validators![0]).toBeCalledWith('{{item-1-1}}', config);
 
-                expect(c).toMatchSnapshot();
+                expect(config).toMatchSnapshot();
             });
 
             it(`should return FALSE when all validators in a scope FAIL`, () => {
-                c[0].items[0] = {
+                const config = dataProvider();
+
+                config[0].items[0] = {
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[0] = {
+                config[1].items[0] = {
                     value: '{{item-1-0}}',
                     validators: [
                         jest.fn(() => 'error'),
                     ],
                 };
-                c[1].items[1] = {
+                config[1].items[1] = {
                     value: '{{item-1-1}}',
                     validators: [
                         jest.fn(() => 'error'),
                     ],
                 };
 
-                expect(validationEngine(c, [[1]])).toBe(false);
+                expect(validationEngine(config, [[1]])).toBe(false);
 
-                expect(c[0].items[0].validators[0]).not.toBeCalled();
-                expect(c[1].items[0].validators[0]).toBeCalledWith('{{item-1-0}}', c);
-                expect(c[1].items[1].validators[0]).toBeCalledWith('{{item-1-1}}', c);
+                expect(config[0].items[0].validators![0]).not.toBeCalled();
+                expect(config[1].items[0].validators![0]).toBeCalledWith('{{item-1-0}}', config);
+                expect(config[1].items[1].validators![0]).toBeCalledWith('{{item-1-1}}', config);
 
-                expect(c).toMatchSnapshot();
+                expect(config).toMatchSnapshot();
             });
 
             it(`should return FALSE when at least one validator in a scope FAIL`, () => {
-                c[0].items[0] = {
+                const config = dataProvider();
+
+                config[0].items[0] = {
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[0] = {
+                config[1].items[0] = {
                     value: '{{item-1-0}}',
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[1] = {
+                config[1].items[1] = {
                     value: '{{item-1-1}}',
                     validators: [
                         jest.fn(() => 'error'),
                     ],
                 };
 
-                expect(validationEngine(c, [[1]])).toBe(false);
+                expect(validationEngine(config, [[1]])).toBe(false);
 
-                expect(c[0].items[0].validators[0]).not.toBeCalled();
-                expect(c[1].items[0].validators[0]).toBeCalledWith('{{item-1-0}}', c);
-                expect(c[1].items[1].validators[0]).toBeCalledWith('{{item-1-1}}', c);
+                expect(config[0].items[0].validators![0]).not.toBeCalled();
+                expect(config[1].items[0].validators![0]).toBeCalledWith('{{item-1-0}}', config);
+                expect(config[1].items[1].validators![0]).toBeCalledWith('{{item-1-1}}', config);
 
-                expect(c).toMatchSnapshot();
+                expect(config).toMatchSnapshot();
             });
         });
 
         describe('[scope limited to specific item]', () => {
             it(`should return TRUE when all validators in a scope PASS`, () => {
-                c[0].items[0] = {
+                const config = dataProvider();
+
+                config[0].items[0] = {
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[0] = {
+                config[1].items[0] = {
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[1] = {
+                config[1].items[1] = {
                     value: '{{item-1-1}}',
                     validators: [
                         jest.fn(),
                     ],
                 };
 
-                expect(validationEngine(c, [[1, 1]])).toBe(true);
+                expect(validationEngine(config, [[1, 1]])).toBe(true);
 
-                expect(c[0].items[0].validators[0]).not.toBeCalled();
-                expect(c[1].items[0].validators[0]).not.toBeCalled();
-                expect(c[1].items[1].validators[0]).toBeCalledWith('{{item-1-1}}', c);
+                expect(config[0].items[0].validators![0]).not.toBeCalled();
+                expect(config[1].items[0].validators![0]).not.toBeCalled();
+                expect(config[1].items[1].validators![0]).toBeCalledWith('{{item-1-1}}', config);
 
-                expect(c).toMatchSnapshot();
+                expect(config).toMatchSnapshot();
             });
 
             it(`should return FALSE when all validators in a scope FAIL`, () => {
-                c[0].items[0] = {
+                const config = dataProvider();
+
+                config[0].items[0] = {
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[0] = {
+                config[1].items[0] = {
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[1] = {
+                config[1].items[1] = {
                     value: '{{item-1-1}}',
                     validators: [
                         jest.fn(() => 'error'),
@@ -221,28 +221,30 @@ describe('validation engine', () => {
                     ],
                 };
 
-                expect(validationEngine(c, [[1, 1]])).toBe(false);
+                expect(validationEngine(config, [[1, 1]])).toBe(false);
 
-                expect(c[0].items[0].validators[0]).not.toBeCalled();
-                expect(c[1].items[0].validators[0]).not.toBeCalled();
-                expect(c[1].items[1].validators[0]).toBeCalledWith('{{item-1-1}}', c);
-                expect(c[1].items[1].validators[1]).toBeCalledWith('{{item-1-1}}', c);
+                expect(config[0].items[0].validators![0]).not.toBeCalled();
+                expect(config[1].items[0].validators![0]).not.toBeCalled();
+                expect(config[1].items[1].validators![0]).toBeCalledWith('{{item-1-1}}', config);
+                expect(config[1].items[1].validators![1]).toBeCalledWith('{{item-1-1}}', config);
 
-                expect(c).toMatchSnapshot();
+                expect(config).toMatchSnapshot();
             });
 
             it(`should return FALSE when at least one validator in a scope FAIL`, () => {
-                c[0].items[0] = {
+                const config = dataProvider();
+
+                config[0].items[0] = {
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[0] = {
+                config[1].items[0] = {
                     validators: [
                         jest.fn(),
                     ],
                 };
-                c[1].items[1] = {
+                config[1].items[1] = {
                     value: '{{item-1-1}}',
                     validators: [
                         jest.fn(),
@@ -250,14 +252,14 @@ describe('validation engine', () => {
                     ],
                 };
 
-                expect(validationEngine(c, [[1, 1]])).toBe(false);
+                expect(validationEngine(config, [[1, 1]])).toBe(false);
 
-                expect(c[0].items[0].validators[0]).not.toBeCalled();
-                expect(c[1].items[0].validators[0]).not.toBeCalled();
-                expect(c[1].items[1].validators[0]).toBeCalledWith('{{item-1-1}}', c);
-                expect(c[1].items[1].validators[1]).toBeCalledWith('{{item-1-1}}', c);
+                expect(config[0].items[0].validators![0]).not.toBeCalled();
+                expect(config[1].items[0].validators![0]).not.toBeCalled();
+                expect(config[1].items[1].validators![0]).toBeCalledWith('{{item-1-1}}', config);
+                expect(config[1].items[1].validators![1]).toBeCalledWith('{{item-1-1}}', config);
 
-                expect(c).toMatchSnapshot();
+                expect(config).toMatchSnapshot();
             });
         });
     });

@@ -70,9 +70,7 @@ Array [
 exports[`validation engine [default mode] should return TRUE when validators are NOT defined, expected NO error messages in snapshot 1`] = `
 Array [
   Object {
-    "items": Array [
-      Object {},
-    ],
+    "items": Array [],
   },
   Object {
     "items": Array [

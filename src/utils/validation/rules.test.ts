@@ -77,18 +77,18 @@ describe('composed validation rules', () => {
             ['one', isLengthBetween, [1, 3],            true],
             ['one', isLengthBetween, [undefined, 1], errorMsg],
             ['one', isLengthBetween, [4, undefined], errorMsg],
-        ].forEach(([v, rule, args, r]) => {
+        ].forEach(([v, rule, args = [], r]) => {
             it(`using "${(rule as Function).name}" rule and ${undefined !== args ? `arguments: [${args}]`: 'NO arguments'} it should return "${r}"`, () => {
-                expect(composeRule(rule as RuleFunction, errorMsg, args as any)(v)).toBe(r);
+                expect(composeRule(rule as RuleFunction, errorMsg, ...args as any)(v)).toBe(r);
             });
         });
 
         it('when ::message argument is a function, it should be called with own and composed arguments', () => {
             const spy = jest.fn();
 
-            composeRule(() => false, spy, [2])(1);
+            composeRule(() => false, spy, 1, 2)('value');
 
-            expect(spy).toBeCalledWith(1, 2);
+            expect(spy).toBeCalledWith('value', 1, 2);
         });
     });
 
@@ -96,15 +96,15 @@ describe('composed validation rules', () => {
         it(`when condition is truthy, rule should be executed`, () => {
             const spy = jest.fn();
 
-            composeConditionalRule(() => true, spy)(1, {});
+            composeConditionalRule(() => true, spy)(1, []);
 
-            expect(spy).toBeCalledWith(1);
+            expect(spy).toBeCalledWith(1, []);
         });
 
         it(`when condition is falsy, rule should NOT be executed`, () => {
             const spy = jest.fn();
 
-            composeConditionalRule(() => false, spy)(undefined, {});
+            composeConditionalRule(() => false, spy)(undefined, []);
 
             expect(spy).not.toBeCalled();
         });

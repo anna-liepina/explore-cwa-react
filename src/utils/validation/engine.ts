@@ -1,7 +1,7 @@
-import type { RuleFunction } from "./rules";
+import type { Validator } from "./rules";
 
 export interface FieldConfig {
-    validators?: RuleFunction;
+    validators?: Validator[];
     value?: any;
     errors?: string[];
 }
@@ -42,7 +42,7 @@ const executeValidations = (item: FieldConfig, config: SectionConfig[]): boolean
  *  [[sectionId, itemId]] - will validate only item in specific section
  *  [[sectionId, undefined]] - will validate entire section, if item is not defined
  */
-export const validationEngine = (config: SectionConfig[], validationLimitation: [number, number?][]): boolean => {
+export const validationEngine = (config: SectionConfig[], validationLimitation?: [number, number?][]): boolean => {
     let isValid = true;
 
     if (Array.isArray(validationLimitation)) {
