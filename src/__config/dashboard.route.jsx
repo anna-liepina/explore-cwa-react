@@ -3,7 +3,7 @@ import HTMLInput from '../component/form/html-input';
 import Search from '../component/form/search/interactive-search';
 import ChartHandler from '../handler/chart-handler';
 import MapHandler from '../page/map.overview.page';
-import TabHandler from '../handler/tab-handler';
+import TabHandler from '../component/tabmanager/tab.manager';
 import TableHandler from '../handler/table-handler';
 import { validationEngine } from '../utils/validation/engine';
 import { composeConditionalRule } from '../utils/validation/rules';

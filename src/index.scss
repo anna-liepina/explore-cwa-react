@@ -18,13 +18,14 @@
 
 @import './component/query/queryAnimation';
 
+@import './component/tabmanager/tab.manager';
+
 @import './component/topnav/topnav';
 
 @import './component/tree/tree-node';
 @import './component/tree/tree-handler';
 
 @import './handler/chart-handler';
-@import './handler/tab-handler';
 @import './handler/table-handler';
 
 @import './page/map.overview.page';

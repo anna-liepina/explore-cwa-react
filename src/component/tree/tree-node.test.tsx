@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import TreeNode from './tree-node';
+import TreeNode, { ITreeNodeProps } from './tree-node';
 
 describe('<TreeNode/>', () => {
     const props = {
@@ -32,7 +32,7 @@ describe('<TreeNode/>', () => {
         });
 
         describe('prop combinations', () => {
-            [
+            const dataProvider = (): [ string, Partial<ITreeNodeProps>][] => [
                 [
                     'collapsed with nodes',
                     {
@@ -61,13 +61,16 @@ describe('<TreeNode/>', () => {
                         nodes: [{ text: 'nodes[0].text', isVisible: true }],
                     },
                 ],
-            ].forEach(([desc, propsCombination]) => {
-                it(desc, () => {
-                    const { asFragment } = render(<TreeNode {...props} {...propsCombination} />);
+            ];
 
-                    expect(asFragment()).toMatchSnapshot();
+            dataProvider()
+                .forEach(([desc, propsCombination]) => {
+                    it(desc, () => {
+                        const { asFragment } = render(<TreeNode {...props} {...propsCombination} />);
+
+                        expect(asFragment()).toMatchSnapshot();
+                    });
                 });
-            });
         });
     });
 });

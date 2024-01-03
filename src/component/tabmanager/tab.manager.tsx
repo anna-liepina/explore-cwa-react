@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent } from 'react';
 import classNames from 'classnames';
-import type { IQAProps } from '../utils/commonTypes';
+import type { IQAProps } from '../../utils/commonTypes';
 
 interface ITab {
     label: string;
@@ -9,14 +9,14 @@ interface ITab {
     props?: Record<string, any>;
 }
 
-interface ITabHandlerProps extends IQAProps {
+interface ITabManagerProps extends IQAProps {
     className?: string;
     tabs: ITab[];
     tabId?: number;
-    onChange?: (props: ITabHandlerProps, tabId: number) => void;
+    onChange?: (props: ITabManagerProps, tabId: number) => void;
 }
 
-const TabHandler: React.FC<ITabHandlerProps> = (props) => {
+const TabManager: React.FC<ITabManagerProps> = (props) => {
     const {
         'data-cy': cy = '',
         className,
@@ -62,4 +62,4 @@ const TabHandler: React.FC<ITabHandlerProps> = (props) => {
     );
 };
 
-export default TabHandler;
+export default TabManager;
