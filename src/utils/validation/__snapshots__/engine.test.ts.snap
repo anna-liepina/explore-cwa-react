@@ -52,7 +52,6 @@ Array [
   Object {
     "items": Array [
       Object {
-        "errors": Array [],
         "validators": Array [
           [Function],
         ],
@@ -89,7 +88,6 @@ Array [
   Object {
     "items": Array [
       Object {
-        "errors": Array [],
         "validators": Array [],
       },
     ],
@@ -179,7 +177,6 @@ Array [
   Object {
     "items": Array [
       Object {
-        "errors": Array [],
         "validators": Array [
           [MockFunction] {
             "calls": Array [
@@ -239,7 +236,6 @@ Array [
   Object {
     "items": Array [
       Object {
-        "errors": Array [],
         "validators": Array [
           [MockFunction] {
             "calls": Array [
@@ -259,7 +255,6 @@ Array [
         "value": "{{item-1-0}}",
       },
       Object {
-        "errors": Array [],
         "validators": Array [
           [MockFunction] {
             "calls": Array [
@@ -421,7 +416,6 @@ Array [
         ],
       },
       Object {
-        "errors": Array [],
         "validators": Array [
           [MockFunction] {
             "calls": Array [
