@@ -1,16 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<FormHandler/> internal callbacks ::onChange should mutate state field [::config] and set [::value] for relevant field from payload 1`] = `
+exports[`<Form/> external callbacks ::onChange should mutate state field [::config] and set [::value] for relevant field from payload 1`] = `
 Array [
   Object {
     "isCollapsed": false,
     "items": Array [
       Object {
-        "c": [Function],
+        "component": [Function],
         "value": "{{value}}",
       },
       Object {
-        "c": [Function],
+        "component": [Function],
+        "value": "",
       },
     ],
     "title": "props.config[0].title",
@@ -18,10 +19,10 @@ Array [
 ]
 `;
 
-exports[`<FormHandler/> render with default/required props 1`] = `
+exports[`<Form/> render with default/required props 1`] = `
 <DocumentFragment>
   <form
-    class="form "
+    class="form"
   >
     <section
       class="accordion"
@@ -37,6 +38,7 @@ exports[`<FormHandler/> render with default/required props 1`] = `
         data-cy="section-0-input-0"
         data-field="0"
         data-section="0"
+        value=""
       />
     </section>
     <div
@@ -44,14 +46,14 @@ exports[`<FormHandler/> render with default/required props 1`] = `
     >
       <button
         class="button"
-        data-cy="form-action-submit"
+        data-cy="form--submit"
         disabled=""
       >
         submitCTRL.label
       </button>
       <button
         class="button"
-        data-cy="form-action-cancel"
+        data-cy="form--cancel"
       >
         cancelCTRL.cancel
       </button>
@@ -60,7 +62,7 @@ exports[`<FormHandler/> render with default/required props 1`] = `
 </DocumentFragment>
 `;
 
-exports[`<FormHandler/> render with optional/required props 1`] = `
+exports[`<Form/> render with optional/required props 1`] = `
 <DocumentFragment>
   <form
     class="form optProps.className"
@@ -85,6 +87,7 @@ exports[`<FormHandler/> render with optional/required props 1`] = `
         data-cy="optProps.data-cysection-0-input-0"
         data-field="0"
         data-section="0"
+        value=""
       />
     </section>
     <div
@@ -92,14 +95,14 @@ exports[`<FormHandler/> render with optional/required props 1`] = `
     >
       <button
         class="button"
-        data-cy="optProps.data-cyform-action-update"
+        data-cy="optProps.data-cyform--update"
         disabled=""
       >
         updateCTRL.label
       </button>
       <button
         class="button"
-        data-cy="optProps.data-cyform-action-cancel"
+        data-cy="optProps.data-cyform--cancel"
       >
         cancelCTRL.cancel
       </button>

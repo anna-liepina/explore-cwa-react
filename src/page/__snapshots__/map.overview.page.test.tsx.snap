@@ -6,7 +6,7 @@ exports[`<MapHandler/> render with default/required props 1`] = `
     class="chart-handler"
   >
     <form
-      class="form "
+      class="form"
     >
       <div
         class="form_controls"
@@ -22,7 +22,7 @@ exports[`<MapHandler/> render with optional/required props 1`] = `
     class="chart-handler"
   >
     <form
-      class="form "
+      class="form"
     >
       <div
         class="form_controls"
