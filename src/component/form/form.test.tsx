@@ -65,7 +65,7 @@ describe('<Form/>', () => {
 
     describe('lifecycle events', () => {
         describe('::componentDidMount', () => {
-            it('should invoke external callback [::onMount] as soon as component been mounted', async () => {
+            it('should invoke external callback ::onMount as soon as component been mounted', async () => {
                 const spy = jest.fn(async () => Promise.resolve({ config: [] }));
 
                 await act(async () => {
@@ -82,7 +82,7 @@ describe('<Form/>', () => {
 
     describe('external callbacks', () => {
         describe('::onSuccess', () => {
-            it('should invoke external callback [::onSuccess] if external callback [::onMount] succeed', async () => {
+            it('should invoke external callback ::onSuccess if external callback ::onMount succeed', async () => {
                 const spy = jest.fn();
                 const onMount = jest.fn(async () => Promise.resolve({ config: [] }));
 
@@ -98,7 +98,7 @@ describe('<Form/>', () => {
         });
 
         describe('::onError', () => {
-            it('should invoke external callback [::onError] if external callback [::onMount] fails', async () => {
+            it('should invoke external callback ::onError when ::onMount fails', async () => {
                 const spy = jest.fn();
                 const onMount = jest.fn(async () => Promise.reject());
 
@@ -114,7 +114,7 @@ describe('<Form/>', () => {
         });
 
         describe('::onSubmit', () => {
-            it('should NOT invoke external callback [::onSubmit] from click on [data-cy="form--submit"] because ::isValid is falsy', () => {
+            it('should NOT invoke external callback ::onSubmit from click on [data-cy="form--submit"] when ::isValid is falsy', () => {
                 const spy = jest.fn();
                 const { container } = render(<Form {...props} onSubmit={spy} />);
 
@@ -123,7 +123,7 @@ describe('<Form/>', () => {
                 expect(spy).not.toBeCalled();
             });
 
-            it('should invoke external callback [::onSubmit] from click on [data-cy="form--submit"]', async () => {
+            it('should invoke external callback ::onSubmit from click on [data-cy="form--submit"]', async () => {
                 const spy = jest.fn(async () => Promise.resolve({ config: [] }));
                 const { container } = render(<Form {...props} onSubmit={spy} isValid />);
 
@@ -137,7 +137,7 @@ describe('<Form/>', () => {
                 );
             });
 
-            it('should NOT invoke external callback [::onSubmit] from click on [data-cy="form--update"] because ::isValid is falsy', () => {
+            it('should NOT invoke external callback ::onSubmit from click on [data-cy="form--update"] when ::isValid is falsy', () => {
                 const spy = jest.fn();
                 const { container } = render(<Form {...props} onSubmit={spy} data={data} />);
 
@@ -146,7 +146,7 @@ describe('<Form/>', () => {
                 expect(spy).not.toBeCalled();
             });
 
-            it('should invoke external callback [::onSubmit] from click on [data-cy="form--update"]', async () => {
+            it('should invoke external callback ::onSubmit from click on [data-cy="form--update"]', async () => {
                 const spy = jest.fn(async () => Promise.resolve({ config: [] }));
                 const { container } = render(<Form {...props} onSubmit={spy} data={data} isValid />);
 
@@ -160,7 +160,7 @@ describe('<Form/>', () => {
                 );
             });
 
-            it('should invoke external callback [::validate] from click on [data-cy="form--submit"]', () => {
+            it('should invoke external callback ::validate from click on [data-cy="form--submit"]', () => {
                 const spy = jest.fn();
                 const { container } = render(<Form {...props} validate={spy} isValid />);
 
@@ -169,7 +169,7 @@ describe('<Form/>', () => {
                 expect(spy).toBeCalledWith(props.config);
             });
 
-            it('when external callback [::validate] return false, should not invoke external callback [::onSubmit]', () => {
+            it('when external callback ::validate return false, should NOT invoke external callback ::onSubmit', () => {
                 const spy = jest.fn();
 
                 const { container } = render(<Form {...props}  onSubmit={spy} isValid validate={() => false} />);
@@ -181,7 +181,7 @@ describe('<Form/>', () => {
         });
 
         describe('::onCancel', () => {
-            it('should invoke external callback [::onCancel] from click on [data-cy="form--cancel"]', () => {
+            it('should invoke external callback ::onCancel from click on [data-cy="form--cancel"]', () => {
                 const spy = jest.fn();
                 const { container } = render(<Form {...props} onCancel={spy} />);
 
@@ -195,7 +195,7 @@ describe('<Form/>', () => {
         });
 
         describe('::onCollapse', () => {
-            it('from a click on <Accordion/> title, it should toggle ::isCollapsed, if ::isCollapsed truthy do not render <Accordion /> content', () => {
+            it('from a click on <Accordion /> title, it should toggle ::isCollapsed, when ::isCollapsed is truthy do not render section content', () => {
                 const { container } = render(<Form {...props} />);
 
                 expect(container.querySelector('[data-cy="section-0-input-0"')!).toBeInTheDocument();
@@ -207,7 +207,7 @@ describe('<Form/>', () => {
         });
 
         describe('::onChange', () => {
-            it('should invoke external callback [::validate] with section/field IDs', () => {
+            it('should invoke external callback ::validate with relevant section/field IDs', () => {
                 const spy = jest.fn();
                 props.config[0].isCollapsed = false;
 
@@ -218,7 +218,7 @@ describe('<Form/>', () => {
                 expect(spy).toBeCalledWith(props.config, [[0, 0]]);
             });
 
-            it('should mutate state field [::config] and set [::value] for relevant field from payload', () => {
+            it('should mutate ::config and set ::value for relevant field from payload', () => {
                 props.config[0].isCollapsed = false;
                 props.config[0].items = [
                     {

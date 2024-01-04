@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Form/> external callbacks ::onChange should mutate state field [::config] and set [::value] for relevant field from payload 1`] = `
+exports[`<Form/> external callbacks ::onChange should mutate ::config and set ::value for relevant field from payload 1`] = `
 Array [
   Object {
     "isCollapsed": false,
