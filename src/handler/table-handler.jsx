@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import FormHandler from '../component/form/form-handler';
+import Form from '../component/form/form';
 import { query } from '../graphql/query';
 
 
@@ -106,10 +106,7 @@ export default class TableHandler extends PureComponent {
         const { data } = this.state;
 
         return <>
-            <FormHandler
-                {...this.props.form}
-                onSubmit={this.onSearch}
-            />
+            <Form {...this.props.form} onSubmit={this.onSearch} />
             <table className="table" onScroll={this.onScroll}>
                 <thead>
                     <tr className="table-row table-row-header">

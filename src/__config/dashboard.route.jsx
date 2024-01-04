@@ -46,7 +46,7 @@ const composeConfig = () => ({
             className: 'accordion--flex',
             items: [
                 {
-                    c: Search,
+                    component: Search,
                     attr: 'postcodes',
                     label: 'postcode area',
                     placeholder: 'type here to search',
@@ -55,7 +55,7 @@ const composeConfig = () => ({
                     onFilter: composeOnFilter(),
                 },
                 {
-                    c: HTMLInput,
+                    component: HTMLInput,
                     attr: 'from',
                     label: 'from',
                     type: 'date',
@@ -79,7 +79,7 @@ const composeConfig = () => ({
                     ]
                 },
                 {
-                    c: HTMLInput,
+                    component: HTMLInput,
                     attr: 'to',
                     label: 'to',
                     type: 'date',
@@ -103,12 +103,12 @@ const tabs = [
                 const c = composeConfig();
 
                 c.className = 'map-handler--form';
-                c.config[0].className = '';
                 c.submitCTRL = {
                     label: 'search',
                     className: 'map-handler--form-button',
                 };
 
+                c.config[0].className = '';
                 c.config[0].items[0] = {
                     ...c.config[0].items[0],
                     maxValues: 1,
@@ -127,7 +127,7 @@ const tabs = [
                 }
 
                 c.config[0].items[1] = {
-                    c: HTMLInput,
+                    component: HTMLInput,
                     attr: 'range',
                     label: 'range',
                     type: 'range',
@@ -139,7 +139,6 @@ const tabs = [
                 };
 
                 c.config[0].items.pop();
-                c.isValid = true;
 
                 return c;
             })(),

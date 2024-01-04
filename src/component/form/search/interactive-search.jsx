@@ -87,7 +87,7 @@ class InteractiveSearch extends PureComponent {
 
         value.push(this.state.options[key]);
 
-        /** because <FormHandler/> relay on two attributes */
+        /** because <Form/> relay on two attributes */
         executeOnChange(this.props, value);
         // this.props.onChange(
         //     {
@@ -117,7 +117,7 @@ class InteractiveSearch extends PureComponent {
 
         value.splice(key, 1);
 
-        /** because <FormHandler/> relay on two attributes */
+        /** because <Form/> relay on two attributes */
         executeOnChange(this.props, value);
         // this.props.onChange(
         //     {

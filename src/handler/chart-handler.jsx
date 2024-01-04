@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-import FormHandler from '../component/form/form-handler';
+import Form from '../component/form/form';
 import { query } from '../graphql/query';
 
 const onSubmit = (props, state, onSuccess, onError) => {
@@ -104,10 +104,7 @@ export default class ChartHandler extends PureComponent {
         const { data } = this.state;
 
         return <section className="chart-handler">
-            <FormHandler
-                {...this.props.form}
-                onSubmit={this.onSearch}
-            />
+            <Form {...this.props.form} onSubmit={this.onSearch} />
             {
                 data &&
                 <HighchartsReact

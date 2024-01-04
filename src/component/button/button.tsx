@@ -2,7 +2,7 @@ import React from 'react';
 import type { ButtonHTMLAttributes } from 'react';
 import classNames from 'classnames';
 
-interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     label: string;
 }
 

@@ -8,7 +8,8 @@ import { useQuery } from '../hooks/useQuery';
 
 import Query from '../component/query/query';
 import Drawer from '../portal';
-import FormHandler from '../component/form/form-handler';
+import type { IFormProps } from '../component/form/form';
+import Form from '../component/form/form';
 import type { ITextChunk } from '../utils/filtering/filter';
 import { filterTree } from '../utils/filtering/filter';
 import type { IGeoSearchPayload, IMarker } from '../graphql/api';
@@ -162,7 +163,7 @@ const resolvePayload = (props: IMapOverviewPageProps, state: IMapOverviewPageSta
 
 interface IMapOverviewPageProps extends IQAProps {
     defaultZoom?: number;
-    // TODO: review after <FormHandler /> is converted to TypeScript
+    // TODO: review after <Form /> is converted to TypeScript
     form: any;
 }
 
@@ -242,10 +243,10 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
         }));
     };
 
-    const onFormSearch = () => {
-        const coordinates = resolvePayload(props, state);
+    const onFormSearch = async (props: IFormProps, _state: any) => {
+        const coordinates = resolvePayload(_state, state);
 
-        onMapChange({ center: [ coordinates!.latitude, coordinates!.longitude ], zoom: state.zoom })
+        onMapChange({ center: [ coordinates!.latitude, coordinates!.longitude ], zoom: state.zoom });
     };
 
     const onMapChange = ({ center: [latitude, longitude], zoom }: { center: [ number, number ], zoom: number }) => {
@@ -313,7 +314,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
                     }
                 </Map>
             }
-            <FormHandler {...form} data-cy={cy} onSubmit={onFormSearch} />
+            <Form {...form} data-cy={cy} onSubmit={onFormSearch} />
             {
                 (undefined === coordinates?.latitude || undefined === coordinates.longitude)
                  && <div data-cy={`${cy}--notification--disabled-location`} className="map-handler--disabled-location">

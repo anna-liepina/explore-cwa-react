@@ -3,7 +3,7 @@
 exports[`<TreeHandler/> render with default/required props 1`] = `
 <DocumentFragment>
   <form
-    class="form "
+    class="form"
   >
     <div
       class="form_controls"
@@ -27,7 +27,7 @@ exports[`<TreeHandler/> render with default/required props 1`] = `
 exports[`<TreeHandler/> render with optional/required props 1`] = `
 <DocumentFragment>
   <form
-    class="form "
+    class="form"
   >
     <div
       class="form_controls"
