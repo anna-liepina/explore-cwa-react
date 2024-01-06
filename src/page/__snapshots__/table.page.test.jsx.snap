@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TablePage/> render with default/required props 1`] = `
+<DocumentFragment>
+  <form
+    class="form"
+  >
+    <div
+      class="form_controls"
+    />
+  </form>
+  <div
+    class="pagination"
+  >
+    <button
+      class="button"
+      data-cy="-top-pagination-prevpage"
+      disabled=""
+    >
+      Previous
+    </button>
+    <span>
+      Page 1 of unknown
+    </span>
+    <button
+      class="button"
+      data-cy="-top-pagination-nextpage"
+    >
+      Next
+    </button>
+  </div>
+  <div
+    class="table-container"
+  >
+    <div
+      class="table-stats"
+    />
+    <div
+      class="table-header"
+    >
+      <div
+        class="table-cell"
+      >
+        date
+      </div>
+      <div
+        class="table-cell"
+      >
+        price
+      </div>
+      <div
+        class="table-cell"
+      >
+        address
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<TablePage/> render with optional/required props 1`] = `
+<DocumentFragment>
+  <form
+    class="form"
+  >
+    <div
+      class="form_controls"
+    />
+  </form>
+  <div
+    class="pagination"
+  >
+    <button
+      class="button"
+      data-cy="optProps.data-cy-top-pagination-prevpage"
+      disabled=""
+    >
+      Previous
+    </button>
+    <span>
+      Page 1 of unknown
+    </span>
+    <button
+      class="button"
+      data-cy="optProps.data-cy-top-pagination-nextpage"
+    >
+      Next
+    </button>
+  </div>
+  <div
+    class="table-container optProps.className"
+  >
+    <div
+      class="table-stats"
+    />
+    <div
+      class="table-header"
+    >
+      <div
+        class="table-cell"
+      >
+        date
+      </div>
+      <div
+        class="table-cell"
+      >
+        price
+      </div>
+      <div
+        class="table-cell"
+      >
+        address
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

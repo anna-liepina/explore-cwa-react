@@ -4,7 +4,7 @@ import Search from '../component/form/search/interactive-search';
 import ChartHandler from '../handler/chart-handler';
 import MapHandler from '../page/map.overview.page';
 import TabHandler from '../component/tabmanager/tab.manager';
-import TableHandler from '../handler/table-handler';
+import TableHandler from '../page/table.page';
 import { validationEngine } from '../utils/validation/engine';
 import { composeConditionalRule } from '../utils/validation/rules';
 import { query } from '../graphql/query';
@@ -57,8 +57,9 @@ const composeConfig = () => ({
                 {
                     component: HTMLInput,
                     attr: 'from',
-                    label: 'from',
+                    label: 'from date',
                     type: 'date',
+                    value: ((d) => d.toJSON().split('T')[0])(new Date(0)),
                     validators: [
                         composeConditionalRule(
                             (v, config) => {
@@ -81,8 +82,9 @@ const composeConfig = () => ({
                 {
                     component: HTMLInput,
                     attr: 'to',
-                    label: 'to',
+                    label: 'to date',
                     type: 'date',
+                    value: ((d) => d.toJSON().split('T')[0])(new Date()),
                 },
             ],
         },
@@ -145,13 +147,6 @@ const tabs = [
         },
     },
     {
-        label: 'chart',
-        component: ChartHandler,
-        props: {
-            form: composeConfig(),
-        },
-    },
-    {
         label: 'transactions',
         component: TableHandler,
         props: {
@@ -159,23 +154,14 @@ const tabs = [
                 const c = composeConfig();
 
                 c.config[0].items[0] = {
-                    ...c.config[0].items[0],
-                    maxValues: 1,
-                    onFilter: (props, state, onSuccess, onError) => {
-                        const pattern = state.pattern.toUpperCase();
-
-                        if (pattern.length < 2) {
-                            return;
-                        }
-
-                        return api
-                            .fetchPostcodes({ pattern })
-                            .then(onSuccess)
-                            .catch(onError);
-                    }
+                    component: HTMLInput,
+                    attr: 'postcodePattern',
+                    label: 'postcode pattern',
+                    placeholder: 'type here to search',
+                    value: 'E20',
                 }
 
-                c.isValid = true;
+                delete c.submitCTRL;
 
                 return c;
             })(),
@@ -193,6 +179,13 @@ const tabs = [
                     key: 'address',
                 },
             ]
+        },
+    },
+    {
+        label: 'chart',
+        component: ChartHandler,
+        props: {
+            form: composeConfig(),
         },
     },
 ];

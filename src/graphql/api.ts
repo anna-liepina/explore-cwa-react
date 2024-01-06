@@ -31,6 +31,13 @@ export interface IPostcodeAsValue {
 export interface IPropertyTransaction {
     date: string;
     price: number;
+    address?: string;
+}
+
+export interface IPropertyTransactionGraphqQL {
+    date: string;
+    price: number;
+    property: IProperty;
 }
 
 export interface IProperty {
@@ -59,8 +66,12 @@ export interface IFetchIncidentsResponse {
     incidentSearchWithInRange: IIncident[];
 }
 
-export interface IFetchPostcodeResponse {
+export interface IFetchPostcodesResponse {
     postcodeSearch: IPostcodeGraphqQL[];
+}
+
+export interface IFetchTransactionsResponse {
+    transactionSearch: IPropertyTransactionGraphqQL[];
 }
 
 export interface IGeoSearchPayload {
@@ -76,6 +87,14 @@ export interface IFetchAreasPayload {
 
 export interface IFetchPostcodePayload {
     pattern?: string;
+    perPage?: number;
+}
+
+export interface IFetchTransactionsPayload {
+    postcode?: string;
+    from?: string;
+    to?: string;
+    page?: number;
     perPage?: number;
 }
 
@@ -163,7 +182,7 @@ const api = {
     }
 }`)
         .then(({ data: { data: { incidentSearchWithInRange: incidents } } }) => {
-            const cache: Record <string, { date: string, text: string }[]> = {};
+            const cache: Record<string, { date: string, text: string }[]> = {};
 
             const defaultCategory = 'uncategorized';
             const defaultCategoryIncidents = [];
@@ -223,7 +242,7 @@ const api = {
         })
     },
     fetchPostcodes: async ({ pattern, perPage = 7500 }: IFetchPostcodePayload): Promise<IPostcodeAsValue[]> => {
-        return query<IFetchPostcodeResponse>(`
+        return query<IFetchPostcodesResponse>(`
 {
     postcodeSearch(pattern: "${pattern}", perPage: ${perPage}) {
         postcode
@@ -240,6 +259,48 @@ const api = {
                     latitude: lat,
                     longitude: lng
                 }));
+        })
+    },
+    fetchTransactions: async ({ 
+        postcode,
+        from,
+        to,
+        page,
+        perPage
+    }: IFetchTransactionsPayload): Promise<IPropertyTransaction[]> => {
+        return query<IFetchTransactionsResponse>(`
+{
+    transactionSearch(
+        postcode: "${postcode}"
+        ${from ? `from: "${from}"` : ''}
+        ${to ? `to: "${to}"` : ''}
+        page: ${page}
+        perPage: ${perPage}
+    )
+    {
+        price
+        date
+        property {
+            postcode {
+                postcode
+            }
+            street
+            saon
+            paon 
+        }
+    }
+}`)
+        .then(({ data: { data } }) => {
+            return data.transactionSearch.map((item) => ({
+                price: item.price,
+                date: item.date,
+                address: [
+                    item.property?.postcode?.postcode,
+                    item.property?.street,
+                    item.property?.paon,
+                    item.property?.saon,
+                ].filter(Boolean).join(', ')
+            }));
         })
     },
 };
