@@ -141,6 +141,7 @@ const tabs = [
                 };
 
                 c.config[0].items.pop();
+                delete c.submitCTRL;
 
                 return c;
             })(),
