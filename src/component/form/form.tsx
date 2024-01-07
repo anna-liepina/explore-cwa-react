@@ -33,6 +33,7 @@ export interface IFormProps extends IQAProps {
     onMount?: (props: IFormProps, state: IFormState) => Promise<IFormState>;
     onSuccess?: (props: IFormProps, state: IFormState) => void;
     onError?: (props: IFormProps, state: IFormState) => void;
+    onChange?: (props: IFormProps, state: IFormState) => void;
     onSubmit?: (props: IFormProps, state: IFormState) => Promise<IFormState>;
     onCancel?: (props: IFormProps, state: IFormState) => Promise<IFormState>;
     validate?: (config: IFormProps['config'], fields?: [number, number][]) => boolean;
@@ -53,8 +54,9 @@ const FormHandler: React.FC<IFormProps> = (props) => {
         submitCTRL,
         cancelCTRL,
         onMount,
-        onError,
         onSuccess,
+        onError,
+        onChange,
         onSubmit,
         onCancel,
         validate,
@@ -76,6 +78,15 @@ const FormHandler: React.FC<IFormProps> = (props) => {
         setState({ ...state });
 
         onError && onError(props, state);
+    };
+
+    const onKeyDownHandler = (e: React.KeyboardEvent<HTMLFormElement>): void => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            onSubmitHandler(e);
+        }
     };
 
     const onSubmitHandler = (e: FormEvent): void => {
@@ -116,17 +127,17 @@ const FormHandler: React.FC<IFormProps> = (props) => {
         const section = parseInt(e.target.getAttribute('data-section')!, 10);
         const field = parseInt(e.target.getAttribute('data-field')!, 10);
 
-        // if (!isNaN(section) && !isNaN(field)) {
-            config[section].items[field].value = e.target.value;
+        config[section].items[field].value = e.target.value;
 
-            validate && validate(config, [[section, field]]);
+        validate && validate(config, [[section, field]]);
 
-            setState({
-                ...state,
-                config: [...config],
-                isValid: config.every(({ items }) => items.every(({ errors }) => !Array.isArray(errors)))
-            });
-        // }
+        setState({
+            ...state,
+            config: [...config],
+            isValid: config.every(({ items }) => items.every(({ errors }) => !Array.isArray(errors)))
+        });
+
+        onChange && onChange(props, state);
     };
 
     useEffect(() => {
@@ -139,7 +150,7 @@ const FormHandler: React.FC<IFormProps> = (props) => {
     const { config, data, isValid } = state;
 
     return (
-        <form className={classNames(`form`, className)}>
+        <form className={classNames(`form`, className)} onKeyDown={onKeyDownHandler}>
             {title && <h1 className="form_title" data-cy={`${cy}form-title`}>{title}</h1>}
             {
                 config.map(({ items, ...props }, i) => (
@@ -169,7 +180,7 @@ const FormHandler: React.FC<IFormProps> = (props) => {
             <div className="form_controls">
                 {
                     updateCTRL
-                    && data
+                    && !!data
                     && (
                         <Button
                             {...updateCTRL}

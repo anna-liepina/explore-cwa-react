@@ -1,0 +1,110 @@
+.table {
+    &-container {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        overflow-y: auto;
+    }
+
+    &-stats {
+        background-color: #f2f2f2;
+
+        padding: .25rem;
+
+        font-size: 1rem;
+        font-weight: bold;
+
+        min-height: 1.75rem;
+        box-sizing: border-box;
+
+        color: #333;
+        text-align: center;
+    }
+
+    &-header,
+    &-content {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+
+    &-header {
+        display: grid;
+        background: #d9d9d9;
+
+        position: sticky;
+        top: 0;
+
+        z-index: 1;
+
+        .table-cell {
+            text-transform: uppercase;
+            box-sizing: border-box;
+            
+            font-weight: unset;
+        }
+    }
+
+    &-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+        &:nth-child(even) {
+            background: #d9d9d9;
+        }
+    }
+
+    &-cell {
+        box-sizing: border-box;
+
+        border-bottom: none;
+
+        font-weight: lighter;
+        padding: 10px;
+
+        &:not(:first-child) {
+            border-left: none;
+            border-bottom: none;
+        }
+    }
+} 
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    max-width: 25rem;
+    margin: 0.25rem auto;
+
+    & span {
+        font-size: 1rem;
+        margin: 0 .5rem;
+    }
+
+    & button {
+        padding: .5rem 1.25rem;
+        font-size: 1rem;
+        cursor: pointer;
+        background-color: #0009;
+        color: #fff;
+        border: none;
+        border-radius: .25rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        &:hover {
+            background-color: #000C;
+            color: #fff;
+        }
+          
+        &:disabled {
+            background-color: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+    }
+}
+  
