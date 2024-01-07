@@ -10,7 +10,7 @@ export interface IFetchPostcodesResponse {
     postcodeSearch: IPostcodeGraphqQL[];
 }
 
-export interface IPostcodeGraphqQL {
+interface IPostcodeGraphqQL {
     lat: number;
     lng: number;
     postcode: string;

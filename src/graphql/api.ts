@@ -12,7 +12,6 @@ const api = {
     fetchAreas,
     fetchPostcodes,
     fetchTransactions,
-    fetchTimelines,
 };
 
 export default api;

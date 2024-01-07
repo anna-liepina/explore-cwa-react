@@ -10,7 +10,7 @@ export interface IFetchAreasResponse {
     areaSearch: IAreaGraphQL[];
 }
 
-export interface IAreaGraphQL {
+interface IAreaGraphQL {
     area: string;
     city: string;
 }

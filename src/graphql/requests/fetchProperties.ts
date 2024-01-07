@@ -11,11 +11,11 @@ export interface IFetchPropertiesResponse {
     propertySearchWithInRange: IProperty[];
 }
 
-export interface IPostcode {
+interface IPostcode {
     postcode: string;
 }
 
-export interface ITransaction {
+interface ITransaction {
     date: string;
     price: number;
 }
