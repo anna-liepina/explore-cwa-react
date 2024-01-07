@@ -21,15 +21,11 @@ const Drawer: React.FC<IDrawerProps> = ({
     useEffect(() => {
         setTimeout(() => setOpen(true), timeout);
 
-        const onKeyPress = (event: KeyboardEvent): void => {
-            switch (event.key) {
-                default:
-                    return;
-                case 'Escape':
-                    setOpen(false);
+        const onKeyPress = (e: KeyboardEvent): void => {
+            if (e.key === 'Escape') {
+                setOpen(false);
 
-                    setTimeout(onClose, timeout);
-                    return;
+                setTimeout(onClose, timeout);
             }
         };
 
