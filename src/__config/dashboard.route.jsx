@@ -3,6 +3,7 @@ import React from 'react';
 import TableHandler from '../page/table.page';
 import MapHandler from '../page/map.overview.page';
 import TabHandler from '../component/tabmanager/tab.manager';
+
 import ChartHandler from '../handler/chart-handler';
 
 import HTMLInput from '../component/form/html-input';
