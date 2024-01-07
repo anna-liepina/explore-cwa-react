@@ -1,13 +1,18 @@
 import React from 'react';
-import HTMLInput from '../component/form/html-input';
-import Search from '../component/form/search/interactive-search';
-import ChartHandler from '../handler/chart-handler';
+
+import TableHandler from '../page/table.page';
 import MapHandler from '../page/map.overview.page';
 import TabHandler from '../component/tabmanager/tab.manager';
-import TableHandler from '../page/table.page';
+import ChartHandler from '../handler/chart-handler';
+
+import HTMLInput from '../component/form/html-input';
+import Search from '../component/form/search/interactive-search';
+
 import { validationEngine } from '../utils/validation/engine';
 import { composeConditionalRule } from '../utils/validation/rules';
+
 import { query } from '../graphql/query';
+
 import api from '../graphql/api';
 
 const composeOnFilter = (cache) => (props, state, onSuccess, onError) => {

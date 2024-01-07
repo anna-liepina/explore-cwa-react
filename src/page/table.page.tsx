@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
-import type { IFetchTransactionsPayload, IPropertyTransaction } from '../graphql/api';
-import api from '../graphql/api';
+
 import { useQuery } from '../hooks/useQuery';
 import { usePagination } from '../hooks/usePagination';
+
 import type { IFormProps, IFormState } from '../component/form/form';
 import Form from '../component/form/form';
-import type { IQAProps } from '../utils/commonTypes';
 import Button from '../component/button/button';
+
+import type { IFetchTransactionsPayload, ITransaction } from '../graphql/requests/transactionSearch';
+import api from '../graphql/api';
+
+import type { IQAProps } from '../utils/commonTypes';
 
 export interface ITableColumnConfig {
     key: string;
@@ -74,16 +78,18 @@ const TableHandler: React.FC<ITablePageProps> = (props) => {
     } = props;
 
     const { currentPage, setCurrentPage, prevPage, nextPage } = usePagination();
-    const [transactions, fetchTransactions] = useQuery<IFetchTransactionsPayload, IPropertyTransaction[]>(
+    const [transactions, fetchTransactions] = useQuery<IFetchTransactionsPayload, ITransaction[]>(
         (args) => api.fetchTransactions(args),
         { manual: true }
     );
 
-    const [ payload, setPayload ] = useState({})
+    const [ payload, setPayload ] = useState<IFetchTransactionsPayload|undefined>();
     const totalPages = transactions.data?.length! < perPage ? currentPage : undefined;
 
     useEffect(() => {
-        fetchTransactions({ ...payload, page: currentPage, perPage })
+        if (payload?.postcode) {
+            fetchTransactions({ ...payload, page: currentPage, perPage })
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ currentPage, payload ])
 
@@ -129,7 +135,7 @@ const TableHandler: React.FC<ITablePageProps> = (props) => {
                                     {
                                         columns.map(({ key }, j) => (
                                             <div key={j} className="table-cell">
-                                                {row[key as keyof IPropertyTransaction]}
+                                                {row[key as keyof ITransaction]}
                                             </div>
                                         ))
                                     }
