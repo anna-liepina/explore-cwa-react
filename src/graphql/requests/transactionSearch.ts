@@ -12,20 +12,20 @@ export interface IFetchTransactionsResponse {
     transactionSearch: IPropertyTransactionGraphqQL[];
 }
 
-export interface IPropertyTransactionGraphqQL {
+interface IPropertyTransactionGraphqQL {
     date: string;
     price: number;
     property: IPropertyGraphQL;
 }
 
-export interface IPropertyGraphQL {
+interface IPropertyGraphQL {
     postcode: IPostcode;
     street: string;
     paon: string;
     saon: string;
 }
 
-export interface IPostcode {
+interface IPostcode {
     postcode: string;
 }
 
