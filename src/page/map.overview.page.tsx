@@ -8,7 +8,7 @@ import { useQuery } from '../hooks/useQuery';
 
 import Query from '../component/query/query';
 import Drawer from '../portal';
-import type { IFormProps } from '../component/form/form';
+import type { IFormProps, IFormState } from '../component/form/form';
 import Form from '../component/form/form';
 import type { ITextChunk } from '../utils/filtering/filter';
 import { filterTree } from '../utils/filtering/filter';
@@ -141,14 +141,21 @@ const resolveMapDimensions = () => ({
     height: window.innerHeight - heightOffset,
 })
 
-const resolvePayload = (props: IMapOverviewPageProps, state: IMapOverviewPageState) => {
-    const { form: { config }} = props;
-    const [ { value: _coordinates } , { value: range }] = config[0].items;
-    let { coordinates } = state;
+const resolvePayload = (direct: IMapOverviewPageState, form?: IFormState) => {
+    let coordinates;
+    let range = 0.5;
 
-    if (_coordinates?.length) {
-        coordinates = _coordinates[0];
+    if (form) {
+        const { config: [{ items }] } = form;
+        const [{ value: _coordinates }] = items;
+        range = items[1].value as number;
+    
+        if (Array.isArray(_coordinates) && _coordinates.length) {
+            coordinates = _coordinates[0] as unknown as IMapOverviewPageState['coordinates'];
+        }
     }
+
+    coordinates ||= direct.coordinates;
 
     if (!coordinates.latitude || !coordinates.longitude) {
         return;
@@ -229,7 +236,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
     }, []);
 
     useEffect(() => {
-        const payload = resolvePayload(props, state);
+        const payload = resolvePayload(state);
         if (undefined !== payload?.latitude && undefined !== payload.longitude ) {
             fetchMarkers(payload)
         }
@@ -244,7 +251,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
     };
 
     const onFormSearch = async (props: IFormProps, _state: any) => {
-        const coordinates = resolvePayload(_state, state);
+        const coordinates = resolvePayload(state, _state);
 
         onMapChange({ center: [ coordinates!.latitude, coordinates!.longitude ], zoom: state.zoom });
     };
@@ -314,7 +321,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
                     }
                 </Map>
             }
-            <Form {...form} data-cy={cy} onSubmit={onFormSearch} />
+            <Form {...form} data-cy={cy} onChange={onFormSearch} onSubmit={onFormSearch} />
             {
                 (undefined === coordinates?.latitude || undefined === coordinates.longitude)
                  && <div data-cy={`${cy}--notification--disabled-location`} className="map-handler--disabled-location">
