@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { ChangeEvent } from 'react';
-
 import { Map, Marker } from 'pigeon-maps';
-
 import { useHistory, useLocation } from 'react-router';
+
 import { useQuery } from '../hooks/useQuery';
 
-import Query from '../component/query/query';
-import Drawer from '../portal';
 import type { IFormProps, IFormState } from '../component/form/form';
 import Form from '../component/form/form';
 import type { ITextChunk } from '../utils/filtering/filter';
 import { filterTree } from '../utils/filtering/filter';
-import type { IGeoSearchPayload, IMarker } from '../graphql/api';
-import api, { MarkerType } from '../graphql/api';
+import Query from '../component/query/query';
+import Drawer from '../portal';
+
+import type { IFetchMarkersPayload, IMarker } from '../graphql/requests/fetchMarkers';
+import { MarkerType } from '../graphql/requests/fetchMarkers';
+import api from '../graphql/api';
+
 import type { IQAProps } from '../utils/commonTypes';
 
 const colorHashmapByType: Record<MarkerType, string> = {
@@ -201,7 +203,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
         coordinates: { latitude, longitude },
     });
 
-    const [markers, fetchMarkers] = useQuery<IGeoSearchPayload, IMarker[]>(
+    const [markers, fetchMarkers] = useQuery<IFetchMarkersPayload, IMarker[]>(
         (args) => api.fetchMarkers(args),
         { manual: true }
     );

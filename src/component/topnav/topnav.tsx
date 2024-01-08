@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Query from '../query/query';
-import TreeHandler from '../tree/tree-handler';
 import DrawerHandler from '../drawer/drawer.handler';
-import api from '../../graphql/api';
+import TreeHandler from '../tree/tree-handler';
+import Query from '../query/query';
+
 import { filterTree } from '../../utils/filtering/filter';
+
+import api from '../../graphql/api';
+
 import type { IQAProps } from '../../utils/commonTypes';
 
 const onExpand = (data: any, path: string) => {
