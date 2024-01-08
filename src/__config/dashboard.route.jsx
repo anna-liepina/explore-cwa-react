@@ -165,7 +165,7 @@ const tabs = [
                     attr: 'postcodePattern',
                     label: 'postcode pattern',
                     placeholder: 'type here to search',
-                    value: 'E20',
+                    value: '',
                 }
 
                 delete c.submitCTRL;
