@@ -83,7 +83,7 @@ const TableHandler: React.FC<ITablePageProps> = (props) => {
         { manual: true }
     );
 
-    const [ payload, setPayload ] = useState<IFetchTransactionsPayload|undefined>();
+    const [ payload, setPayload ] = useState<IFetchTransactionsPayload>();
     const totalPages = transactions.data?.length! < perPage ? currentPage : undefined;
 
     useEffect(() => {
