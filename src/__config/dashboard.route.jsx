@@ -141,7 +141,7 @@ const tabs = [
                     type: 'range',
                     step: .5,
                     min: .5,
-                    max: 5,
+                    max: 2.5,
                     value: .5,
                     className: 'map-handler__range-input',
                 };
