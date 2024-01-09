@@ -145,7 +145,7 @@ const resolveMapDimensions = () => ({
 
 const resolvePayload = (direct: IMapOverviewPageState, form?: IFormState) => {
     let coordinates;
-    let range = 0.5;
+    let range = direct.range;
 
     if (form) {
         const { config: [{ items }] } = form;
@@ -179,6 +179,7 @@ interface IMapOverviewPageProps extends IQAProps {
 interface IMapOverviewPageState {
     payload: any;
     zoom: number;
+    range: number;
     width: number;
     height: number;
     coordinates: {
@@ -198,6 +199,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
     const { 'data-cy': cy = '', defaultZoom = 15, form } = props;
     const [state, setState] = useState<IMapOverviewPageState>({
         ...resolveMapDimensions(),
+        range: .5,
         payload: undefined,
         zoom: defaultZoom,
         coordinates: { latitude, longitude },
@@ -253,23 +255,24 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
     };
 
     const onFormSearch = async (props: IFormProps, _state: any) => {
-        const coordinates = resolvePayload(state, _state);
+        const payload = resolvePayload(state, _state);
 
-        onMapChange({ center: [ coordinates!.latitude, coordinates!.longitude ], zoom: state.zoom });
+        onMapChange({ center: [ payload!.latitude, payload!.longitude ], range: payload!.range });
     };
 
-    const onMapChange = ({ center: [latitude, longitude], zoom }: { center: [ number, number ], zoom: number }) => {
+    const onMapChange = ({ center: [latitude, longitude], zoom, range }: { center: [ number, number ], zoom?: number, range?: number }) => {
         const coordinates = { latitude, longitude };
 
         history.replace({ 
             pathname: location.pathname,
-            search: new URLSearchParams(coordinates as any).toString()
+            search: new URLSearchParams(coordinates as any).toString(),
         });
 
         setState(prevState => ({
             ...prevState,
             coordinates,
-            zoom,
+            zoom: zoom || prevState.zoom,
+            range: range || prevState.range,
         }));
     };
 
