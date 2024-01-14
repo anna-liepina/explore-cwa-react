@@ -1,10 +1,10 @@
 import React from 'react';
 
-import TableHandler from '../page/table.page';
-import MapHandler from '../page/map.overview.page';
 import TabHandler from '../component/tabmanager/tab.manager';
 
-import ChartHandler from '../handler/chart-handler';
+import TablePage from '../page/table.page';
+import MapPage from '../page/map.overview.page';
+import ChartPage from '../page/chart.page';
 
 import HTMLInput from '../component/form/html-input';
 import Search from '../component/form/search/interactive-search';
@@ -95,16 +95,12 @@ const composeConfig = () => ({
             ],
         },
     ],
-    submitCTRL: {
-        label: 'search',
-        className: 'chart-handler_button--submit',
-    },
 });
 
 const tabs = [
     {
         label: 'map',
-        component: MapHandler,
+        component: MapPage,
         props: {
             'data-cy': 'mapview',
             form: (() => {
@@ -147,7 +143,6 @@ const tabs = [
                 };
 
                 c.config[0].items.pop();
-                delete c.submitCTRL;
 
                 return c;
             })(),
@@ -155,8 +150,9 @@ const tabs = [
     },
     {
         label: 'transactions',
-        component: TableHandler,
+        component: TablePage,
         props: {
+            'data-cy': 'transactionsview',
             form: (() => {
                 const c = composeConfig();
 
@@ -167,8 +163,6 @@ const tabs = [
                     placeholder: 'type here to search',
                     value: '',
                 }
-
-                delete c.submitCTRL;
 
                 return c;
             })(),
@@ -190,9 +184,24 @@ const tabs = [
     },
     {
         label: 'chart',
-        component: ChartHandler,
+        component: ChartPage,
         props: {
-            form: composeConfig(),
+            'data-cy': 'chartview',
+            form: (() => {
+                const c = composeConfig();
+
+                c.config[0].items[0] = {
+                    component: Search,
+                    attr: 'postcodes',
+                    label: 'postcode area',
+                    placeholder: 'type here to search',
+                    value: [].map(( value ) => ({ value, label: value })),
+                    valueTransformer: (v) => !v ? null : v[0].value,
+                    onFilter: composeOnFilter(),
+                };
+
+                return c;
+            })(),
         },
     },
 ];

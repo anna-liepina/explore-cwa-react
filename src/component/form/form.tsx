@@ -8,12 +8,14 @@ import { IQAProps } from '../../utils/commonTypes';
 
 export type TFormFieldValuePrimitive = string|number;
 export type TFormFieldValueComposite = {
+    label: string;
     value: TFormFieldValuePrimitive;
 }
 export interface IFormFieldConfig {
     component: React.ComponentType<React.ComponentPropsWithRef<'input'>>;
     errors?: string[];
     value?: TFormFieldValuePrimitive|TFormFieldValueComposite|TFormFieldValueComposite[];
+    [key: string]: any;
 }
 
 export interface IFormSectionConfig {
