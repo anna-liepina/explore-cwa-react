@@ -170,7 +170,7 @@ const resolvePayload = (direct: IMapOverviewPageState, form?: IFormState) => {
     };
 }
 
-interface IMapOverviewPageProps extends IQAProps {
+export interface IMapOverviewPageProps extends IQAProps {
     defaultZoom?: number;
     // TODO: review after <Form /> is converted to TypeScript
     form: any;
@@ -221,7 +221,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
         const { coordinates: { latitude, longitude } } = state;
         
         if (isNaN(latitude) || isNaN(longitude)) {
-            navigator.geolocation.getCurrentPosition(
+            navigator.geolocation?.getCurrentPosition(
                 ({ coords: coordinates }) => {
                     setState(prevState => ({
                         ...prevState,

@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<MapHandler/> render with default/required props 1`] = `
+exports[`<MapOverviewPage/> render with default/required props 1`] = `
 <DocumentFragment>
   <section
-    class="chart-handler"
+    class="map-handler"
+    style="height: 678px;"
   >
     <form
       class="form"
@@ -16,10 +17,11 @@ exports[`<MapHandler/> render with default/required props 1`] = `
 </DocumentFragment>
 `;
 
-exports[`<MapHandler/> render with optional/required props 1`] = `
+exports[`<MapOverviewPage/> render with optional/required props 1`] = `
 <DocumentFragment>
   <section
-    class="chart-handler"
+    class="map-handler"
+    style="height: 678px;"
   >
     <form
       class="form"
