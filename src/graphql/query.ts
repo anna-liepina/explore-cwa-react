@@ -2,7 +2,6 @@ import axios from "axios";
 import axiosRetry from 'axios-retry';
 import type { AxiosResponse } from "axios";
 
-
 axiosRetry(axios, {
     shouldResetTimeout: true,
     retries: 3,
