@@ -20,6 +20,7 @@ export interface IMarker {
     lat: number;
     lng: number;
     type: MarkerType;
+    label: string;
 }
 
 export const fetchMarkers = async ({
@@ -41,6 +42,7 @@ export const fetchMarkers = async ({
         lat
         lng
         type
+        label
     }
 }`)
     .then(({ data: { data } }) => data.markerSearchWithInRange);

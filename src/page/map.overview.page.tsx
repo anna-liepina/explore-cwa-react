@@ -242,7 +242,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
     useEffect(() => {
         const payload = resolvePayload(state);
         if (undefined !== payload?.latitude && undefined !== payload.longitude ) {
-            fetchMarkers(payload)
+            fetchMarkers(payload);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.coordinates]);
@@ -293,7 +293,7 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
                                 <DrawerTable
                                     data-cy={`${cy}--details`}
                                     data={state.data}
-                                    title={`WIP Marker.label`}
+                                    title={payload.label}
                                     onFilter={filterTree}
                                 />
                         }
