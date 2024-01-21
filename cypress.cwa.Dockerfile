@@ -2,7 +2,7 @@ FROM alpine AS cwa
 
 WORKDIR /www
 
-RUN apk add --no-cache nodejs nodejs-npm
+RUN apk add --no-cache nodejs npm
 
 COPY package.json package-lock.json ./
 
@@ -25,7 +25,7 @@ FROM alpine
 
 WORKDIR /www
 
-RUN apk add --no-cache nodejs nodejs-npm \
+RUN apk add --no-cache nodejs npm \
     && npm i serve --verbose -g \
     && apk del nodejs-npm
 

@@ -2,14 +2,13 @@ FROM alpine AS sa
 
 WORKDIR /www
 
-RUN apk add --no-cache nodejs nodejs-npm
+RUN apk add --no-cache nodejs npm
 
 COPY node-explorer/package.json node-explorer/package-lock.json ./
 
 RUN npm i --verbose
 
-COPY node-explorer/.babelrc \
-     node-explorer/.env \
+COPY node-explorer/.env \
      node-explorer/.sequelizerc \
      ./
 COPY node-explorer/database ./database
