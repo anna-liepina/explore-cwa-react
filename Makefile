@@ -1,17 +1,20 @@
-.DEFAULT_GOAL := interactive
-.DEV_IMAGE := explorer-cwa
-.SERVE_IMAGE := explorer-cwa-serve
+.DEFAULT_GOAL		:= interactive
 
+DOCKER_IMAGE_ALIAS	:= exploreme
+DOCKER_IMAGE_LOCAL	:= $(DOCKER_IMAGE_ALIAS)-cwa
+DOCKER_IMAGE_PROD	:= $(DOCKER_IMAGE_ALIAS)-cwa-production
 
-.PORT := 8080
-PORT := $(.PORT)
-.REACT_APP_GRAPHQL := //localhost:8081
-REACT_APP_GRAPHQL := $(.REACT_APP_GRAPHQL)
+.PORT 				:= 8080
+.REACT_APP_GRAPHQL 	:= //localhost:8081
+
+PORT				:= $(.PORT)
+REACT_APP_GRAPHQL 	:= $(.REACT_APP_GRAPHQL)
 
 .SHARED_VOLUMES := \
 	-v $(PWD)/public:/www/public \
 	-v $(PWD)/src:/www/src \
-	-v $(PWD)/.env:/www/.env
+	-v $(PWD)/.env:/www/.env \
+	-v $(PWD)/tsconfig.json:/www/tsconfig.json
 
 .ENV_VARIABLES := \
 	-e PORT=$(PORT) \
@@ -19,8 +22,9 @@ REACT_APP_GRAPHQL := $(.REACT_APP_GRAPHQL)
 
 help:
 	@echo ""
-	@echo " Explorer CWA [ client web application ] "
-	@echo "-----------------------------------------"
+	@echo "-------------------------------------------------"
+	@echo "-------- 'Explore Me' React.js front-end --------"
+	@echo "-------------------------------------------------"
 	@echo ""
 	@echo " make help\t\tdisplay help"
 	@echo ""
@@ -28,16 +32,16 @@ help:
 	@echo " make sync\t\talias for 'git submodule update --init --recursive --remote'"
 	@echo ""
 	@echo "-- DOCKER IMAGE PREPARATION"
-	@echo " make dev-image\t\tbuild [$(.DEV_IMAGE)] image which encapsulate dev-dependencies, nothing else"
-	@echo " make serve-image\tbuild [$(.SERVE_IMAGE)] image which encapsulate 'serve', nothing else"
+	@echo " make dev-image\t\tbuild [$(DOCKER_IMAGE_LOCAL)] image which encapsulate dev-dependencies, nothing else"
+	@echo " make serve-image\tbuild [$(DOCKER_IMAGE_PROD)] image which encapsulate 'serve', nothing else"
 	@echo ""
 	@echo "-- DOCKER ORCHESTRATION"
 	@echo " make cy-image\t\tbuild CWA, GraphQL, Cypress docker images for 'end to end' test execution"
 	@echo ""
 	@echo "-- COMMANDS"
 	@echo " make\t\t\talias for 'make $(.DEFAULT_GOAL)'"
-	@echo " make interactive\trun [$(.DEV_IMAGE)] image, content become available on http://localhost:$(PORT)"
-	@echo " make serve\t\trun [$(.SERVE_IMAGE)] image, content become available on http://localhost:$(PORT)"
+	@echo " make interactive\trun [$(DOCKER_IMAGE_LOCAL)] image, content become available on http://localhost:$(PORT)"
+	@echo " make serve\t\trun [$(DOCKER_IMAGE_PROD)] image, content become available on http://localhost:$(PORT)"
 	@echo " make test\t\texecute unit and functional tests"
 	@echo " make cypress\t\texecute 'cypress' integration tests"
 	@echo " make build\t\tgenerate static assets in './build' directory"
@@ -47,19 +51,19 @@ help:
 	@echo " PORT\t\t\t$(.PORT)"
 	@echo " REACT_APP_GRAPHQL\t$(.REACT_APP_GRAPHQL)"
 
-sync:
-	git submodule update --init --recursive --remote
+# sync:
+# 	git submodule update --init --recursive --remote
 
-cy-image:
-	docker-compose -f cypress.compose.yml build
+# image-cypress:
+# 	docker-compose -f cypress.compose.yml build
 
-dev-image:
-	docker build -t $(.DEV_IMAGE) .
+image-local:
+	docker build -t $(DOCKER_IMAGE_LOCAL) . -f env.local.Dockerfile
 
-serve-image:
-	docker build -t $(.SERVE_IMAGE) . -f serve.Dockerfile
+image-prod:
+	docker build -t $(DOCKER_IMAGE_PROD) . -f env.prod.Dockerfile
 
-build: dev-image
+build: image-local
 	mkdir -p $(PWD)/build
 	docker run \
 		--rm \
@@ -68,9 +72,9 @@ build: dev-image
 		$(.SHARED_VOLUMES) \
 		$(.ENV_VARIABLES) \
 		--entrypoint=npm \
-		$(.DEV_IMAGE) run build
+		$(DOCKER_IMAGE_LOCAL) run build
 
-test: dev-image
+test: image-local
 	docker run \
 		--rm \
 		--name explorer-cwa-test \
@@ -78,26 +82,26 @@ test: dev-image
 		$(.SHARED_VOLUMES) \
 		$(.ENV_VARIABLES) \
 		--entrypoint=npm \
-		$(.DEV_IMAGE) run test
+		$(DOCKER_IMAGE_LOCAL) run test
 
-cypress: cy-image
-	docker-compose -f cypress.compose.yml up --abort-on-container-exit
+# cypress: image-cypress
+# 	docker-compose -f cypress.compose.yml up --abort-on-container-exit
 
-interactive: dev-image
+interactive: image-local
 	docker run \
 		--rm \
-		--name explorer-cwa-$(PORT) \
+		--name $(DOCKER_IMAGE_LOCAL)-$(PORT) \
 		-it \
 		$(.SHARED_VOLUMES) \
 		$(.ENV_VARIABLES) \
 		-p $(PORT):$(PORT) \
 		--entrypoint=npm \
-		$(.DEV_IMAGE) run start
+		$(DOCKER_IMAGE_LOCAL) run start
 
-serve: build serve-image
+serve: build image-prod
 	docker run \
 		--rm \
-		--name cwa-serve-$(PORT) \
+		--name $(DOCKER_IMAGE_PROD)-$(PORT) \
 		-it \
 		-v $(PWD)/build:/www/build \
 		-v $(PWD)/serve.json:/www/serve.json \
@@ -105,4 +109,4 @@ serve: build serve-image
 		$(.ENV_VARIABLES) \
 		-p $(PORT):$(PORT) \
 		--entrypoint=serve \
-		$(.SERVE_IMAGE) -n
+		$(DOCKER_IMAGE_PROD) -n
