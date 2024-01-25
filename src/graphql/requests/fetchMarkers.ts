@@ -8,7 +8,7 @@ export interface IFetchMarkersPayload {
 }
 
 export interface IFetchMarkersResponse {
-    markerSearchWithInRange: IMarker[];
+    markerSearchInRange: IMarker[];
 }
 
 export const enum MarkerType {
@@ -31,7 +31,7 @@ export const fetchMarkers = async ({
 }: IFetchMarkersPayload): Promise<IMarker[]> => {
     return query<IFetchMarkersResponse>(`
 {
-    markerSearchWithInRange(
+    markerSearchInRange(
         pos: {
             lat: ${latitude}
             lng: ${longitude}
@@ -45,5 +45,5 @@ export const fetchMarkers = async ({
         label
     }
 }`)
-    .then(({ data: { data } }) => data.markerSearchWithInRange);
+    .then(({ data: { data } }) => data.markerSearchInRange);
 };
