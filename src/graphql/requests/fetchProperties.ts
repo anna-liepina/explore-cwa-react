@@ -8,7 +8,7 @@ export interface IFetchPropertiesPayload {
 }
 
 export interface IFetchPropertiesResponse {
-    propertySearchWithInRange: IProperty[];
+    propertySearchInRange: IProperty[];
 }
 
 interface IPostcode {
@@ -36,7 +36,7 @@ export const fetchProperties = async ({
 }: IFetchPropertiesPayload) => {
     return query<IFetchPropertiesResponse>(`
 {
-    propertySearchWithInRange(
+    propertySearchInRange(
         pos: {
             lat: ${latitude}
             lng: ${longitude}
@@ -56,8 +56,8 @@ export const fetchProperties = async ({
         }
     }
 }`)
-    .then(({ data: { data: { propertySearchWithInRange } } }) => {
-        return propertySearchWithInRange
+    .then(({ data: { data: { propertySearchInRange } } }) => {
+        return propertySearchInRange
             .filter(({ transactions }) => transactions?.length)
             .map((v) => ({
                 text: [v.street, v.paon, v.saon].filter(Boolean).join(', '),

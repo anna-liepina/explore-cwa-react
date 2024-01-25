@@ -8,7 +8,7 @@ export interface IFetchIncidentsPayload {
 }
 
 export interface IFetchIncidentsResponse {
-    incidentSearchWithInRange: IIncident[];
+    incidentSearchInRange: IIncident[];
 }
 
 export interface IIncident {
@@ -25,7 +25,7 @@ export const fetchIncidents = async ({
 }: IFetchIncidentsPayload) => {
     return query<IFetchIncidentsResponse>(`
 {
-    incidentSearchWithInRange(
+    incidentSearchInRange(
         pos: {
             lat: ${latitude}
             lng: ${longitude}
@@ -38,7 +38,7 @@ export const fetchIncidents = async ({
         outcome
     }
 }`)
-    .then(({ data: { data: { incidentSearchWithInRange: incidents } } }) => {
+    .then(({ data: { data: { incidentSearchInRange: incidents } } }) => {
         const cache: Record<string, { date: string, text: string }[]> = {};
 
         const defaultCategory = 'uncategorized';
