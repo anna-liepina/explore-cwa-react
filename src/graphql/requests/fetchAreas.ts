@@ -21,14 +21,14 @@ export interface IArea {
 }
 
 export const fetchAreas = async ({
-    pattern,
+    pattern = '',
     page = 1,
     perPage = 7500.
 }: IFetchAreasPayload): Promise<IArea[]> => {
     return query<IFetchAreasResponse>(`
 {
     areaSearch(
-        ${pattern ? `pattern: "${pattern}"`: ''}
+        postcodePattern: "${pattern}"
         page: ${page}
         perPage: ${perPage}
     ){

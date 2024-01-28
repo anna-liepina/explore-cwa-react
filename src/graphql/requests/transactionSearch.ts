@@ -37,17 +37,17 @@ export interface ITransaction {
 
 export const fetchTransactions = async ({ 
     postcode,
-    from,
-    to,
+    from = '',
+    to = '',
     page = 1,
     perPage = 100
 }: IFetchTransactionsPayload): Promise<ITransaction[]> => {
     return query<IFetchTransactionsResponse>(`
 {
     transactionSearch(
-        postcode: "${postcode}"
-        ${from ? `from: "${from}"` : ''}
-        ${to ? `to: "${to}"` : ''}
+        postcodePattern: "${postcode}"
+        dateFrom: "${from}"
+        dateTo: "${to}"
         page: ${page}
         perPage: ${perPage}
     ) {
