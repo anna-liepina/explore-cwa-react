@@ -27,8 +27,8 @@ export interface ITimelineSeries {
 
 export const fetchTimelines = async ({ 
     postcodes,
-    from,
-    to,
+    from = '',
+    to = '',
     page = 1,
     perPage = 2500 
 }: IFetchTimelinesPayload): Promise<ITimelineSeries[]> => {
@@ -36,8 +36,8 @@ export const fetchTimelines = async ({
 {
     timelineSearch(
         postcodes: ["${postcodes.join('", "')}"]
-        ${from ? `from: "${from}"` : ''}
-        ${to ? `to: "${to}"` : ''}
+        dateFrom: "${from}"
+        dateTo: "${to}"
         page: ${page}
         perPage: ${perPage}
     ) {
@@ -86,6 +86,6 @@ export const fetchTimelines = async ({
             })
         }
 
-        return series
+        return series;
     });
 };
