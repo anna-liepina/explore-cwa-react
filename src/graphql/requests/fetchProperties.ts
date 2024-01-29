@@ -47,9 +47,6 @@ export const fetchProperties = async ({
         paon
         saon
         street
-        postcode {
-            postcode
-        }
         transactions {
             date
             price
