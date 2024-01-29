@@ -129,11 +129,11 @@ const DrawerTable: React.FC<IDrawerTableProps> = ({
 
 const onSearchDetails = (payload: IMarker): Promise<Object[]> => {
     if (payload.type === MarkerType.police) {
-        return api.fetchIncidents({ latitude: payload.lat, longitude: payload.lng });
+        return api.fetchIncidents({ latitude: payload.lat, longitude: payload.lng, range: 0 });
     }
 
     // if (payload.type === MarkerType.property) {
-        return api.fetchProperties({ latitude: payload.lat, longitude: payload.lng });
+        return api.fetchProperties({ latitude: payload.lat, longitude: payload.lng, range: 0 });
     // }
 };
 
