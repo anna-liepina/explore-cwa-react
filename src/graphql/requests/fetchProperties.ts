@@ -11,10 +11,6 @@ export interface IFetchPropertiesResponse {
     propertySearchInRange: IProperty[];
 }
 
-interface IPostcode {
-    postcode: string;
-}
-
 interface ITransaction {
     date: string;
     price: number;
@@ -24,7 +20,6 @@ interface IProperty {
     paon: string;
     saon: string;
     street: string;
-    postcode: IPostcode;
     transactions?: ITransaction[];
 }
 
