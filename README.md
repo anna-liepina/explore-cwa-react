@@ -26,7 +26,7 @@ Additionally, the project incorporates a queue system to enhance the efficiency 
 ### Live DEMO
 
 * Web Application [https://exploreme.co.uk]
-  * GraphQL [https://dolphin-app-3qow6.ondigitalocean.app]
+  * GraphQL [https://graphql.exploreme.co.uk]
 
 ### software requirements
 
