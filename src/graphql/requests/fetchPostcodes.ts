@@ -16,7 +16,7 @@ interface IPostcodeGraphqQL {
     postcode: string;
 }
 
-export interface IPostcodeAsValue {
+interface IPostcodeAsValue {
     latitude: number;
     longitude: number;
     value: string;
