@@ -11,7 +11,7 @@ export interface IFetchIncidentsResponse {
     incidentSearchInRange: IIncident[];
 }
 
-export interface IIncident {
+interface IIncident {
     date: string;
     type: string;
     outcome: string;

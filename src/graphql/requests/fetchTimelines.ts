@@ -18,7 +18,7 @@ interface ITimelineGraphQL {
     avg: number; 
 }
 
-export type ITimelineRecord = [ number, number, string ];
+type ITimelineRecord = [ number, number, string ];
 
 export interface ITimelineSeries {
     name: string;

@@ -20,7 +20,7 @@ interface ITransaction {
     price: number;
 }
 
-export interface IProperty {
+interface IProperty {
     paon: string;
     saon: string;
     street: string;

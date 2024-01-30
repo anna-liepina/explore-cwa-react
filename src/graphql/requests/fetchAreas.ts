@@ -15,7 +15,7 @@ interface IAreaGraphQL {
     city: string;
 }
 
-export interface IArea {
+interface IArea {
     text: string;
     nodes?: IArea[];
 }
