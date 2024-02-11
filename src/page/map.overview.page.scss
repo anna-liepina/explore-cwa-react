@@ -84,6 +84,41 @@
     background: #d9d9d9;
 }
 
+.map-handler--legend {
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid #000;
+    border-top: none;
+    border-left: none;
+    opacity: 0.9;
+    left: 0;
+    width: 15rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+
+    .pigeon-click-block {
+        position: initial !important;
+    }
+
+    ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        display: flex; /* Use flex to align Marker and text horizontally */
+        align-items: center; /* Align items vertically in the center */
+        margin-bottom: 8px; /* Adjust as needed for spacing between items */
+    }
+    
+    h4 {
+        padding: 0;
+        margin: .25rem;
+        text-align: center;
+    }
+}
+
 .map-handler__range-input input {
     &:hover {
         opacity: 1;

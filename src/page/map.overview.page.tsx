@@ -333,6 +333,13 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
                     location services are not enabled, search by your current location is not possible
                 </div>
             }
+            <div className='map-handler--legend'>
+                <h4>map legend</h4>
+                <ul>
+                    <li><Marker color={resolveMarkerColor({ type: MarkerType.police } as IMarker)}/> incidents reported by police</li>
+                    <li><Marker color={resolveMarkerColor({ type: MarkerType.property } as IMarker)}/> property sales</li>
+                </ul>
+            </div>
         </section>
     );
 }
