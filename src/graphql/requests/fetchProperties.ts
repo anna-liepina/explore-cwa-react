@@ -64,11 +64,13 @@ export const fetchProperties = async ({
                 property.propertyForm === 'L' && 'leasehold'
             ].filter(Boolean).map((text) => ({ text }))
         }
+
         return propertySearchInRange
             .filter(({ transactions }) => transactions?.length)
             .map((v) => ({
                 text: [v.street, v.paon, v.saon].filter(Boolean).join(', '),
                 badges: resolveBadges(v),
+                content: v.transactions!.map(({ date, price: text }) => ({ date, text, currency: '£' }))
             }));
     });
 };
