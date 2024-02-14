@@ -1,5 +1,6 @@
 {
-  "name": "data-explorer-cwa",
+  "name": "explore-cwa",
+  "description": "A dynamic Client Web Application designed to effortlessly consume GraphQL responses and elegantly represent data through the power of React.js.",
   "version": "1.0.0",
   "private": true,
   "engines": {

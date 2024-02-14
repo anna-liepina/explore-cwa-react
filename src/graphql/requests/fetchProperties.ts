@@ -67,10 +67,10 @@ export const fetchProperties = async ({
 
         return propertySearchInRange
             .filter(({ transactions }) => transactions?.length)
-            .map((v) => ({
-                text: [v.street, v.paon, v.saon].filter(Boolean).join(', '),
-                badges: resolveBadges(v),
-                content: v.transactions!.map(({ date, price: text }) => ({ date, text, currency: '£' }))
+            .map((property) => ({
+                text: [property.street, property.paon, property.saon].filter(Boolean).join(', '),
+                badges: resolveBadges(property),
+                content: property.transactions!.map(({ date, price: text }) => ({ date, text, currency: '£' }))
             }));
     });
 };
