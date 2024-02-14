@@ -20,6 +20,8 @@ interface IProperty {
     paon: string;
     saon: string;
     street: string;
+    propertyForm: string;
+    propertyType: string;
     transactions?: ITransaction[];
 }
 
@@ -42,6 +44,8 @@ export const fetchProperties = async ({
         paon
         saon
         street
+        propertyForm
+        propertyType
         transactions {
             date
             price
@@ -49,11 +53,20 @@ export const fetchProperties = async ({
     }
 }`)
     .then(({ data: { data: { propertySearchInRange } } }) => {
+        const resolveBadges = (property: IProperty) => [
+            property.propertyType === 'D' && { text: 'detached', backgroundColor: '#0088FF' },
+            property.propertyType === 'S' && { text: 'semi - detached', backgroundColor: '#5D005D' },
+            property.propertyType === 'T' && { text: 'terraced', backgroundColor: '#303030' },
+            property.propertyType === 'F' && { text: 'flat', backgroundColor: '#6D6D6D' },
+            property.propertyForm === 'F' && { text: 'freehold', backgroundColor: '#008000' },
+            property.propertyForm === 'L' && { text: 'leasehold', backgroundColor: '#A94442' },
+        ].filter(Boolean);
+
         return propertySearchInRange
             .filter(({ transactions }) => transactions?.length)
-            .map((v) => ({
-                text: [v.street, v.paon, v.saon].filter(Boolean).join(', '),
-                content: v.transactions!.map(({ date, price: text }) => ({ date, text }))
+            .map((property) => ({
+                text: [property.street, property.paon, property.saon].filter(Boolean).join(', '),
+                badges: resolveBadges(property),
             }));
     });
 };

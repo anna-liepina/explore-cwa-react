@@ -14,6 +14,17 @@
         display: flex;
     }
 
+    &--badge {
+        background: #6D6D6D;
+        border-radius: 5px;
+        box-sizing: border-box;
+        color: #fff;
+
+        margin-left: .25rem;
+        padding: 0.1rem 0.25rem;
+        font-size: .75rem;
+    }
+
     &--cell {
         flex: 1;
         padding: .25rem;

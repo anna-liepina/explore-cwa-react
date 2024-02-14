@@ -25,14 +25,21 @@ const colorHashmapByType: Record<MarkerType, string> = {
 const defaultColor = '#0ff';
 const resolveMarkerColor = (marker: IMarker): string => colorHashmapByType[marker.type] || defaultColor;
 
-export interface ITableRecord {
+interface ITableRecord {
     date: string;
     text: string|number;
+    currency?: string;
 }
 
-export interface IDrawTableRecord {
+interface IBadge {
+    text: string
+    backgroundColor?: string;
+}
+
+interface IDrawTableRecord {
     isVisible?: boolean;
     text: string;
+    badges?: IBadge[];
     chunks?: ITextChunk[];
     content: ITableRecord[];
 }
@@ -78,7 +85,7 @@ const DrawerTable: React.FC<IDrawerTableProps> = ({
         />
         {
             Array.isArray(filteredData) &&
-            filteredData.map(({ isVisible, chunks, text, content }, i) => (
+            filteredData.map(({ isVisible, chunks, text, content, badges }, i) => (
                 (undefined === isVisible || isVisible) && (
                 <React.Fragment key={i}>
                     <h3 data-cy={`${cy}-${i}`} className="drawer-table--category">
@@ -96,6 +103,19 @@ const DrawerTable: React.FC<IDrawerTableProps> = ({
                             : text
                     }
                     </h3>
+                    {
+                        Array.isArray(badges)
+                            && !!badges.length 
+                            && <div className="drawer-table--badges">
+                               {
+                                    badges.map(({ text, backgroundColor }) =>
+                                        <span className="drawer-table--badge" style={{ backgroundColor }}>
+                                            {text}
+                                        </span>
+                                    )
+                                }
+                            </div>
+                    }
                     {
                         Array.isArray(content) && !!content.length
                         && <table>
