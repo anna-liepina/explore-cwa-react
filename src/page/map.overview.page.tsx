@@ -107,14 +107,14 @@ const DrawerTable: React.FC<IDrawerTableProps> = ({
                         Array.isArray(badges)
                             && !!badges.length 
                             && <div className="drawer-table--badges">
-                                {
+                               {
                                     badges.map(({ text, backgroundColor }) =>
                                         <span className="drawer-table--badge" style={{ backgroundColor }}>
                                             {text}
                                         </span>
                                     )
                                 }
-                                </div>
+                            </div>
                     }
                     {
                         Array.isArray(content) && !!content.length
