@@ -64,6 +64,7 @@ export const fetchProperties = async ({
                 property.propertyForm === 'L' && 'leasehold'
             ].filter(Boolean).map((text) => ({ text }))
         }
+
         return propertySearchInRange
             .filter(({ transactions }) => transactions?.length)
             .map((v) => ({
