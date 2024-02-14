@@ -53,23 +53,20 @@ export const fetchProperties = async ({
     }
 }`)
     .then(({ data: { data: { propertySearchInRange } } }) => {
-        const resolveBadges = (property: IProperty) => {
-            return [
-                property.propertyType === 'D' && 'detached',
-                property.propertyType === 'S' && 'semi - detached',
-                property.propertyType === 'T' && 'terraced',
-                property.propertyType === 'F' && 'flat',
-                property.propertyType === 'O' && 'other',
-                property.propertyForm === 'F' && 'freehold',
-                property.propertyForm === 'L' && 'leasehold'
-            ].filter(Boolean).map((text) => ({ text }))
-        }
+        const resolveBadges = (property: IProperty) => [
+            property.propertyType === 'D' && { text: 'detached', backgroundColor: '#0088FF' },
+            property.propertyType === 'S' && { text: 'semi - detached', backgroundColor: '#5D005D' },
+            property.propertyType === 'T' && { text: 'terraced', backgroundColor: '#303030' },
+            property.propertyType === 'F' && { text: 'flat', backgroundColor: '#6D6D6D' },
+            property.propertyForm === 'F' && { text: 'freehold', backgroundColor: '#008000' },
+            property.propertyForm === 'L' && { text: 'leasehold', backgroundColor: '#A94442' },
+        ].filter(Boolean);
 
         return propertySearchInRange
             .filter(({ transactions }) => transactions?.length)
-            .map((v) => ({
-                text: [v.street, v.paon, v.saon].filter(Boolean).join(', '),
-                badges: resolveBadges(v),
+            .map((property) => ({
+                text: [property.street, property.paon, property.saon].filter(Boolean).join(', '),
+                badges: resolveBadges(property),
             }));
     });
 };
