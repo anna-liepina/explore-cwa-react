@@ -67,6 +67,7 @@ export const fetchProperties = async ({
             .map((property) => ({
                 text: [property.street, property.paon, property.saon].filter(Boolean).join(', '),
                 badges: resolveBadges(property),
+                content: property.transactions!.map(({ date, price: text }) => ({ date, text, currency: '£' }))
             }));
     });
 };

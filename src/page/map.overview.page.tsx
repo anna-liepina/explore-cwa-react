@@ -121,7 +121,7 @@ const DrawerTable: React.FC<IDrawerTableProps> = ({
                         && <table>
                                 <tbody>
                                 {
-                                    content.map(({ date, text }, j) =>
+                                    content.map(({ date, text, currency }, j) =>
                                         <tr className="drawer-table--row" key={j}>
                                             <td
                                                 className="drawer-table--cell"
@@ -134,6 +134,7 @@ const DrawerTable: React.FC<IDrawerTableProps> = ({
                                                 data-cy={`${cy}-${i}-row-${j}-price`}
                                             >
                                                 {typeof text === 'number' ? text.toLocaleString() : text}
+                                                {currency}
                                             </td>
                                         </tr>
                                     )
