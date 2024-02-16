@@ -4,7 +4,6 @@ exports[`<MapOverviewPage/> render with default/required props 1`] = `
 <DocumentFragment>
   <section
     class="map-handler"
-    style="height: 678px;"
   >
     <form
       class="form"
@@ -96,7 +95,6 @@ exports[`<MapOverviewPage/> render with optional/required props 1`] = `
 <DocumentFragment>
   <section
     class="map-handler"
-    style="height: 678px;"
   >
     <form
       class="form"

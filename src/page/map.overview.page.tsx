@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { ChangeEvent } from 'react';
 import { Map, Marker } from 'pigeon-maps';
 import { useHistory, useLocation } from 'react-router';
@@ -158,12 +158,6 @@ const onSearchDetails = (payload: IMarker): Promise<Object[]> => {
     // }
 };
 
-const heightOffset = 90;
-const resolveMapDimensions = () => ({
-    width: window.innerWidth,
-    height: window.innerHeight - heightOffset,
-})
-
 const resolvePayload = (direct: IMapOverviewPageState, form?: IFormState) => {
     let coordinates;
     let range = direct.range;
@@ -210,6 +204,7 @@ interface IMapOverviewPageState {
 }
 
 const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
+    const wrapperRef = useRef<HTMLDivElement>(null);
     const location = useLocation();
     const history = useHistory();
 
@@ -219,7 +214,8 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
 
     const { 'data-cy': cy = '', defaultZoom = 15, form } = props;
     const [state, setState] = useState<IMapOverviewPageState>({
-        ...resolveMapDimensions(),
+        width: 0,
+        height: 0,
         range: .5,
         payload: undefined,
         zoom: defaultZoom,
@@ -232,9 +228,11 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
     );
 
     const updateDimensions = () => {
+        const { width, height } = wrapperRef!.current!.getBoundingClientRect!();
         setState(prevState => ({
             ...prevState,
-            ...resolveMapDimensions()
+            width,
+            height
         }));
     };
 
@@ -300,10 +298,9 @@ const MapOverviewPage: React.FC<IMapOverviewPageProps> = (props) => {
     const { payload, zoom = defaultZoom, coordinates, width, height } = state;
 
     return (
-        <section className="map-handler" style={{ height: `${height}px` }}>
+        <section className="map-handler" ref={wrapperRef}>
             {
                 undefined !== payload
-                // @ts-ignore
                 && <Drawer data-cy={`${cy}--details`} onClose={onDrawerToggle}>
                     <Query data-cy={`${cy}--details`}
                         fetch={onSearchDetails}
