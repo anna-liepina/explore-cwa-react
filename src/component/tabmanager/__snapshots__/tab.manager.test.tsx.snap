@@ -3,7 +3,7 @@
 exports[`<TabManager/> render with default/required props 1`] = `
 <DocumentFragment>
   <ul
-    class="tab-handler"
+    class="tab-container"
   >
     <li
       class="tab--selected"
@@ -30,7 +30,7 @@ exports[`<TabManager/> render with default/required props 1`] = `
 exports[`<TabManager/> render with default/required props with preset tabId 1`] = `
 <DocumentFragment>
   <ul
-    class="tab-handler"
+    class="tab-container"
   >
     <li
       class="tab"

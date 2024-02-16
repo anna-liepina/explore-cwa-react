@@ -42,7 +42,7 @@ const TabManager: React.FC<ITabManagerProps> = (props) => {
 
     return (
         <>
-            <ul className={classNames(`tab-handler`, className)}>
+            <ul className={classNames(`tab-container`, className)}>
             {
                 tabs.map(({ label, className }, i) => (
                     <li
