@@ -3,6 +3,6 @@
  */
 const fs = require('fs-extra');
 
-console.info(`clearing cypress old reports...`);
+console.info(`clearing old reports...`);
 
-fs.emptyDirSync(`${process.cwd()}/reports`);
+fs.emptyDirSync(`${process.cwd()}/report`);
