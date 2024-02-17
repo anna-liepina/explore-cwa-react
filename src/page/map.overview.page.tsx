@@ -153,9 +153,11 @@ const onSearchDetails = (payload: IMarker): Promise<Object[]> => {
         return api.fetchIncidents({ latitude: payload.lat, longitude: payload.lng, range: 0 });
     }
 
-    // if (payload.type === MarkerType.property) {
+    if (payload.type === MarkerType.property) {
         return api.fetchProperties({ latitude: payload.lat, longitude: payload.lng, range: 0 });
-    // }
+    }
+
+    return Promise.reject(`unknown payload.type: ${payload.type}`);
 };
 
 const resolvePayload = (direct: IMapOverviewPageState, form?: IFormState) => {
