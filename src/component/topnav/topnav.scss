@@ -8,19 +8,14 @@
     }
 
     &__logo--main,
-    &__logo--github,
     &__item {
         box-sizing: border-box;
         height: 3rem;
     }
 
-    &__item,
-    &__logo--github {
+    &__item {
         padding: .25rem;
         cursor: pointer;
-    }
-
-    &__item {
         margin-left: auto;
     }
 }
