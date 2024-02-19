@@ -103,9 +103,7 @@
         border-top: none;
         border-left: none;
         opacity: 0.9;
-        left: 0;
-        width: 15rem;
-        padding: 0.5rem;
+        padding: 0 .5rem 0.5rem 0;
         box-sizing: border-box;
 
         .pigeon-click-block {
@@ -119,9 +117,12 @@
         }
 
         li {
-            display: flex; /* Use flex to align Marker and text horizontally */
-            align-items: center; /* Align items vertically in the center */
-            margin-bottom: 8px; /* Adjust as needed for spacing between items */
+            display: flex;
+            align-items: center;
+
+            &:not(:last-child) {
+                border-bottom: 1px dotted;
+            }
         }
         
         h4 {
