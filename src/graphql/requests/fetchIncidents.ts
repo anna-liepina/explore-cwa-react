@@ -51,7 +51,7 @@ export const fetchIncidents = async ({
             }
 
             cache[v.type] ||= [];
-            cache[v.type].push({ date: v.date, text: v.outcome })
+            cache[v.type].push({ date: v.date, text: v.outcome || 'outcome update unavailable' })
         }
 
         const results = [];
