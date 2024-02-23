@@ -20,9 +20,7 @@ interface IPropertyTransactionGraphqQL {
 
 interface IPropertyGraphQL {
     postcode: IPostcode;
-    street: string;
-    paon: string;
-    saon: string;
+    address: string;
 }
 
 interface IPostcode {
@@ -57,9 +55,7 @@ export const fetchTransactions = async ({
             postcode {
                 postcode
             }
-            street
-            saon
-            paon 
+            address
         }
     }
 }`)
@@ -69,9 +65,7 @@ export const fetchTransactions = async ({
             date: item.date,
             address: [
                 item.property?.postcode?.postcode,
-                item.property?.street,
-                item.property?.paon,
-                item.property?.saon,
+                item.property?.address,
             ].filter(Boolean).join(', ')
         }));
     })

@@ -17,9 +17,7 @@ interface ITransaction {
 }
 
 interface IProperty {
-    paon: string;
-    saon: string;
-    street: string;
+    address: string;
     propertyForm: string;
     propertyType: string;
     transactions?: ITransaction[];
@@ -41,9 +39,7 @@ export const fetchProperties = async ({
         range: ${range}
         perPage: ${perPage}
     ) {
-        paon
-        saon
-        street
+        address
         propertyForm
         propertyType
         transactions {
@@ -65,7 +61,7 @@ export const fetchProperties = async ({
         return propertySearchInRange
             .filter(({ transactions }) => transactions?.length)
             .map((property) => ({
-                text: [property.street, property.paon, property.saon].filter(Boolean).join(', '),
+                text: property.address,
                 badges: resolveBadges(property),
                 content: property.transactions!.map(({ date, price: text }) => ({ date, text, currency: '£' }))
             }));
