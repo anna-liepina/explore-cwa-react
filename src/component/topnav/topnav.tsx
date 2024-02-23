@@ -45,9 +45,6 @@ const TopNav: React.FC<ITopNavProps> = ({ 'data-cy': cy = '', className = '', ..
                 {(props: any, state: any) => <TreeHandler data={state.data} onFilter={filterTree} onExpand={onExpand} />}
             </Query>
         </DrawerHandler>
-        <Link to="//github.com/anna-liepina/explore-cwa-react" className="topnav__link--github" target="_blank">
-            <img data-cy={`${cy}-topnav-github`} className="topnav__logo--github" alt="GitHub logo" src="/assets/img/github-logo.png" />
-        </Link>
     </nav>;
 
 export default TopNav;

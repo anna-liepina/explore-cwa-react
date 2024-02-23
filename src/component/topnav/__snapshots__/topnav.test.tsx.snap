@@ -23,18 +23,6 @@ exports[`<TopNav/> render with default/required props 1`] = `
       data-cy="topnav-postcode_tree--drawer--open"
       src="/assets/img/united-kingdom.svg"
     />
-    <a
-      class="topnav__link--github"
-      href="//github.com/anna-liepina/explore-cwa-react"
-      target="_blank"
-    >
-      <img
-        alt="GitHub logo"
-        class="topnav__logo--github"
-        data-cy="-topnav-github"
-        src="/assets/img/github-logo.png"
-      />
-    </a>
   </nav>
 </DocumentFragment>
 `;
@@ -62,18 +50,6 @@ exports[`<TopNav/> render with optional/required props 1`] = `
       data-cy="topnav-postcode_tree--drawer--open"
       src="/assets/img/united-kingdom.svg"
     />
-    <a
-      class="topnav__link--github"
-      href="//github.com/anna-liepina/explore-cwa-react"
-      target="_blank"
-    >
-      <img
-        alt="GitHub logo"
-        class="topnav__logo--github"
-        data-cy="optProps.data-cy-topnav-github"
-        src="/assets/img/github-logo.png"
-      />
-    </a>
   </nav>
 </DocumentFragment>
 `;
